@@ -1,0 +1,30 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local Python environments
+.venv/
+venv/
+
+# Secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+
+# Database exports can contain private data
+*.csv
+
+# Test-generated fixtures (retain the directory itself)
+test_data/*
+!test_data/.gitkeep
+
+# Generated working and rendering files
+tmp/
+tmp*/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
