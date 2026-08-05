@@ -218,18 +218,30 @@ def benchmark_operations(
 
 
 def benchmark_chronos(
-    initial: dict[str, int], batches: list[list[Operation]], diff_repeats: int
+    initial: dict[str, int],
+    batches: list[list[Operation]],
+    diff_repeats: int,
+    incremental: bool = True,
 ) -> tuple[BenchmarkResult, list[str]]:
+    """Chronos commit cost, via incremental put() or the old full rebuild."""
     model = VersionedDatabase(branching_factor=8, tree_depth=4)
     first = model.commit(initial)
     state: dict[str, Any] = dict(initial)
     commit_times: list[float] = []
     final = first
     for batch in batches:
-        apply_batch(state, batch)
-        started = time.perf_counter_ns()
-        final = model.commit(state)
-        commit_times.append((time.perf_counter_ns() - started) / 1_000_000)
+        if incremental:
+            # Only the routed paths of the touched keys are rewritten.
+            started = time.perf_counter_ns()
+            for operation in batch:
+                final = model.put(final, operation.key, operation.new_value)
+            commit_times.append((time.perf_counter_ns() - started) / 1_000_000)
+            apply_batch(state, batch)
+        else:
+            apply_batch(state, batch)
+            started = time.perf_counter_ns()
+            final = model.commit(state)
+            commit_times.append((time.perf_counter_ns() - started) / 1_000_000)
 
     diff_ms, changed = median_time_ms(
         lambda: model.diff(first, final), diff_repeats
@@ -347,8 +359,8 @@ def main() -> None:
         "or tree-node pairs."
     )
     print(
-        "The current Chronos commit rebuilds the candidate tree from the full "
-        "state; incremental path updates are future work."
+        "Chronos commit cost is measured on the incremental put() path, which "
+        "rewrites only tree_depth + 1 nodes per changed key."
     )
 
 
