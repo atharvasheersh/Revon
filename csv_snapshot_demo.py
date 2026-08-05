@@ -89,7 +89,7 @@ class CSVSnapshotSession:
             sql_path = str(candidate)
             sql_text = candidate.read_text(encoding="utf-8")
 
-        root_hash = self.db.commit(state)
+        root_hash = self.db.commit(state, message=message or None)
         version = len(self.db.versions)
         self.snapshots[version] = state
         self.commit_metadata[version] = {
