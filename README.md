@@ -5,6 +5,28 @@ tree node is stored under a SHA-256 hash of its content, so unchanged subtrees
 are shared by different version roots. During a diff, equal subtree hashes are
 skipped without reading their keys.
 
+## What works today
+
+- **Content-addressed commits** — `commit(state, message=None)` builds a tree
+  whose root hash is determined purely by content, so identical states collapse
+  to the same root.
+- **Incremental single-key writes** — `put(root, key, value)` and
+  `delete(root, key)` rewrite only the `tree_depth + 1` nodes on the routed
+  path and reuse every sibling subtree by hash. No full-tree rebuild.
+  A 3-key change at 100,000 rows creates 15 new nodes out of 4,681 and runs
+  ~1000x faster than the old rebuild path.
+- **Commit graph** — real `Commit` objects (version, root hash, parent,
+  message, timestamp) with a tracked `head`; `log()` walks parent pointers back
+  from HEAD.
+- **Time travel** — `checkout(version)` and `materialize(root)` return the full
+  state at any point in history.
+- **Structural diff** — `diff(left_root, right_root)` prunes every subtree
+  whose hashes match, and reports how much it skipped.
+
+Still deliberately excluded: branching, merging, disk storage, WAL, and
+transactions. See `PLANS.md` for the roadmap and
+`output/docs/Chronos_Work_Remaining.docx` for detail.
+
 ## Run the demo
 
 Requires Python 3.9 or newer and no third-party packages.
@@ -30,7 +52,16 @@ python benchmarks.py
 
 This compares a full-snapshot state model, an operation-log model, and the
 Chronos content-addressed hash tree. It reports median commit time, median diff
-time, logical serialized storage, and how much work each diff examines.
+time, logical serialized storage, and how much work each diff examines. The
+Chronos row is measured on the incremental `put()` path.
+
+To measure the incremental path against the old full-rebuild path directly:
+
+```powershell
+python incremental_benchmark.py
+```
+
+Recorded results are in `BENCHMARK_RESULTS_POST_INCREMENTAL.md`.
 
 For a shorter sample run:
 
@@ -59,8 +90,19 @@ Expected changed-key result:
 ['status']
 ```
 
-This prototype deliberately excludes disk storage, WAL, checkout, branching,
-and merging.
+Incremental writes, history, and time travel:
+
+```python
+db = VersionedDatabase()
+v1 = db.commit({"a": 1, "b": 2}, message="initial load")
+v2 = db.put(v1, "a", 99, message="bump a")      # rewrites 5 nodes, not the tree
+v3 = db.delete(v2, "b", message="drop b")
+
+print(db.checkout(1))       # {'a': 1, 'b': 2} — v1 is still intact
+print(db.checkout(3))       # {'a': 99}
+for entry in db.log():
+    print(entry)            # v3 <- v2 <- v1, newest first
+```
 
 ## CSV snapshot dry run
 
@@ -76,6 +118,16 @@ changed columns:
 ```powershell
 python csv_snapshot_demo.py data/users_before.csv data/users_after.csv --table users --primary-key id --sql data/changes.sql
 ```
+
+## Incremental commit walkthrough
+
+```powershell
+python incremental_demo.py
+```
+
+Commits a 20,000-row snapshot, edits one row with `put()` (5 new nodes, sub-
+millisecond), adds a message-bearing insert and delete, then prints `log()` and
+checks out the original version to show it is unchanged.
 
 For an interactive Python session, import `commit` from `csv_snapshot_demo` and
 commit the before and after files in the same session. The SQL file is retained
