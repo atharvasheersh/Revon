@@ -94,8 +94,13 @@ The model exposes:
 Exact structural sharing traverses both roots and is diagnostic only. It is not
 included inside timed incremental commits.
 
-## Current boundary
+## Persistence boundary
 
-The core is deterministic and in-memory. Persistence, repository management,
-the backend API, the final benchmark data pipeline, and the frontend remain
-separate layers to be added after the model contract is stable.
+The deterministic model can run directly in memory for algorithm experiments.
+`SQLiteChronosRepository` persists the same nodes, changesets, commits, metrics,
+versions, and `HEAD` reference without changing trie or diff semantics. Each
+version is one SQLite transaction, and reopening verifies canonical payloads,
+content hashes, object references, version continuity, and the parent chain.
+
+Repository management, the backend API, the final benchmark data pipeline, and
+the frontend remain separate layers.

@@ -95,11 +95,7 @@ class CSVSnapshotSession:
             commit_mode = "full import"
         else:
             previous_version = self.db.head
-            if previous_version not in self.snapshots:
-                raise RuntimeError(
-                    "CSV session metadata is missing for the current database HEAD"
-                )
-            previous_state = self.snapshots[previous_version]
+            previous_state = self.db.checkout(previous_version)
             puts = {
                 key: value
                 for key, value in state.items()
@@ -146,8 +142,8 @@ class CSVSnapshotSession:
         try:
             left_root = self.db.versions[left_version]
             right_root = self.db.versions[right_version]
-            left_state = self.snapshots[left_version]
-            right_state = self.snapshots[right_version]
+            left_state = self.db.checkout(left_version)
+            right_state = self.db.checkout(right_version)
         except KeyError as exc:
             raise KeyError(f"unknown CSV commit version: {exc.args[0]}") from exc
 

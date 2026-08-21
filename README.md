@@ -8,7 +8,7 @@ hash-pruned Merkle differencing for version comparisons.
 
 ## Run the demo
 
-Requires Python 3.9 or newer and no third-party packages.
+Requires Python 3.10 or newer and no third-party packages.
 
 ```powershell
 python demo.py
@@ -26,6 +26,26 @@ python chronos_cli_demo.py --show-changes
 
 Use `--rows`, `--updates`, and `--hybrid-threshold` to change the workload and
 observe when Chronos-H selects Log or Merkle differencing.
+
+## Verify durable SQLite persistence
+
+Run the complete persistence flow:
+
+```powershell
+python chronos_sqlite_demo.py --database chronos_demo.chronos.db --reset
+```
+
+The command generates two deterministic CSV states, imports them as versions,
+closes the SQLite writer, and launches a separate Python process that:
+
+- reopens the repository;
+- verifies every node, changeset, and commit against its content hash;
+- checks that `HEAD` references the latest commit;
+- checks out both versions; and
+- reproduces the version diff.
+
+SQLite is the atomic durable object container. The fixed-depth Merkle trie,
+content-addressed commits, and Chronos-H diff selection remain Chronos logic.
 
 ## Run the tests
 
@@ -70,10 +90,11 @@ Expected changed-key result:
 ['status']
 ```
 
-The current core is in-memory and deliberately excludes disk persistence, WAL,
-branch references, merging, and concurrent writers. It includes commit
-history, content-addressed commits, historical checkout, structured Merkle
-diffs, operation-log diffs, and adaptive Chronos-H selection.
+The core supports both direct in-memory experiments and durable single-file
+SQLite repositories. Branch references, merging, and concurrent writers remain
+outside the current scope. Commit history, addressed objects, historical
+checkout, structured Merkle diffs, operation-log diffs, and adaptive Chronos-H
+selection are implemented.
 
 ## CSV snapshot dry run
 

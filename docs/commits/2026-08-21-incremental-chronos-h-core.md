@@ -1,7 +1,7 @@
 # Commit note: Incremental Chronos-H core
 
 - Date: 2026-08-21
-- Commit: `PENDING`
+- Commit: `ef6ecaa`
 - Author: atharvasheersh / Chronos team
 - Scope: core and evaluation
 

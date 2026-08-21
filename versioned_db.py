@@ -172,6 +172,9 @@ class VersionedDatabase:
         self.head_hash: Optional[str] = None
         self.commit_stats: dict[int, CommitStats] = {}
         self.last_diff_stats = DiffStats()
+        # Newly interned trie objects from the latest successful write. Durable
+        # stores use this delta so an incremental commit never scans all nodes.
+        self.last_new_node_hashes: tuple[str, ...] = ()
 
     @staticmethod
     def _canonical_bytes(value: Any) -> bytes:
@@ -330,6 +333,7 @@ class VersionedDatabase:
             return intern({"type": "internal", "children": children})
 
         root_hash = build(routed, 0)
+        self.last_new_node_hashes = tuple(sorted(created_this_commit))
         self._record_version(
             root_hash,
             message,
@@ -417,6 +421,7 @@ class VersionedDatabase:
         new_nodes = 0
         reused_nodes = 0
         bytes_written = 0
+        created_this_commit: set[str] = set()
 
         def intern(node: dict[str, Any]) -> str:
             nonlocal new_nodes, reused_nodes, bytes_written
@@ -426,6 +431,7 @@ class VersionedDatabase:
                 reused_nodes += 1
             else:
                 self.node_store[node_hash] = node
+                created_this_commit.add(node_hash)
                 new_nodes += 1
                 bytes_written += len(encoded)
             return node_hash
@@ -482,6 +488,7 @@ class VersionedDatabase:
             new_root = root_hash
             reused_nodes = 1
 
+        self.last_new_node_hashes = tuple(sorted(created_this_commit))
         self._record_version(
             new_root,
             message,

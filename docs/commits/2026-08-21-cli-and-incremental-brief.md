@@ -1,7 +1,7 @@
 # Commit note: Self-checking CLI and incremental brief
 
 - Date: 2026-08-21
-- Commit: `PENDING`
+- Commit: `ef6ecaa`
 - Author: atharvasheersh / Chronos team
 - Scope: core, evaluation, and docs
 
