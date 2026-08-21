@@ -1,9 +1,10 @@
-# Chronos hash-tree demo
+# Chronos
 
-Chronos is a minimal, in-memory versioned key-value database. Each immutable
-tree node is stored under a SHA-256 hash of its content, so unchanged subtrees
-are shared by different version roots. During a diff, equal subtree hashes are
-skipped without reading their keys.
+Chronos is a content-addressed versioned data store for structured key-value
+data. Its state index is a persistent fixed-depth Merkle hash trie. Atomic
+batch commits copy and re-hash only the affected paths; unchanged subtrees are
+shared by their existing hashes. Chronos-H adaptively chooses operation-log or
+hash-pruned Merkle differencing for version comparisons.
 
 ## Run the demo
 
@@ -15,6 +16,16 @@ python demo.py
 
 The output shows the root for each version, new/reused nodes, the sharing
 percentage, changed keys, and how many identical subtrees the diff skipped.
+
+For a self-checking CLI demonstration that also proves the incremental root is
+identical to a clean full rebuild:
+
+```powershell
+python chronos_cli_demo.py --show-changes
+```
+
+Use `--rows`, `--updates`, and `--hybrid-threshold` to change the workload and
+observe when Chronos-H selects Log or Merkle differencing.
 
 ## Run the tests
 
@@ -29,7 +40,7 @@ python benchmarks.py
 ```
 
 This compares a full-snapshot state model, an operation-log model, and the
-Chronos content-addressed hash tree. It reports median commit time, median diff
+Chronos-H hybrid model. It reports median incremental commit time, median diff
 time, logical serialized storage, and how much work each diff examines.
 
 For a shorter sample run:
@@ -45,11 +56,11 @@ from versioned_db import VersionedDatabase
 
 db = VersionedDatabase()
 v1 = db.commit({"name": "Chronos", "status": "prototype", "users": 10})
-v2 = db.commit({"name": "Chronos", "status": "demo-ready", "users": 10})
+v2 = db.apply_changes(v1, puts={"status": "demo-ready"})
 
 print(db.commit_stats[1])
 print(db.commit_stats[2])
-print(db.diff(v1, v2))
+print(db.diff_versions(1, 2, strategy="hybrid"))
 print(db.last_diff_stats)
 ```
 
@@ -59,8 +70,10 @@ Expected changed-key result:
 ['status']
 ```
 
-This prototype deliberately excludes disk storage, WAL, checkout, branching,
-and merging.
+The current core is in-memory and deliberately excludes disk persistence, WAL,
+branch references, merging, and concurrent writers. It includes commit
+history, content-addressed commits, historical checkout, structured Merkle
+diffs, operation-log diffs, and adaptive Chronos-H selection.
 
 ## CSV snapshot dry run
 
@@ -77,6 +90,8 @@ changed columns:
 python csv_snapshot_demo.py data/users_before.csv data/users_after.csv --table users --primary-key id --sql data/changes.sql
 ```
 
-For an interactive Python session, import `commit` from `csv_snapshot_demo` and
-commit the before and after files in the same session. The SQL file is retained
-as commit metadata; the actual state diff comes from the two CSV snapshots.
+For an interactive Python session, import `commit` and `show_diff` from
+`csv_snapshot_demo`. Commit the before and after files separately, then call
+`show_diff(v1, v2)` when you want to print the comparison. The SQL file is
+retained as commit metadata; the actual state diff comes from the two CSV
+snapshots.

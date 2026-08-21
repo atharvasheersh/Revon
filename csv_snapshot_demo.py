@@ -6,6 +6,7 @@ Interactive usage:
     >>> v1 = commit("data/users_before.csv", table="users", primary_key="id")
     >>> v2 = commit("data/users_after.csv", table="users", primary_key="id",
     ...             sql_file="data/changes.sql")
+    >>> show_diff(v1, v2)
 
 The SQL file is metadata only. The state diff is calculated from the CSV files.
 """
@@ -89,7 +90,29 @@ class CSVSnapshotSession:
             sql_path = str(candidate)
             sql_text = candidate.read_text(encoding="utf-8")
 
-        root_hash = self.db.commit(state)
+        if self.db.head is None:
+            root_hash = self.db.commit(state, message=message)
+            commit_mode = "full import"
+        else:
+            previous_version = self.db.head
+            if previous_version not in self.snapshots:
+                raise RuntimeError(
+                    "CSV session metadata is missing for the current database HEAD"
+                )
+            previous_state = self.snapshots[previous_version]
+            puts = {
+                key: value
+                for key, value in state.items()
+                if key not in previous_state or previous_state[key] != value
+            }
+            deletes = set(previous_state) - set(state)
+            root_hash = self.db.apply_changes(
+                self.db.versions[previous_version],
+                puts=puts,
+                deletes=deletes,
+                message=message,
+            )
+            commit_mode = "incremental batch"
         version = len(self.db.versions)
         self.snapshots[version] = state
         self.commit_metadata[version] = {
@@ -100,6 +123,8 @@ class CSVSnapshotSession:
             "sql_file": sql_path,
             "sql_text": sql_text,
             "root_hash": root_hash,
+            "commit_hash": self.db.version_commits[version],
+            "commit_mode": commit_mode,
             "row_count": len(state),
         }
 
@@ -112,10 +137,8 @@ class CSVSnapshotSession:
             )
             print(f"  SQL history: {sql_path} ({statement_count} statements)")
         print(f"  root: {root_hash[:16]}...")
+        print(f"  mode: {commit_mode}")
         print(f"  {self.db.commit_stats[version]}")
-
-        if version > 1:
-            self.show_diff(version - 1, version)
 
         return version
 
@@ -266,19 +289,20 @@ def main() -> None:
             "provide BEFORE_CSV and AFTER_CSV, or use --generate-sample"
         )
 
-    commit(
+    first = commit(
         args.before_csv,
         table=args.table,
         primary_key=args.primary_key,
         message="State before SQL changes",
     )
-    commit(
+    second = commit(
         args.after_csv,
         table=args.table,
         primary_key=args.primary_key,
         message="State after SQL changes",
         sql_file=args.sql,
     )
+    show_diff(first, second)
 
 
 if __name__ == "__main__":
