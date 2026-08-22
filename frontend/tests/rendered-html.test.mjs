@@ -23,9 +23,9 @@ test("server-renders the complete Chronos workspace", async () => {
   const html = await response.text();
   assert.match(html, /<title>Chronos - Structured Data Versioning<\/title>/i);
   assert.match(html, /CHRONOS/);
-  assert.match(html, /Structured history/);
+  assert.match(html, /Structured data versioning/);
   assert.match(html, /Create repository/);
-  assert.match(html, /Import dataset/);
+  assert.match(html, /Import data/);
   assert.match(html, /Compare versions/);
   assert.match(html, /Storage &amp; work/);
   assert.match(html, /og\.png/);

@@ -288,7 +288,7 @@ export default function ChronosWorkspace() {
       <aside className="sidebar">
         <div className="wordmark">
           <span className="mark" aria-hidden="true">C</span>
-          <div><strong>CHRONOS</strong><small>VERSIONED DATA</small></div>
+          <div><strong>CHRONOS</strong><small>VERSIONED DATA STORE</small></div>
         </div>
 
         <div className="repo-control">
@@ -327,12 +327,12 @@ export default function ChronosWorkspace() {
       <section className="workspace" id="workspace">
         <header className="topbar">
           <div>
-            <p className="eyebrow">REPOSITORY / {activeName || "NOT SELECTED"}</p>
-            <h1>{activeName ? <>Every version.<br />Every changed key.</> : <>Structured history,<br />without the guesswork.</>}</h1>
+            <p className="eyebrow">CHRONOS / {activeName || "NO REPOSITORY"}</p>
+            <h1>{activeName ? "Repository workspace" : "Structured data versioning"}</h1>
           </div>
           <div className="top-actions">
-            <button className="button ghost" type="button" disabled={!activeName} onClick={() => setModal("import")}>Import dataset</button>
-            <button className="button primary" type="button" disabled={!opened?.head} onClick={() => setModal("commit")}>Commit changes</button>
+            <button className="button ghost" type="button" disabled={!activeName} onClick={() => setModal("import")}>Import data</button>
+            <button className="button primary" type="button" disabled={!opened?.head} onClick={() => setModal("commit")}>New commit</button>
           </div>
         </header>
 
