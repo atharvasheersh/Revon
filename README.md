@@ -1,35 +1,14 @@
-# Chronos hash-tree demo
+# Chronos
 
-Chronos is a minimal, in-memory versioned key-value database. Each immutable
-tree node is stored under a SHA-256 hash of its content, so unchanged subtrees
-are shared by different version roots. During a diff, equal subtree hashes are
-skipped without reading their keys.
-
-## What works today
-
-- **Content-addressed commits** — `commit(state, message=None)` builds a tree
-  whose root hash is determined purely by content, so identical states collapse
-  to the same root.
-- **Incremental single-key writes** — `put(root, key, value)` and
-  `delete(root, key)` rewrite only the `tree_depth + 1` nodes on the routed
-  path and reuse every sibling subtree by hash. No full-tree rebuild.
-  A 3-key change at 100,000 rows creates 15 new nodes out of 4,681 and runs
-  ~1000x faster than the old rebuild path.
-- **Commit graph** — real `Commit` objects (version, root hash, parent,
-  message, timestamp) with a tracked `head`; `log()` walks parent pointers back
-  from HEAD.
-- **Time travel** — `checkout(version)` and `materialize(root)` return the full
-  state at any point in history.
-- **Structural diff** — `diff(left_root, right_root)` prunes every subtree
-  whose hashes match, and reports how much it skipped.
-
-Still deliberately excluded: branching, merging, disk storage, WAL, and
-transactions. See `PLANS.md` for the roadmap and
-`output/docs/Chronos_Work_Remaining.docx` for detail.
+Chronos is a content-addressed versioned data store for structured key-value
+data. Its state index is a persistent fixed-depth Merkle hash trie. Atomic
+batch commits copy and re-hash only the affected paths; unchanged subtrees are
+shared by their existing hashes. Chronos-H adaptively chooses operation-log or
+hash-pruned Merkle differencing for version comparisons.
 
 ## Run the demo
 
-Requires Python 3.9 or newer and no third-party packages.
+Requires Python 3.10 or newer and no third-party packages.
 
 ```powershell
 python demo.py
@@ -37,6 +16,36 @@ python demo.py
 
 The output shows the root for each version, new/reused nodes, the sharing
 percentage, changed keys, and how many identical subtrees the diff skipped.
+
+For a self-checking CLI demonstration that also proves the incremental root is
+identical to a clean full rebuild:
+
+```powershell
+python chronos_cli_demo.py --show-changes
+```
+
+Use `--rows`, `--updates`, and `--hybrid-threshold` to change the workload and
+observe when Chronos-H selects Log or Merkle differencing.
+
+## Verify durable SQLite persistence
+
+Run the complete persistence flow:
+
+```powershell
+python chronos_sqlite_demo.py --database chronos_demo.chronos.db --reset
+```
+
+The command generates two deterministic CSV states, imports them as versions,
+closes the SQLite writer, and launches a separate Python process that:
+
+- reopens the repository;
+- verifies every node, changeset, and commit against its content hash;
+- checks that `HEAD` references the latest commit;
+- checks out both versions; and
+- reproduces the version diff.
+
+SQLite is the atomic durable object container. The fixed-depth Merkle trie,
+content-addressed commits, and Chronos-H diff selection remain Chronos logic.
 
 ## Run the tests
 
@@ -51,17 +60,8 @@ python benchmarks.py
 ```
 
 This compares a full-snapshot state model, an operation-log model, and the
-Chronos content-addressed hash tree. It reports median commit time, median diff
-time, logical serialized storage, and how much work each diff examines. The
-Chronos row is measured on the incremental `put()` path.
-
-To measure the incremental path against the old full-rebuild path directly:
-
-```powershell
-python incremental_benchmark.py
-```
-
-Recorded results are in `BENCHMARK_RESULTS_POST_INCREMENTAL.md`.
+Chronos-H hybrid model. It reports median incremental commit time, median diff
+time, logical serialized storage, and how much work each diff examines.
 
 For a shorter sample run:
 
@@ -76,11 +76,11 @@ from versioned_db import VersionedDatabase
 
 db = VersionedDatabase()
 v1 = db.commit({"name": "Chronos", "status": "prototype", "users": 10})
-v2 = db.commit({"name": "Chronos", "status": "demo-ready", "users": 10})
+v2 = db.apply_changes(v1, puts={"status": "demo-ready"})
 
 print(db.commit_stats[1])
 print(db.commit_stats[2])
-print(db.diff(v1, v2))
+print(db.diff_versions(1, 2, strategy="hybrid"))
 print(db.last_diff_stats)
 ```
 
@@ -90,19 +90,11 @@ Expected changed-key result:
 ['status']
 ```
 
-Incremental writes, history, and time travel:
-
-```python
-db = VersionedDatabase()
-v1 = db.commit({"a": 1, "b": 2}, message="initial load")
-v2 = db.put(v1, "a", 99, message="bump a")      # rewrites 5 nodes, not the tree
-v3 = db.delete(v2, "b", message="drop b")
-
-print(db.checkout(1))       # {'a': 1, 'b': 2} — v1 is still intact
-print(db.checkout(3))       # {'a': 99}
-for entry in db.log():
-    print(entry)            # v3 <- v2 <- v1, newest first
-```
+The core supports both direct in-memory experiments and durable single-file
+SQLite repositories. Branch references, merging, and concurrent writers remain
+outside the current scope. Commit history, addressed objects, historical
+checkout, structured Merkle diffs, operation-log diffs, and adaptive Chronos-H
+selection are implemented.
 
 ## CSV snapshot dry run
 
@@ -119,16 +111,8 @@ changed columns:
 python csv_snapshot_demo.py data/users_before.csv data/users_after.csv --table users --primary-key id --sql data/changes.sql
 ```
 
-## Incremental commit walkthrough
-
-```powershell
-python incremental_demo.py
-```
-
-Commits a 20,000-row snapshot, edits one row with `put()` (5 new nodes, sub-
-millisecond), adds a message-bearing insert and delete, then prints `log()` and
-checks out the original version to show it is unchanged.
-
-For an interactive Python session, import `commit` from `csv_snapshot_demo` and
-commit the before and after files in the same session. The SQL file is retained
-as commit metadata; the actual state diff comes from the two CSV snapshots.
+For an interactive Python session, import `commit` and `show_diff` from
+`csv_snapshot_demo`. Commit the before and after files separately, then call
+`show_diff(v1, v2)` when you want to print the comparison. The SQL file is
+retained as commit metadata; the actual state diff comes from the two CSV
+snapshots.

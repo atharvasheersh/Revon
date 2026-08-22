@@ -57,146 +57,197 @@ class VersionedDatabaseTests(unittest.TestCase):
         self.assertEqual(db.versions, {})
 
 
-class IncrementalUpdateTests(unittest.TestCase):
-    """put()/delete() must land on exactly the hash a full rebuild would."""
-
-    def test_put_matches_full_rebuild_on_random_mutations(self) -> None:
-        random_source = random.Random(20260804)
-        trials = 0
-        for starting_size in (1, 5, 50, 500):
-            state = {f"key-{i:05d}": i for i in range(starting_size)}
-            db = VersionedDatabase()
-            root = db.commit(state)
-
-            for _ in range(6):
-                trials += 1
-                if random_source.random() < 0.5:
-                    # Overwrite an existing key.
-                    key = random_source.choice(sorted(state))
-                    value = f"changed-{random_source.randrange(10_000)}"
-                else:
-                    # Insert a brand new key.
-                    key = f"new-{random_source.randrange(10_000_000):08d}"
-                    value = random_source.randrange(10_000)
-
-                incremental_root = db.put(root, key, value)
-                expected_state = dict(state)
-                expected_state[key] = value
-
-                rebuilt = VersionedDatabase()
-                rebuilt_root = rebuilt.commit(expected_state)
-
-                self.assertEqual(incremental_root, rebuilt_root)
-                self.assertEqual(db.materialize(incremental_root), expected_state)
-                state = expected_state
-                root = incremental_root
-
-        self.assertGreaterEqual(trials, 20)
-
-    def test_delete_matches_full_rebuild_including_emptied_buckets(self) -> None:
-        random_source = random.Random(7)
-        for starting_size in (2, 40, 400):
-            state = {f"key-{i:05d}": i for i in range(starting_size)}
-            db = VersionedDatabase()
-            root = db.commit(state)
-
-            for _ in range(min(8, starting_size)):
-                key = random_source.choice(sorted(state))
-                incremental_root = db.delete(root, key)
-                expected_state = {k: v for k, v in state.items() if k != key}
-
-                rebuilt = VersionedDatabase()
-                self.assertEqual(incremental_root, rebuilt.commit(expected_state))
-                self.assertEqual(db.materialize(incremental_root), expected_state)
-                state = expected_state
-                root = incremental_root
-
-    def test_deleting_every_key_collapses_to_the_empty_root(self) -> None:
-        """Cascading empties, all the way up to a bare root node."""
+class IncrementalBatchTests(unittest.TestCase):
+    def test_batch_matches_full_rebuild_and_creates_one_version(self) -> None:
+        state = {f"key-{index:05d}": index for index in range(2_000)}
         db = VersionedDatabase()
-        state = {f"key-{i:03d}": i for i in range(25)}
-        root = db.commit(state)
-        for key in sorted(state):
-            root = db.delete(root, key)
-
-        empty = VersionedDatabase()
-        self.assertEqual(root, empty.commit({}))
-        self.assertEqual(db.materialize(root), {})
-
-    def test_put_touches_only_the_routed_path(self) -> None:
-        db = VersionedDatabase()
-        root = db.commit({f"key-{i:06d}": i for i in range(100_000)})
+        first = db.commit(state, message="base")
         nodes_before = len(db.node_store)
 
-        for index, key in enumerate(("key-000001", "key-050000", "key-099999")):
-            root = db.put(root, key, f"changed-{index}")
+        puts = {
+            "key-00010": "changed",
+            "key-01000": None,
+            "new-key": {"status": "new"},
+        }
+        second = db.apply_changes(
+            first,
+            puts=puts,
+            deletes={"key-01999"},
+            message="one atomic batch",
+        )
 
-        created = len(db.node_store) - nodes_before
-        self.assertLessEqual(created, 3 * (db.tree_depth + 1))
-        self.assertEqual(db.materialize(root)["key-050000"], "changed-1")
+        expected = dict(state)
+        expected.update(puts)
+        del expected["key-01999"]
+        rebuilt = VersionedDatabase()
+        self.assertEqual(second, rebuilt.commit(expected))
+        self.assertEqual(db.materialize(second), expected)
+        self.assertEqual(len(db.versions), 2)
+        self.assertEqual(db.commit_stats[2].changed_keys, 4)
+        self.assertLessEqual(
+            len(db.node_store) - nodes_before,
+            4 * (db.tree_depth + 1),
+        )
 
-    def test_delete_of_absent_key_is_rejected(self) -> None:
+    def test_get_reads_one_version_and_missing_key_fails(self) -> None:
+        db = VersionedDatabase()
+        root = db.commit({"present": {"value": 7}})
+
+        self.assertEqual(db.get(root, "present"), {"value": 7})
+        with self.assertRaises(KeyError):
+            db.get(root, "missing")
+
+    def test_invalid_delete_is_atomic(self) -> None:
         db = VersionedDatabase()
         root = db.commit({"a": 1})
+        node_count = len(db.node_store)
 
         with self.assertRaises(KeyError):
-            db.delete(root, "missing")
+            db.apply_changes(root, puts={"b": 2}, deletes={"missing"})
 
-    def test_put_rejects_unserializable_value_without_creating_version(self) -> None:
+        self.assertEqual(len(db.versions), 1)
+        self.assertEqual(len(db.node_store), node_count)
+
+    def test_no_op_batch_reuses_root_and_records_empty_changeset(self) -> None:
         db = VersionedDatabase()
-        root = db.commit({"a": 1})
+        first = db.commit({"a": 1})
+        second = db.apply_changes(first, puts={"a": 1})
 
-        with self.assertRaises(TypeError):
-            db.put(root, "b", object())
-        self.assertEqual(list(db.versions), [1])
+        self.assertEqual(first, second)
+        self.assertEqual(db.commit_stats[2].new_nodes, 0)
+        self.assertEqual(db.commit_stats[2].changed_keys, 0)
 
-
-class CommitGraphTests(unittest.TestCase):
-    def test_log_walks_parents_back_from_head(self) -> None:
+    def test_non_head_write_is_rejected_until_branching_exists(self) -> None:
         db = VersionedDatabase()
-        db.commit({"a": 1}, message="first")
-        db.commit({"a": 2}, message="second")
-        db.commit({"a": 3}, message="third")
+        first = db.commit({"a": 1})
+        db.apply_changes(first, puts={"a": 2})
 
-        history = db.log()
-        self.assertEqual([entry.version for entry in history], [3, 2, 1])
+        with self.assertRaisesRegex(ValueError, "target HEAD"):
+            db.apply_changes(first, puts={"branch": True})
+
+    def test_structural_sharing_is_exact_reachable_node_overlap(self) -> None:
+        db = VersionedDatabase()
+        first = db.commit({f"key-{index:05d}": index for index in range(5_000)})
+        second = db.apply_changes(first, puts={"key-02500": "changed"})
+
+        sharing = db.structural_sharing(first, second)
+        self.assertEqual(sharing.shared_nodes, sharing.right_nodes - 5)
+        self.assertGreater(sharing.right_shared_percent, 99.0)
+
+    def test_random_batch_sequence_matches_canonical_full_rebuilds(self) -> None:
+        random_source = random.Random(20260821)
+        state = {f"key-{index:04d}": index for index in range(300)}
+        db = VersionedDatabase()
+        root = db.commit(state)
+
+        for round_number in range(25):
+            existing = sorted(state)
+            deletes = set(random_source.sample(existing, 2))
+            update_keys = random_source.sample(
+                [key for key in existing if key not in deletes], 4
+            )
+            puts = {
+                key: {"round": round_number, "value": random_source.randrange(10_000)}
+                for key in update_keys
+            }
+            puts.update(
+                {
+                    f"new-{round_number:03d}-{index}": random_source.randrange(10_000)
+                    for index in range(3)
+                }
+            )
+
+            root = db.apply_changes(root, puts=puts, deletes=deletes)
+            state.update(puts)
+            for key in deletes:
+                del state[key]
+
+            rebuilt = VersionedDatabase()
+            self.assertEqual(root, rebuilt.commit(state))
+            self.assertEqual(db.materialize(root), state)
+
         self.assertEqual(
-            [entry.message for entry in history], ["third", "second", "first"]
+            db.diff_versions(1, db.head, strategy="log"),
+            db.diff_versions(1, db.head, strategy="merkle"),
         )
-        self.assertEqual([entry.parent for entry in history], [2, 1, None])
-        self.assertEqual(db.head, 3)
 
-    def test_put_and_delete_record_commits_parented_on_head(self) -> None:
+
+class ContentAddressedCommitTests(unittest.TestCase):
+    def test_commit_and_changeset_are_addressed_and_parented_by_hash(self) -> None:
         db = VersionedDatabase()
-        root = db.commit({"a": 1}, message="base")
-        root = db.put(root, "b", 2, message="add b")
-        db.delete(root, "a", message="drop a")
+        first_root = db.commit({"a": 1}, message="base")
+        first = db.commits[1]
+        db.apply_changes(first_root, puts={"a": 2}, message="change")
+        second = db.commits[2]
 
-        history = db.log()
+        self.assertIn(first.commit_hash, db.commit_store)
+        self.assertIn(second.commit_hash, db.commit_store)
+        self.assertIn(second.changeset_hash, db.changeset_store)
+        self.assertEqual(second.parent, 1)
+        self.assertEqual(second.parent_hash, first.commit_hash)
+        self.assertEqual(db.head_hash, second.commit_hash)
         self.assertEqual(
-            [entry.message for entry in history], ["drop a", "add b", "base"]
+            second.commit_hash,
+            db._content_hash("commit", db.commit_store[second.commit_hash]),
         )
-        self.assertEqual([entry.parent for entry in history], [2, 1, None])
 
-    def test_checkout_returns_earlier_state_after_later_commits(self) -> None:
-        db = VersionedDatabase()
-        original = {"a": 1, "b": 2}
-        db.commit(original, message="v1")
-        db.commit({"a": 99, "b": 2}, message="v2")
-        db.commit({"a": 99, "b": 2, "c": 3}, message="v3")
 
-        self.assertEqual(db.checkout(1), original)
-        self.assertEqual(db.checkout(2), {"a": 99, "b": 2})
-        self.assertEqual(db.checkout(3), {"a": 99, "b": 2, "c": 3})
+class HybridDiffTests(unittest.TestCase):
+    def _database(self, threshold: int = 128) -> VersionedDatabase:
+        db = VersionedDatabase(hybrid_log_threshold=threshold)
+        root = db.commit({"same": True, "updated": 1, "deleted": None})
+        root = db.apply_changes(
+            root,
+            puts={"updated": 2, "added": None},
+            deletes={"deleted"},
+        )
+        db.apply_changes(root, puts={"temporary": 1})
+        db.apply_changes(db.versions[3], deletes={"temporary"})
+        return db
 
-    def test_checkout_of_unknown_version_is_rejected(self) -> None:
-        db = VersionedDatabase()
-        db.commit({"a": 1})
+    def test_structured_merkle_diff_preserves_change_types_and_nulls(self) -> None:
+        db = self._database()
+        entries = db.diff_versions(1, 2, strategy="merkle")
+        by_key = {entry.key: entry for entry in entries}
 
-        with self.assertRaises(KeyError):
-            db.checkout(2)
+        self.assertEqual(by_key["updated"].change_type, "modified")
+        self.assertEqual(by_key["updated"].old_value, 1)
+        self.assertEqual(by_key["updated"].new_value, 2)
+        self.assertEqual(by_key["added"].change_type, "added")
+        self.assertIsNone(by_key["added"].new_value)
+        self.assertEqual(by_key["deleted"].change_type, "deleted")
+        self.assertIsNone(by_key["deleted"].old_value)
+
+    def test_log_and_merkle_modes_return_identical_results(self) -> None:
+        db = self._database()
+        log_entries = db.diff_versions(1, 4, strategy="log")
+        merkle_entries = db.diff_versions(1, 4, strategy="merkle")
+
+        self.assertEqual(log_entries, merkle_entries)
+        self.assertNotIn("temporary", [entry.key for entry in log_entries])
+
+    def test_hybrid_selects_log_for_short_history(self) -> None:
+        db = self._database(threshold=10)
+        db.diff_versions(1, 2, strategy="hybrid")
+
+        self.assertEqual(db.last_diff_stats.strategy, "log")
+        self.assertEqual(db.last_diff_stats.log_operations_examined, 3)
+
+    def test_hybrid_selects_merkle_above_threshold(self) -> None:
+        db = self._database(threshold=1)
+        db.diff_versions(1, 2, strategy="hybrid")
+
+        self.assertEqual(db.last_diff_stats.strategy, "merkle")
+        self.assertGreater(db.last_diff_stats.nodes_compared, 0)
+
+    def test_reverse_log_diff_reverses_added_and_deleted(self) -> None:
+        db = self._database()
+        entries = db.diff_versions(2, 1, strategy="log")
+        by_key = {entry.key: entry for entry in entries}
+
+        self.assertEqual(by_key["added"].change_type, "deleted")
+        self.assertEqual(by_key["deleted"].change_type, "added")
 
 
 if __name__ == "__main__":
     unittest.main()
-

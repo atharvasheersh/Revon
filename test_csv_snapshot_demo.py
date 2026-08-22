@@ -12,7 +12,8 @@ class CSVSnapshotDemoTests(unittest.TestCase):
     def test_generated_sample_detects_all_four_change_types(self) -> None:
         before, after, sql = generate_sample_files(TEST_DATA, rows=100)
         session = CSVSnapshotSession()
-        with contextlib.redirect_stdout(io.StringIO()):
+        commit_output = io.StringIO()
+        with contextlib.redirect_stdout(commit_output):
             first = session.commit_csv(
                 before,
                 table="users",
@@ -26,13 +27,23 @@ class CSVSnapshotDemoTests(unittest.TestCase):
                 message="after",
                 sql_file=sql,
             )
+
+        diff_output = io.StringIO()
+        with contextlib.redirect_stdout(diff_output):
             changed = session.show_diff(first, second)
 
+        self.assertNotIn("Diff v1 -> v2", commit_output.getvalue())
+        self.assertIn("Diff v1 -> v2", diff_output.getvalue())
         self.assertEqual(
             changed,
             ["users:10", "users:101", "users:50", "users:90"],
         )
         self.assertIn("UPDATE users", session.commit_metadata[2]["sql_text"])
+        self.assertEqual(session.commit_metadata[1]["commit_mode"], "full import")
+        self.assertEqual(
+            session.commit_metadata[2]["commit_mode"], "incremental batch"
+        )
+        self.assertEqual(session.db.commit_stats[2].changed_keys, 4)
         self.assertNotEqual(
             session.db.versions[first], session.db.versions[second]
         )

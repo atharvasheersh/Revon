@@ -218,47 +218,53 @@ def benchmark_operations(
 
 
 def benchmark_chronos(
-    initial: dict[str, int],
-    batches: list[list[Operation]],
-    diff_repeats: int,
-    incremental: bool = True,
+    initial: dict[str, int], batches: list[list[Operation]], diff_repeats: int
 ) -> tuple[BenchmarkResult, list[str]]:
-    """Chronos commit cost, via incremental put() or the old full rebuild."""
     model = VersionedDatabase(branching_factor=8, tree_depth=4)
     first = model.commit(initial)
-    state: dict[str, Any] = dict(initial)
     commit_times: list[float] = []
     final = first
     for batch in batches:
-        if incremental:
-            # Only the routed paths of the touched keys are rewritten.
-            started = time.perf_counter_ns()
-            for operation in batch:
-                final = model.put(final, operation.key, operation.new_value)
-            commit_times.append((time.perf_counter_ns() - started) / 1_000_000)
-            apply_batch(state, batch)
-        else:
-            apply_batch(state, batch)
-            started = time.perf_counter_ns()
-            final = model.commit(state)
-            commit_times.append((time.perf_counter_ns() - started) / 1_000_000)
+        started = time.perf_counter_ns()
+        final = model.apply_changes(
+            final,
+            puts={operation.key: operation.new_value for operation in batch},
+        )
+        commit_times.append((time.perf_counter_ns() - started) / 1_000_000)
 
-    diff_ms, changed = median_time_ms(
-        lambda: model.diff(first, final), diff_repeats
-    )
+    def hybrid_diff() -> list[str]:
+        return [
+            entry.key
+            for entry in model.diff_versions(1, len(model.versions), strategy="hybrid")
+        ]
 
-    # Count unique serialized nodes, their 64-byte hex IDs, and version roots.
+    diff_ms, changed = median_time_ms(hybrid_diff, diff_repeats)
+
+    # Count unique serialized nodes, content-addressed changesets and commits.
     storage = sum(
         64 + canonical_size(node) for node in model.node_store.values()
-    ) + 64 * len(model.versions)
+    )
+    storage += sum(
+        64 + canonical_size([change.as_record() for change in changes])
+        for changes in model.changeset_store.values()
+    )
+    storage += sum(
+        64 + canonical_size(commit) for commit in model.commit_store.values()
+    )
+    if model.last_diff_stats.strategy == "log":
+        diff_work = model.last_diff_stats.log_operations_examined
+        work_unit = "log operations"
+    else:
+        diff_work = model.last_diff_stats.nodes_compared
+        work_unit = "tree nodes"
     return (
         BenchmarkResult(
-            model="Chronos (hash tree)",
+            model="Chronos-H (hybrid)",
             commit_ms=statistics.median(commit_times),
             diff_ms=diff_ms,
             storage_bytes=storage,
-            diff_work=model.last_diff_stats.nodes_compared,
-            work_unit="tree nodes",
+            diff_work=diff_work,
+            work_unit=work_unit,
             changed_keys=len(changed),
         ),
         changed,
@@ -342,7 +348,7 @@ def main() -> None:
     parser.add_argument("--diff-repeats", type=int, default=7)
     args = parser.parse_args()
 
-    print("Versioning benchmark: full state vs operation log vs Chronos")
+    print("Versioning benchmark: full state vs operation log vs Chronos-H")
     print("Times are medians; storage is compact serialized data, not Python RAM.")
     for rows in args.sizes:
         results = run_scenario(
@@ -358,10 +364,7 @@ def main() -> None:
         "Diff examined uses each model's natural unit: keys, log operations, "
         "or tree-node pairs."
     )
-    print(
-        "Chronos commit cost is measured on the incremental put() path, which "
-        "rewrites only tree_depth + 1 nodes per changed key."
-    )
+    print("Chronos-H commits use atomic incremental copy-on-write path updates.")
 
 
 if __name__ == "__main__":
