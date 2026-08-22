@@ -1,7 +1,7 @@
 # Commit note: reproducible final experiment harness
 
 - Date: 2026-08-22
-- Commit: `PENDING`
+- Commit: `fa3003b`
 - Author: atharvasheersh
 - Scope: evaluation
 
