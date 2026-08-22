@@ -15,6 +15,13 @@ type Modal = "create" | "import" | "commit" | "settings" | null;
 type Connection = "connecting" | "online" | "offline";
 
 const DEFAULT_API = "http://127.0.0.1:8000/api";
+const WORKLOAD_SIZES = [10, 100, 10_000, 100_000, 1_000_000] as const;
+
+function compactCount(value: number) {
+  if (value === 1_000_000) return "1M";
+  if (value >= 1_000) return `${value / 1_000}K`;
+  return String(value);
+}
 
 function humanBytes(bytes = 0) {
   if (bytes < 1024) return `${bytes} B`;
@@ -58,6 +65,7 @@ export default function ChronosWorkspace() {
   const [fromVersion, setFromVersion] = useState(1);
   const [toVersion, setToVersion] = useState(1);
   const [strategy, setStrategy] = useState("hybrid");
+  const [workloadSize, setWorkloadSize] = useState<number>(10_000);
   const [modal, setModal] = useState<Modal>(null);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
@@ -311,10 +319,10 @@ export default function ChronosWorkspace() {
         </div>
 
         <nav aria-label="Repository navigation" className="nav-stack">
-          <a className="active" href="#workspace"><span>01</span> Workspace</a>
-          <a href="#history"><span>02</span> History</a>
-          <a href="#compare"><span>03</span> Compare</a>
-          <a href="#metrics"><span>04</span> Metrics</a>
+          <a className="active" href="#workspace">Overview</a>
+          <a href="#history">History</a>
+          <a href="#compare">Compare</a>
+          <a href="#metrics">Metrics</a>
         </nav>
 
         <div className="sidebar-foot">
@@ -327,14 +335,36 @@ export default function ChronosWorkspace() {
       <section className="workspace" id="workspace">
         <header className="topbar">
           <div>
-            <p className="eyebrow">CHRONOS / {activeName || "NO REPOSITORY"}</p>
-            <h1>{activeName ? "Repository workspace" : "Structured data versioning"}</h1>
+            <p className="eyebrow">CHRONOS / RESEARCH WORKSPACE</p>
+            <h1>Versioning metrics</h1>
+            <p className="page-summary">Measure repository growth, structural sharing, and version-diff work without mixing configured workload scale with observed results.</p>
           </div>
           <div className="top-actions">
             <button className="button ghost" type="button" disabled={!activeName} onClick={() => setModal("import")}>Import data</button>
             <button className="button primary" type="button" disabled={!opened?.head} onClick={() => setModal("commit")}>New commit</button>
           </div>
         </header>
+
+        <section className="workload-bar" aria-labelledby="workload-title">
+          <div className="workload-copy">
+            <span id="workload-title">WORKLOAD SIZE</span>
+            <strong>{workloadSize.toLocaleString()} records</strong>
+          </div>
+          <div className="size-toggle" role="group" aria-label="Select benchmark workload size">
+            {WORKLOAD_SIZES.map((size) => (
+              <button
+                type="button"
+                key={size}
+                aria-pressed={workloadSize === size}
+                className={workloadSize === size ? "active" : ""}
+                onClick={() => setWorkloadSize(size)}
+              >
+                {compactCount(size)}
+              </button>
+            ))}
+          </div>
+          <p>Selection configures the benchmark view only. Values below remain measured repository data.</p>
+        </section>
 
         {connection === "offline" && (
           <div className="connection-banner" role="alert">
@@ -348,11 +378,16 @@ export default function ChronosWorkspace() {
           </div>
         )}
 
+        <div className="metric-section-heading">
+          <div><span>LIVE REPOSITORY</span><strong>{activeName || "No repository selected"}</strong></div>
+          <small>Measured values</small>
+        </div>
         <div className="stat-strip" aria-label="Repository metrics">
+          <div><span>WORKLOAD</span><strong>{compactCount(workloadSize)}</strong><small>configured records</small></div>
           <div><span>HEAD</span><strong>{opened?.head ? `v${opened.head}` : "-"}</strong><small>{compactHash(opened?.head_hash)}</small></div>
           <div><span>VERSIONS</span><strong>{opened?.versions ?? 0}</strong><small>linear history</small></div>
-          <div><span>STORAGE</span><strong>{humanBytes(metrics?.storage_bytes)}</strong><small>{opened?.integrity.objects ?? 0} objects verified</small></div>
-          <div><span>SHARED</span><strong>{latestMetric ? `${latestMetric.shared_percent.toFixed(1)}%` : "-"}</strong><small>from parent</small></div>
+          <div><span>STORAGE</span><strong>{humanBytes(metrics?.storage_bytes)}</strong><small>{opened?.integrity.objects ?? 0} verified objects</small></div>
+          <div><span>NODE REUSE</span><strong>{latestMetric ? `${latestMetric.shared_percent.toFixed(1)}%` : "-"}</strong><small>latest commit</small></div>
         </div>
 
         {!activeName && connection === "online" ? (

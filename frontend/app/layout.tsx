@@ -18,21 +18,21 @@ export const metadata: Metadata = {
   ),
   title: "Chronos - Structured Data Versioning",
   description:
-    "Inspect, commit, compare, and recover structured datasets with Chronos.",
+    "Content-addressed metrics for versioned structured data.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
   openGraph: {
     title: "Chronos - Structured Data Versioning",
-    description: "Structured data, versioned with confidence.",
+    description: "Content-addressed metrics for versioned data.",
     type: "website",
-    images: [{ url: "/og.png", width: 1792, height: 896, alt: "Chronos structured data versioning" }],
+    images: [{ url: "/og.png", width: 1536, height: 1024, alt: "Chronos content-addressed versioning metrics" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Chronos - Structured Data Versioning",
-    description: "Structured data, versioned with confidence.",
+    description: "Content-addressed metrics for versioned data.",
     images: ["/og.png"],
   },
 };
