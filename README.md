@@ -53,6 +53,23 @@ content-addressed commits, and Chronos-H diff selection remain Chronos logic.
 python -m unittest -v
 ```
 
+## Run the backend API
+
+Start the dependency-free local REST API:
+
+```powershell
+python -m chronos_api
+```
+
+It supports repository creation/opening, JSON or CSV import, atomic mutation
+batches, history, checkout, structured comparison, and storage/diff metrics.
+The health check is `http://127.0.0.1:8000/api/health`; the OpenAPI index is
+`http://127.0.0.1:8000/api/openapi.json`.
+
+See [the backend API guide](docs/api/BACKEND_API.md) for endpoint contracts,
+examples, frontend CORS configuration, and the current local-only security
+boundary.
+
 ## Compare the three versioning models
 
 ```powershell
