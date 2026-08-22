@@ -28,6 +28,7 @@ test_data/*
 # Generated working and rendering files
 tmp/
 tmp*/
+output/benchmarks/
 
 # Editor and operating-system files
 .vscode/
