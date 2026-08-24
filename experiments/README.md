@@ -99,3 +99,30 @@ locality, payload size, machine, versions, warmups, trial count, distribution,
 and Dolt version. Discuss where Chronos-H wins, ties, or loses. Dolt is a mature
 SQL database; Chronos is a Python research prototype testing whether adaptive
 log/Merkle differencing and fixed-depth copy-on-write indexing are useful.
+
+## Audit a completed evidence bundle
+
+The audit regenerates workloads from the manifest, verifies the exact trial
+matrix, recomputes every summary statistic, checks Chronos-H strategy
+selection, confirms Dolt metadata, and writes a non-destructive Tukey outlier
+review:
+
+```powershell
+python -m experiments.evidence_audit output/benchmarks/paper-final-20260824
+```
+
+It adds `evidence_audit.json` and `outlier_review.csv` beside the original
+bundle. It never edits or removes rows from `raw_results.csv`.
+
+## Fixed-trie parameter sensitivity
+
+Run the separate forced-Merkle geometry study with:
+
+```powershell
+python -m experiments.trie_sensitivity --output-dir output/benchmarks/trie-sensitivity-20260824 --rows 10000 --commits 10 --changes-per-commit 100 --warmups 2 --trials 7 --seed 20260824
+```
+
+The predefined configurations are `b4-d6`, `b8-d3`, `b8-d4`, `b8-d5`, and
+`b16-d3`. Three have exactly 4,096 theoretical leaf buckets so fanout/depth can
+be compared at constant bucket count. This experiment is an ablation and must
+not be mixed into the primary Snapshot/Log-only/Chronos-H/Dolt result table.
