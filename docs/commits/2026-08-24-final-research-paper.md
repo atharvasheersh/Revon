@@ -1,4 +1,4 @@
-# Final IEEE-style research paper
+# Final BERT-format research paper
 
 Date: 2026-08-24
 
@@ -13,11 +13,23 @@ benchmark and completed the camera-ready research narrative.
   `tools/build_final_research_paper.py`.
 - Created separate final DOCX and PDF deliverables while preserving the earlier
   working draft.
-- Applied a US Letter, IEEE-style two-column layout with black-only 12-point
-  Times New Roman text and 1.5 line spacing throughout.
+- Restyled the paper to match the supplied BERT manuscript: A4 pages, compact
+  Times New Roman typography, a full-width title/author block, and two-column
+  body text.
+- Applied the supplied Word recreation values exactly: one-inch margins,
+  0.24-inch column spacing, 11-point body text, 13.6-point leading, and a
+  0.15-inch first-line indent.
+- Narrowed the abstract by 17 points on each side and enabled automatic
+  hyphenation for the compact ACL-style column texture.
+- Converted section numbering and citations to Arabic section,
+  decimal-subsection, and numbered-reference conventions.
+- Added blue clickable internal links from numbered citations to their
+  reference entries.
+- Reworked tables to use compact horizontal rules instead of boxed grids and
+  placed all figure and table captions beneath their objects.
 - Revised the abstract, results, Dolt comparison, discussion, limitations, and
   conclusion using only the final CSV evidence.
-- Completed the literature review and compact comparison matrix with ten
+- Completed the literature review and compact comparison matrix with fifteen
   primary or official references.
 - Added a dedicated Future Work section covering adaptive trie geometry,
   learned diff selection, compact encoding, chunking, garbage collection,
@@ -39,16 +51,16 @@ benchmark and completed the camera-ready research narrative.
 - 45 sensitivity rows successful and correct
 - DOCX accessibility audit - zero findings
 - Exact table-geometry audit - passed
-- Microsoft Word PDF export - nine tagged US Letter pages
-- PDF typography audit - visible text black, 12-point Times New Roman
+- Microsoft Word PDF export - seven A4 pages
+- PDF typography audit - 11-point Times New Roman body, 9-point tables,
+  11/12-point headings, and a 14.5-point title
 - Poppler render - all pages visually inspected and clean
 
-The typography follows the requested institutional formatting while retaining
-IEEE-style structure; 12-point, 1.5-spaced text is not strict IEEE conference
-template typography.
+The source paper was used only as a visual-format reference; its content,
+branding, and arXiv margin stamp were not copied.
 
 ## Suggested commit title
 
 ```text
-paper: finalize IEEE manuscript with audited benchmark results
+paper: match final manuscript to BERT publication format
 ```

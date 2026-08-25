@@ -35,3 +35,4 @@ output/benchmarks/
 .idea/
 .DS_Store
 Thumbs.db
+~$*.docx
