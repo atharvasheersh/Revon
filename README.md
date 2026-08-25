@@ -53,6 +53,23 @@ content-addressed commits, and Chronos-H diff selection remain Chronos logic.
 python -m unittest -v
 ```
 
+## Run the backend API
+
+Start the dependency-free local REST API:
+
+```powershell
+python -m chronos_api
+```
+
+It supports repository creation/opening, JSON or CSV import, atomic mutation
+batches, history, checkout, structured comparison, and storage/diff metrics.
+The health check is `http://127.0.0.1:8000/api/health`; the OpenAPI index is
+`http://127.0.0.1:8000/api/openapi.json`.
+
+See [the backend API guide](docs/api/BACKEND_API.md) for endpoint contracts,
+examples, frontend CORS configuration, and the current local-only security
+boundary.
+
 ## Compare the three versioning models
 
 ```powershell
@@ -68,6 +85,28 @@ For a shorter sample run:
 ```powershell
 python benchmarks.py --sizes 1000,10000 --versions 5 --changes 10
 ```
+
+## Run the final research comparison
+
+The final reproducible harness compares Snapshot, Log-only, the forced-Merkle
+ablation, Chronos-H, and a real Dolt CLI adapter. It records raw trial CSV,
+summary statistics, a run manifest, storage, memory method, work examined, and
+correctness against a shared deterministic oracle.
+
+```powershell
+python -m experiments.final_benchmark --profile smoke --warmups 1 --trials 3
+```
+
+After validating the smoke run and installing Dolt on `PATH`, collect the paper
+dataset with:
+
+```powershell
+python -m experiments.final_benchmark --profile paper --warmups 2 --trials 7
+```
+
+See [the experiment protocol](experiments/README.md) before interpreting or
+publishing results. Generated benchmark directories and raw CSV files are not
+committed.
 
 ## Try it interactively
 

@@ -1,6 +1,6 @@
 # Chronos — Roadmap Beyond This Review
 
-## Already deferred (see output/docs/Chronos_Work_Remaining.docx for full detail)
+## Already deferred
 - Branching (named pointer to a version) — near-free given the architecture, low risk
 - Three-way merge with conflict detection — explicitly hard, open research territory
 - Durable on-disk storage, WAL, buffer pool, transactions
