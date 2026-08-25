@@ -16,7 +16,7 @@ as order-of-magnitude, not as three-significant-figure claims.
 
 ## Headline result 1 — 3-key change at 100,000 rows
 
-The acceptance target from `output/docs/Chronos_Work_Remaining.docx`.
+This was the original acceptance target for the incremental-update work.
 
 | Measure | Full rebuild (old `commit()`) | Incremental (`put()`) |
 |---|---:|---:|

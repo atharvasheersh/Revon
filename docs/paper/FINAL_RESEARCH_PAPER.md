@@ -8,9 +8,9 @@ Date: 2026-08-24
 - `output/pdf/Chronos_Final_Research_Paper.pdf`
 - Generator: `tools/build_final_research_paper.py`
 
-The earlier `Chronos_Research_Paper_Working_Draft` files remain preserved. The
-final files are separate artifacts and contain no draft-status banners or
-preliminary smoke tables.
+Only the final paper artifacts are versioned in the repository. Earlier working
+drafts remain local preparation material and are excluded from Git. The final
+files contain no draft-status banners or preliminary smoke tables.
 
 ## Publication format
 
