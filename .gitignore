@@ -28,9 +28,33 @@ test_data/*
 # Generated working and rendering files
 tmp/
 tmp*/
+output/benchmarks/
+
+# Local-only preparation and review material
+/Chronos_Current_Stage_Presentation_Guide.pdf
+/Paper Basics.pdf
+/Research Abstract Review 1.pdf
+/docs/commits/2026-08-25-supporting-submission-materials.md
+/docs/commits/2026-08-25-viva-question-bank.md
+/output/docs/Chronos_Current_Stage_Presentation_Guide.docx
+/output/docs/Chronos_Partner_Changes_Summary.docx
+/output/docs/Chronos_Presentation_Guide.docx
+/output/docs/Chronos_Research_Paper_Working_Draft.docx
+/output/docs/Chronos_Work_Completed.docx
+/output/docs/Chronos_Work_Remaining.docx
+/output/pdf/Chronos_100_Viva_Cross_Questions.pdf
+/output/pdf/Chronos_Daily_Work_Summary_*.pdf
+/output/pdf/Chronos_Final_Submission_Partner_Plan.pdf
+/output/pdf/Chronos_Presentation_Guide.pdf
+/output/pdf/Chronos_Research_Paper_Working_Draft.pdf
+/output/pdf/Chronos_Today_Changes_*.pdf
+/tools/build_chronos_viva_questions.py
+/tools/build_daily_summary_pdf.py
+/tools/build_research_paper.py
 
 # Editor and operating-system files
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+~$*.docx
