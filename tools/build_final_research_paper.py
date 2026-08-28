@@ -959,19 +959,20 @@ def build():
         doc,
         "Version control for structured data is more than archiving files. A useful system must "
         "retain exact versions, apply sparse mutations without rebuilding the complete state, "
-        "reconstruct historical versions, and identify changes efficiently. Git demonstrates "
-        "the value of immutable content-addressed objects and parent-linked commits [7], but its "
-        "tree model is file-oriented. Structured records introduce stable keys, diverse mutation "
-        "densities, and comparisons that may span either a few operations or many commits.",
+        "reconstruct historical versions, and identify changes efficiently. Git provides the "
+        "starting idea--immutable objects named by content and commits linked to their parents "
+        "[7]--but organizes those objects around files and directories. A record store presents "
+        "a different workload: keys remain stable, update density varies, and two versions may "
+        "be separated by a handful of edits or by a long sequence of commits.",
         indent=False,
     )
     add_body(
         doc,
-        "Chronos studies whether a deliberately simple fixed-depth Merkle hash trie can combine "
-        "incremental structural sharing with an operation index. The primary model, Chronos-H, "
-        "selects a log path for short or sparse history intervals and a Merkle path for intervals "
-        "whose accumulated operations exceed a frozen calibration boundary. SQLite supplies an "
-        "atomic durable object container; it does not define the versioning algorithm."
+        "Chronos evaluates whether a deliberately simple fixed-depth Merkle hash trie can unite "
+        "incremental structural sharing with an operation index. Its primary variant, Chronos-H, "
+        "uses the log path for short or sparse intervals and switches to the Merkle path when the "
+        "accumulated operations cross a calibration boundary fixed before evaluation. SQLite "
+        "provides atomic durable storage, but does not determine the versioning algorithm."
     )
     add_body(
         doc,
@@ -1073,45 +1074,41 @@ def build():
     add_subsection(doc, "2.4  Design Implications and Research Positioning")
     add_body(
         doc,
-        "The literature separates three costs that are sometimes conflated: the bytes retained "
-        "for history, the work required to create a new version, and the work required to recreate "
-        "or compare old versions. Complete snapshots minimize reconstruction logic but duplicate "
-        "unchanged records. Operation logs reduce immediate duplication but move cost into replay, "
-        "compaction, or checkpoint maintenance. Persistent structures occupy a middle position by "
-        "reusing unchanged topology while materializing new paths. The dataset-versioning model in "
-        "[6] formalizes this storage/recreation tension, while path-copying results in [10] provide "
-        "its structural foundation. Decibel and OrpheusDB further show that no single physical "
-        "layout dominates scans, version retrieval, and storage across all branching workloads "
-        "[11], [12]. These findings motivate evaluating import, commit, checkout, diff, and storage "
-        "together rather than declaring a winner from one operation."
+        "Three separate costs recur in the literature: retained history, creation of a new version, "
+        "and later reconstruction or comparison. A snapshot keeps reconstruction straightforward "
+        "by copying unchanged records. A log avoids that copy at commit time, but the deferred work "
+        "returns during replay, compaction, or checkpointing. Path-copying persistent structures "
+        "take a third route: only the paths changed by an update are new, while the remaining "
+        "topology is shared [10]. The storage-versus-recreation model in [6] makes this trade-off "
+        "explicit. Decibel and OrpheusDB likewise show that one physical layout does not dominate "
+        "scans, version retrieval, and storage for every branching workload [11], [12]. For that "
+        "reason, our evaluation reports import, commit, "
+        "checkout, diff, and storage rather than using one measurement as a proxy for the system."
     )
     add_body(
         doc,
-        "Prior systems also differ in how they discover change. A full-state comparison requires "
-        "little historical metadata but scales with materialized data. Log replay scales with the "
-        "operations between endpoints, provided an ancestry path and complete changesets exist. A "
-        "Merkle comparison instead exploits structural equality: equal subtree hashes terminate the "
-        "search, while unequal paths are explored recursively. Its effectiveness therefore depends "
-        "on tree geometry, bucket occupancy, key distribution, and the spatial locality of updates. "
-        "The ordered MST preserves search order [3], whereas Noms and Dolt use content-defined "
-        "boundaries to obtain history-independent Prolly Tree structure [2], [9]. ForkBase extends "
-        "content-addressed reuse across objects, branches, and versions [15]. Chronos intentionally "
-        "uses fixed hash routing instead: it sacrifices ordered range behavior and adaptive chunk "
-        "boundaries for deterministic geometry that can be varied and instrumented directly."
+        "Change detection is another point of separation. Comparing two complete states does not "
+        "need a detailed history, although its work grows with the states being scanned. Replaying "
+        "changesets instead makes the interval length decisive and requires an unbroken ancestry "
+        "path with complete changesets. With Merkle differencing, matching subtree hashes stop the search; only mismatching "
+        "branches are opened. The observed cost then depends on trie shape, leaf occupancy, key "
+        "distribution, and where updates land. The MST retains key order [3]. Noms and Dolt use "
+        "content-defined boundaries to form history-independent Prolly Trees [2], [9], while "
+        "ForkBase reuses addressed content across objects, branches, and versions [15]. Chronos chooses fixed "
+        "hash-derived routes. This choice removes ordered range access and adaptive boundaries, but "
+        "gives the experiment a stable geometry whose depth and branching factor can be measured."
     )
     add_body(
         doc,
-        "The resulting research gap is not the invention of another content-addressed store. It is "
-        "the lack of a controlled study in which two correct diff mechanisms share the same durable "
-        "version history and are selected from observable interval properties. Chronos-H retains "
-        "both an immutable Merkle root and an addressed operation history, allowing the comparison "
-        "path to change without changing version semantics. This leads to three testable expectations: "
-        "log aggregation should favor short sparse intervals; Merkle pruning should become competitive "
-        "as accumulated operations grow; and trie depth or branching factor should alter latency, "
-        "examined work, and storage. Snapshot, Log-only, Chronos-M, and Chronos-H isolate these effects, "
-        "while Dolt tests whether the observations remain meaningful beside a mature production system. "
-        "The comparison is consequently framed as mechanism and system evidence, not as proof that a "
-        "fixed trie is universally superior to a Prolly Tree."
+        "The gap addressed here is not a new content-addressed store, but a controlled study in "
+        "which two correct diff algorithms share one durable history and are chosen from observable "
+        "properties of the requested interval. Every Chronos-H commit records both a Merkle root and an addressed changeset, so "
+        "changing the diff path does not change the meaning of a version. We expect log aggregation "
+        "to suit short, sparse intervals and hash pruning to become preferable after many operations. "
+        "We also expect b and d to change latency, examined work, and storage. Snapshot and Log-only provide "
+        "representation baselines; Chronos-M removes the selector; Chronos-H retains it; and Dolt "
+        "provides a production reference point. This design tests the hybrid mechanism while keeping "
+        "the system-level Dolt comparison separate from any claim about intrinsic tree superiority."
     )
 
     add_section(doc, "3  Chronos Design")
@@ -1120,24 +1117,24 @@ def build():
         architecture_path,
         "Chronos layered architecture showing the frontend, REST API, Chronos-H core, SQLite object store, and the research contribution boundary.",
     )
-    add_caption(doc, "Figure 1: Chronos architecture and research contribution boundary.")
+    add_caption(doc, "Figure 1: Chronos system architecture and the boundary of its research contribution.")
     add_subsection(doc, "3.1  Addressed Object Model")
     add_body(
         doc,
-        "Trie nodes and changesets are identified by SHA-256 over canonical JSON. A commit hash "
-        "covers the root, parent, changeset, message, and timestamp. Sequential aliases v1, v2, "
-        "and so on improve usability but are not content identities. HEAD is a named durable "
-        "reference to the latest commit.",
+        "Chronos serializes trie nodes and changesets as canonical JSON, then names each object with "
+        "its SHA-256 digest. The commit digest includes the root, parent, changeset, message, and "
+        "timestamp. Labels such as v1 and v2 are only human-readable aliases; they do not determine "
+        "object identity. The durable HEAD reference stores the current commit.",
         indent=False,
     )
     add_subsection(doc, "3.2  Fixed-Depth Merkle Hash Trie")
     add_body(
         doc,
-        "The evaluated default has branching factor b=8 and depth d=4. SHA-256(key) contributes "
-        "three routing bits per level, producing 4,096 possible leaf buckets after twelve bits. "
-        "Full keys remain in leaves, so routing-prefix collisions do not affect correctness. "
-        "Expected occupancy under uniform routing is N/b^d, but the sensitivity study treats the "
-        "geometry as a tunable design choice."
+        "For the main experiment we set b=8 and d=4. Each level reads three bits from SHA-256(key), "
+        "so twelve routing bits address 4,096 possible leaf buckets. A bucket still stores the full "
+        "key, which means that two keys sharing a routing prefix remain distinguishable. Under "
+        "uniform hashes the expected bucket occupancy is N/b^d. We test other b,d pairs separately "
+        "instead of assuming that this default is optimal."
     )
     add_subsection(doc, "3.3  Incremental Hashing and Commit")
     add_body(
@@ -1201,13 +1198,13 @@ def build():
     add_subsection(doc, "4.3  Repetition, Calibration, and Integrity")
     add_body(
         doc,
-        f"The paper run uses two warmups and seven measured trials with base seed "
-        f"{manifest['base_seed']}. Every adapter receives a regenerated workload whose SHA-256 "
-        f"must match the manifest. Calibration workloads are disjoint from evaluation. Medians, "
-        f"25th percentiles, and 75th percentiles exclude warmups. Run "
-        f"{manifest['run_id']} was executed on {manifest['platform']} with Python "
-        f"{manifest['python_version']}. An independent audit reconstructed the expected trial "
-        f"matrix and every summary statistic."
+        f"Before measurement, each configuration runs twice without contributing samples. The next "
+        f"seven trials are recorded, using base seed {manifest['base_seed']}. For every adapter we "
+        f"regenerate the workload and compare its SHA-256 digest with the manifest before execution. "
+        f"Calibration uses a separate workload set. Reported medians and quartiles exclude warmups. "
+        f"The recorded run identifier is {manifest['run_id']}; it was produced on "
+        f"{manifest['platform']} with Python {manifest['python_version']}. A separate audit rebuilt "
+        f"the trial matrix from the raw CSV and recalculated every summary value."
     )
     add_picture(
         doc,
@@ -1320,8 +1317,9 @@ def build():
         "The results answer RQ1 with a trade-off rather than a single winner. Chronos-H offered "
         "low diff, commit, and checkout latency under the benchmark interface, but its import "
         "advantage disappeared at 100,000 rows and its repository was always larger than Dolt's. "
-        "Snapshot and Log-only also remained important: their simpler representations were often "
-        "cheaper to import or store, while Snapshot diff scaled with materialized key count.",
+        "Snapshot and Log-only also remain relevant baselines: their simpler representations often "
+        "reduced import or storage cost. Snapshot comparison, however, grew with the number of "
+        "materialized keys.",
         indent=False,
     )
     add_body(
@@ -1335,62 +1333,63 @@ def build():
         doc,
         "RQ3 rejects a universal geometry. Shallow routing lowers internal traversal but creates "
         "larger leaf buckets and higher storage; deeper routing lowers occupancy but increases "
-        "internal-node work. The appropriate point therefore depends on whether latency, storage, "
-        "or worst-case bucket scanning dominates the target workload."
+        "internal-node work. The suitable configuration therefore depends on which requirement "
+        "dominates the workload: latency, storage, or worst-case leaf-bucket scanning."
     )
     add_body(
         doc,
-        "The Dolt comparison must remain scoped. Dolt performs SQL parsing, schema management, "
-        "version-control operations, and production durability work that Chronos does not. Its "
-        "Prolly Trees additionally support ordered access, branches, merges, and remotes. The "
-        "reported system-level ratios demonstrate the behavior of these implementations through "
-        "their declared interfaces; they do not establish that fixed tries are intrinsically "
-        "faster than Prolly Trees."
+        "The Dolt ratios need a system-level interpretation. Dolt performs SQL parsing, schema "
+        "management, version-control operations, and production durability work that the Chronos "
+        "prototype does not. Dolt's Prolly Trees also serve ordered queries, branches, merges, and "
+        "remote workflows. Our timings compare the declared interfaces used in the experiment. They "
+        "do not isolate the tree algorithms and therefore cannot show that a fixed trie is inherently "
+        "faster than a Prolly Tree."
     )
 
     add_section(doc, "7  Limitations and Threats to Validity")
     add_bullets(
         doc,
         [
-            "Runtime and interface asymmetry: Chronos is Python and in-process, while Dolt is a mature Go executable repeatedly invoked through CLI/SQL boundaries.",
-            "Feature asymmetry: Chronos has linear history and one writer; it does not implement SQL, branches, merges, remotes, schema evolution, or production concurrency.",
-            "Synthetic scope: deterministic key/value workloads reach 100,000 rows but do not represent all real schemas, skew, payload sizes, or long histories.",
-            "Single environment: results come from one Windows 11 machine; cache, scheduling, filesystem, and antivirus behavior may affect short operations.",
-            "Calibration boundary: 4,096 is the largest sampled log-favorable point, not a measured universal crossover.",
-            "Memory comparability: Python tracemalloc values and Dolt process memory are not equivalent, so the paper does not present a cross-system memory graph.",
-            "Work-unit mismatch: keys, operations, trie-node pairs, and Dolt-internal work cannot be interpreted as one normalized counter.",
-            "Outlier policy: all 83 Tukey candidates were retained. Medians and interquartile ranges reduce their influence, but seven trials do not establish distributional normality.",
+            "Runtime and interface asymmetry: Chronos executes in-process in Python, whereas Dolt is a mature Go executable invoked repeatedly through CLI and SQL interfaces.",
+            "Feature asymmetry: Chronos supports one writer and a linear history, but not SQL, branches, merges, remotes, schema evolution, or production concurrency.",
+            "Synthetic scope: the deterministic key/value workloads reach 100,000 rows, but cannot represent every real schema, key skew, payload size, or history length.",
+            "Single environment: all results were obtained on one Windows 11 machine, where cache state, scheduling, filesystem behavior, and antivirus activity can affect short measurements.",
+            "Calibration boundary: 4,096 is the largest sampled operation count that favored the log; this does not establish a universal crossover.",
+            "Memory comparability: Python tracemalloc and Dolt process-memory readings are not equivalent, so no cross-system memory graph is reported.",
+            "Work-unit mismatch: keys, log operations, trie-node pairs, and Dolt's internal work do not form a single normalized measure.",
+            "Outlier policy: all 83 Tukey candidates were kept. Medians and interquartile ranges limit their influence, but seven measured trials do not demonstrate normality.",
         ],
     )
 
     add_section(doc, "8  Future Work")
     add_body(
         doc,
-        "The immediate improvement is workload-aware structure selection. A repository could "
-        "estimate key count, prefix skew, mutation density, and leaf occupancy and then choose "
-        "among tested trie geometries instead of fixing b and d globally. The hybrid selector "
-        "should likewise learn a crossover from periodic calibration and include history distance, "
-        "changed-prefix density, and observed I/O cost rather than only operation count.",
+        "A next version should choose its structure from observed workload statistics. Key count, "
+        "prefix skew, mutation density, and leaf occupancy could guide the choice among measured "
+        "trie geometries instead of fixing b and d for every repository. The diff selector could "
+        "recalibrate periodically and consider history distance, changed-prefix density, and observed "
+        "I/O cost alongside its present operation-count rule.",
         indent=False,
     )
     add_body(
         doc,
-        "Storage efficiency can be improved through compact binary node encoding, value chunking, "
-        "pack files, compression, object reachability analysis, and garbage collection. An ordered "
-        "Merkle index or content-defined chunk boundaries would add range scans and history-independent "
-        "layout while retaining the current fixed trie as a controlled baseline."
+        "Storage efficiency could be improved with binary node records, separate value chunks, "
+        "packed objects, compression, reachability checks, and garbage "
+        "collection. An ordered Merkle index or content-defined chunk boundaries could add range "
+        "scans and a history-independent layout while leaving the fixed trie as the controlled baseline."
     )
     add_body(
         doc,
-        "System scope should expand to named branches, merge commits, conflict reporting, schema-aware "
-        "records, concurrent readers and writers, and remote synchronization. Evaluation should add "
+        "To move beyond a linear prototype, Chronos still needs named branches, merge commits, "
+        "conflict reporting, schema-aware records, concurrent readers and writers, and remote synchronization. "
+        "Evaluation should add "
         "public structured datasets, one-million-row and longer-history workloads, Linux replication, "
         "and unified external process telemetry for time, CPU, I/O, and peak resident memory."
     )
 
     conclusion_column = doc.add_paragraph()
     conclusion_column.paragraph_format.space_after = Pt(0)
-    conclusion_column.add_run().add_break(WD_BREAK.COLUMN)
+    conclusion_column.add_run().add_break(WD_BREAK.PAGE)
     add_section(doc, "9  Conclusion")
     add_body(
         doc,
@@ -1429,7 +1428,7 @@ def build():
         ("ref_orpheus", "[11] Silu Huang, Liqi Xu, Jialin Liu, Aaron J. Elmore, and Aditya G. Parameswaran. 2017. OrpheusDB: Bolt-on Versioning for Relational Databases. Proceedings of the VLDB Endowment, 10(10):1130-1141. doi:10.14778/3115404.3115417."),
         ("ref_decibel", "[12] Michael A. Maddox et al. 2016. Decibel: The Relational Dataset Branching System. Proceedings of the VLDB Endowment, 9(9):624-635. doi:10.14778/2947618.2947619."),
         ("ref_merkle", "[13] Ralph C. Merkle. 1988. A Digital Signature Based on a Conventional Encryption Function. In Advances in Cryptology - CRYPTO '87, LNCS 293, pages 369-378. doi:10.1007/3-540-48184-2_32."),
-        ("ref_lbfs", "[14] Athicha Muthitacharoen, Benjie Chen, and David Mazieres. 2001. A Low-Bandwidth Network File System. Proceedings of the 18th ACM Symposium on Operating Systems Principles, pages 174-187. doi:10.1145/502059.502052."),
+        ("ref_lbfs", "[14] Athicha Muthitacharoen, Benjie Chen, and David Mazieres. 2001. A Low-Bandwidth Network File System. Proceedings of the 18th ACM Symposium on Operating Systems Principles, pages 174-187. doi:10.1145/502034.502052."),
         ("ref_forkbase", "[15] Sheng Wang et al. 2018. ForkBase: An Efficient Storage Engine for Blockchain and Forkable Applications. Proceedings of the VLDB Endowment, 11(10):1137-1150. doi:10.14778/3231751.3231762."),
     ]
     for bookmark_id, (bookmark, reference) in enumerate(references, start=1):
