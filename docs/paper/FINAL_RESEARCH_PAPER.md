@@ -4,9 +4,10 @@ Date: 2026-08-24
 
 ## Deliverables
 
-- `output/docs/Chronos_Final_Research_Paper.docx`
-- `output/pdf/Chronos_Final_Research_Paper.pdf`
+- `paper/Chronos_Final_Research_Paper.docx`
+- `paper/Chronos_Final_Research_Paper.pdf`
 - Generator: `tools/build_final_research_paper.py`
+- Canonical repository: <https://github.com/atharvasheersh/Chronos>
 
 Only the final paper artifacts are versioned in the repository. Earlier working
 drafts remain local preparation material and are excluded from Git. The final
@@ -54,16 +55,16 @@ The final structure is:
 All final comparative numbers and uncertainty ranges come programmatically
 from:
 
-- `output/benchmarks/paper-final-20260824/summary.csv`
-- `output/benchmarks/paper-final-20260824/raw_results.csv`
-- `output/benchmarks/paper-final-20260824/manifest.json`
-- `output/benchmarks/paper-final-20260824/evidence_audit.json`
+- `evidence/paper-final-20260824/summary.csv`
+- `evidence/paper-final-20260824/raw_results.csv`
+- `evidence/paper-final-20260824/manifest.json`
+- `evidence/paper-final-20260824/evidence_audit.json`
 
 Trie-sensitivity results come from:
 
-- `output/benchmarks/trie-sensitivity-20260824/summary.csv`
-- `output/benchmarks/trie-sensitivity-20260824/raw_results.csv`
-- `output/benchmarks/trie-sensitivity-20260824/manifest.json`
+- `evidence/trie-sensitivity-20260824/summary.csv`
+- `evidence/trie-sensitivity-20260824/raw_results.csv`
+- `evidence/trie-sensitivity-20260824/manifest.json`
 
 No table or graph uses the earlier validation export. The final paper records
 Dolt 2.3.1 and the audited paper run ID

@@ -6,6 +6,21 @@ batch commits copy and re-hash only the affected paths; unchanged subtrees are
 shared by their existing hashes. Chronos-H adaptively chooses operation-log or
 hash-pruned Merkle differencing for version comparisons.
 
+## Paper and reproducibility
+
+- The final manuscript is available as
+  [PDF](paper/Chronos_Final_Research_Paper.pdf) and
+  [DOCX](paper/Chronos_Final_Research_Paper.docx).
+- The audited 333-trial comparison is stored in
+  [`evidence/paper-final-20260824/`](evidence/paper-final-20260824/).
+- The 45-trial trie-parameter sensitivity study is stored in
+  [`evidence/trie-sensitivity-20260824/`](evidence/trie-sensitivity-20260824/).
+- Architecture documentation and its visual companions are under
+  [`docs/architecture/`](docs/architecture/).
+
+The `output/` directory is reserved for generated local runs and is ignored by
+Git. Personal presentation and review material is not part of the repository.
+
 ## Run the demo
 
 Requires Python 3.10 or newer and no third-party packages.

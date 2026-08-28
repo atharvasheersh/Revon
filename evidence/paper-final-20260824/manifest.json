@@ -1,0 +1,30 @@
+{
+  "base_seed": 20260822,
+  "created_utc": "2026-08-24T01:40:04.708344+00:00",
+  "dolt_available": true,
+  "hybrid_threshold_operations": 4096,
+  "measured_trials": 7,
+  "metric_contract": {
+    "checkout": "full target-version materialization",
+    "correctness": "initial/final checkout and changed-key oracle",
+    "diff": "complete version diff",
+    "incremental_commit": "median durable commit within one trial",
+    "initial_import": "first durable state and version",
+    "setup": "excluded",
+    "storage": "bytes in the adapter repository directory"
+  },
+  "models": [
+    "snapshot",
+    "log",
+    "chronos-m",
+    "chronos-h",
+    "dolt"
+  ],
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "profile": "paper",
+  "python_version": "3.14.3",
+  "run_id": "7048cc1674dc4038a8e42c87818b9088",
+  "schema_version": 1,
+  "warmups": 2
+}

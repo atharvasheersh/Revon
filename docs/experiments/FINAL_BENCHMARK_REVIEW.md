@@ -2,7 +2,7 @@
 
 Date: 2026-08-24
 
-Evidence bundle: `output/benchmarks/paper-final-20260824/`
+Evidence bundle: `evidence/paper-final-20260824/`
 
 ## Verdict
 
@@ -19,7 +19,7 @@ The machine-readable audit outputs are:
 Run the audit again with:
 
 ```powershell
-python -m experiments.evidence_audit output/benchmarks/paper-final-20260824
+python -m experiments.evidence_audit evidence/paper-final-20260824
 ```
 
 ## Checklist

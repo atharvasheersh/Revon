@@ -1,0 +1,37 @@
+{
+  "chronos_h_evaluation_strategies": {
+    "large-hot": [
+      "log"
+    ],
+    "large-sparse": [
+      "log"
+    ],
+    "medium-dense": [
+      "merkle"
+    ],
+    "medium-sparse": [
+      "log"
+    ],
+    "small-sparse": [
+      "log"
+    ]
+  },
+  "correct_rows": 333,
+  "directory": "evidence\\paper-final-20260824",
+  "dolt_versions": [
+    "dolt version 2.3.1"
+  ],
+  "hybrid_threshold_operations": 4096,
+  "issues": [],
+  "outlier_candidates": 83,
+  "outlier_method": "Tukey 1.5*IQR fences within each measured scenario/model/metric group",
+  "outlier_rows_retained": true,
+  "passed": true,
+  "profile": "paper",
+  "raw_rows": 333,
+  "run_id": "7048cc1674dc4038a8e42c87818b9088",
+  "status_counts": {
+    "ok": 333
+  },
+  "summary_rows": 37
+}

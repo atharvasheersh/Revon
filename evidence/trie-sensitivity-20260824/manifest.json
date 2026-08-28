@@ -1,0 +1,69 @@
+{
+  "configs": [
+    {
+      "branching_factor": 4,
+      "expected_leaf_occupancy": 2.44140625,
+      "label": "b4-d6",
+      "leaf_buckets": 4096,
+      "routing_bits": 12,
+      "tree_depth": 6
+    },
+    {
+      "branching_factor": 8,
+      "expected_leaf_occupancy": 19.53125,
+      "label": "b8-d3",
+      "leaf_buckets": 512,
+      "routing_bits": 9,
+      "tree_depth": 3
+    },
+    {
+      "branching_factor": 8,
+      "expected_leaf_occupancy": 2.44140625,
+      "label": "b8-d4",
+      "leaf_buckets": 4096,
+      "routing_bits": 12,
+      "tree_depth": 4
+    },
+    {
+      "branching_factor": 8,
+      "expected_leaf_occupancy": 0.30517578125,
+      "label": "b8-d5",
+      "leaf_buckets": 32768,
+      "routing_bits": 15,
+      "tree_depth": 5
+    },
+    {
+      "branching_factor": 16,
+      "expected_leaf_occupancy": 2.44140625,
+      "label": "b16-d3",
+      "leaf_buckets": 4096,
+      "routing_bits": 12,
+      "tree_depth": 3
+    }
+  ],
+  "controlled_variables": {
+    "diff_strategy": "forced Merkle",
+    "persistence": "SQLiteChronosRepository",
+    "state_and_mutations": "identical workload digest for every configuration and repetition",
+    "summary": "warmups excluded; median, p25, and p75 over measured trials"
+  },
+  "created_utc": "2026-08-24T06:54:14.772917+00:00",
+  "measured_trials": 7,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "purpose": "fixed-depth Merkle trie branching-factor/depth sensitivity",
+  "python_version": "3.14.3",
+  "run_id": "6c0bfb623dfd44098f47108f1fb3c52b",
+  "schema_version": 1,
+  "warmups": 2,
+  "workload": {
+    "changes_per_commit": 100,
+    "commits": 10,
+    "locality": "spread",
+    "name": "trie-sensitivity",
+    "payload_bytes": 32,
+    "rows": 10000,
+    "seed": 20260824
+  },
+  "workload_sha256": "f49b3cf975a8fc6d972538f3495a77aeaa33240fb06beb62cb7f69ce6eb526ad"
+}

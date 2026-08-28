@@ -27,8 +27,9 @@ Every run creates an ignored timestamped directory under
 - `manifest.json`: environment, seed, model list, metric definitions, and the
   calibrated Chronos-H threshold.
 
-CSV files are intentionally ignored by Git. Preserve the final run separately
-and publish only a reviewed, anonymized result artifact with the paper.
+Timestamped working CSV files are intentionally ignored by Git. The reviewed,
+anonymized paper and trie-sensitivity bundles are versioned under `evidence/`
+so the published metrics can be audited from a fresh clone.
 
 ## Variants
 
@@ -108,7 +109,7 @@ selection, confirms Dolt metadata, and writes a non-destructive Tukey outlier
 review:
 
 ```powershell
-python -m experiments.evidence_audit output/benchmarks/paper-final-20260824
+python -m experiments.evidence_audit evidence/paper-final-20260824
 ```
 
 It adds `evidence_audit.json` and `outlier_review.csv` beside the original

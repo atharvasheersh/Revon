@@ -18,9 +18,9 @@ from docx.shared import Inches, Mm, Pt, RGBColor, Twips
 
 
 ROOT = Path(__file__).resolve().parents[1]
-FINAL_DIR = ROOT / "output" / "benchmarks" / "paper-final-20260824"
-SENSITIVITY_DIR = ROOT / "output" / "benchmarks" / "trie-sensitivity-20260824"
-OUT_DOCX = ROOT / "output" / "docs" / "Chronos_Final_Research_Paper.docx"
+FINAL_DIR = ROOT / "evidence" / "paper-final-20260824"
+SENSITIVITY_DIR = ROOT / "evidence" / "trie-sensitivity-20260824"
+OUT_DOCX = ROOT / "paper" / "Chronos_Final_Research_Paper.docx"
 ASSET_DIR = ROOT / "tmp" / "final_paper_assets"
 
 INK = "000000"
@@ -1440,8 +1440,10 @@ def build():
     add_body(
         doc,
         "The repository contains the benchmark harness, evidence audit, trie-sensitivity harness, "
-        "and paper generator. The final evidence bundle is output/benchmarks/paper-final-20260824; "
-        "the sensitivity bundle is output/benchmarks/trie-sensitivity-20260824. Results in this "
+        "and paper generator. Source code, artifacts, and reproduction instructions are available "
+        "at https://github.com/atharvasheersh/Chronos. The final evidence bundle is "
+        "evidence/paper-final-20260824; "
+        "the sensitivity bundle is evidence/trie-sensitivity-20260824. Results in this "
         "paper are generated programmatically from their summary CSV files and verified against "
         "raw results and manifests; no table or graph uses an earlier validation export.",
         indent=False,

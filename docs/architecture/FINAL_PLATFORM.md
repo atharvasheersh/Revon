@@ -29,10 +29,11 @@ Chronos reconstructs those paths from leaf to root and reuses every unchanged
 sibling by hash. It then creates a content-addressed changeset and commit. New
 objects, version mapping, statistics, and `HEAD` are persisted atomically.
 
-The default trie uses branching factor 8 and depth 4. The default Chronos-H
-threshold selects Log diff at or below 128 intervening operations and Merkle
-diff above it. Forced modes exist for the paper's ablation study, and all modes
-must produce the same structured result.
+The default trie uses branching factor 8 and depth 4. The paper-profile
+Chronos-H threshold selects Log diff at or below 4,096 intervening operations
+and Merkle diff above it. This is a frozen calibration boundary for the audited
+machine, not a universal crossover. Forced modes exist for the paper's ablation
+study, and all modes must produce the same structured result.
 
 ## Deployment boundary
 
@@ -42,4 +43,4 @@ does not yet provide authentication, TLS, rate limiting, or multi-host locking.
 The correct final demonstration is two local processes: `python -m chronos_api`
 and `npm run dev` from `frontend/`.
 
-The visual companion is `output/pdf/Chronos_System_Architecture.pdf`.
+The visual companion is `docs/architecture/Chronos_System_Architecture.pdf`.

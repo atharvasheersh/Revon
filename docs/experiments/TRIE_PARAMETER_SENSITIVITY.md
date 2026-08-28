@@ -2,7 +2,7 @@
 
 Date: 2026-08-24
 
-Evidence bundle: `output/benchmarks/trie-sensitivity-20260824/`
+Evidence bundle: `evidence/trie-sensitivity-20260824/`
 
 ## Question
 
