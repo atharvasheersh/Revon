@@ -12,9 +12,11 @@ from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.enum.style import WD_STYLE_TYPE
+from docx.opc.constants import RELATIONSHIP_TYPE as RT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Mm, Pt, RGBColor, Twips
+from docx.text.run import Run
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -469,6 +471,24 @@ def set_font(run, size=None, *, bold=None, italic=None, name="Times New Roman", 
     run.font.color.rgb = RGBColor.from_string(color)
 
 
+def add_external_hyperlink(
+    paragraph, text, url, *, size=10.5, color=HYPERLINK_BLUE
+):
+    """Add a visibly linked external URL while preserving the paper typography."""
+    relationship_id = paragraph.part.relate_to(url, RT.HYPERLINK, is_external=True)
+    hyperlink = OxmlElement("w:hyperlink")
+    hyperlink.set(qn("r:id"), relationship_id)
+    hyperlink.set(qn("w:history"), "1")
+    run_element = OxmlElement("w:r")
+    hyperlink.append(run_element)
+    paragraph._p.append(hyperlink)
+    run = Run(run_element, paragraph)
+    run.text = text
+    set_font(run, size, color=color)
+    run.font.underline = True
+    return run
+
+
 def set_columns(section, count: int):
     sect_pr = section._sectPr
     cols = sect_pr.find(qn("w:cols"))
@@ -915,9 +935,31 @@ def build():
     guide = doc.add_paragraph()
     guide.alignment = WD_ALIGN_PARAGRAPH.CENTER
     guide.paragraph_format.first_line_indent = Inches(0)
-    guide.paragraph_format.space_after = Pt(34)
-    run = guide.add_run("Guide: Dr. Poornima N, VIT Vellore")
+    guide.paragraph_format.space_after = Pt(0)
+    run = guide.add_run("Guide: Dr. Poornima N")
     set_font(run, 11)
+    faculty_school = doc.add_paragraph()
+    faculty_school.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    faculty_school.paragraph_format.first_line_indent = Inches(0)
+    faculty_school.paragraph_format.space_after = Pt(0)
+    run = faculty_school.add_run("School of Computer Science and Engineering")
+    set_font(run, 11)
+    faculty_affiliation = doc.add_paragraph()
+    faculty_affiliation.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    faculty_affiliation.paragraph_format.first_line_indent = Inches(0)
+    faculty_affiliation.paragraph_format.space_after = Pt(0)
+    run = faculty_affiliation.add_run("VIT Vellore")
+    set_font(run, 11)
+    faculty_email = doc.add_paragraph()
+    faculty_email.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    faculty_email.paragraph_format.first_line_indent = Inches(0)
+    faculty_email.paragraph_format.space_after = Pt(24)
+    add_external_hyperlink(
+        faculty_email,
+        "poornima.n@vit.ac.in",
+        "mailto:poornima.n@vit.ac.in",
+        color=INK,
+    )
 
     add_two_column_section(doc)
 

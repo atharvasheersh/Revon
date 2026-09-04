@@ -17,7 +17,10 @@ files contain no draft-status banners or preliminary smoke tables.
 
 - Authors: Adhyan Jain and Atharva Sheersh Pandey, Department of Computer
   Science and Engineering, VIT Vellore
-- Guide: Dr. Poornima N, VIT Vellore
+- Guide: Dr. Poornima N
+- School of Computer Science and Engineering
+- VIT Vellore
+- [poornima.n@vit.ac.in](mailto:poornima.n@vit.ac.in)
 - A4 paper matching the supplied BERT manuscript's visual format
 - Compact two-column body with a full-width title and author block
 - Times New Roman typography: 11-point body, 12-point headings, and a
