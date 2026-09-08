@@ -7,7 +7,7 @@
 
 ## Objective
 
-Expose the durable Chronos workflows required by the final frontend without
+Expose the durable Revon workflows required by the final frontend without
 changing the fixed-depth Merkle trie or SQLite persistence model.
 
 ## Changes

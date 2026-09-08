@@ -1,13 +1,13 @@
-# Chronos frontend
+# Revon frontend
 
-The final Chronos workspace is a responsive React/Vinext interface for the
+The final Revon workspace is a responsive React/Vinext interface for the
 local Python backend. It supports the complete demonstration path:
 
 - create, list, and open repositories;
 - import UTF-8 CSV or JSON datasets;
 - commit atomic put/delete batches with optimistic concurrency;
 - inspect commit history and materialize an earlier version;
-- compare any two versions through Chronos-H, forced Merkle, or forced Log;
+- compare any two versions through Revon-H, forced Merkle, or forced Log;
 - view storage, structural-sharing, diff-work, and integrity metrics.
 
 ## Run locally
@@ -15,7 +15,7 @@ local Python backend. It supports the complete demonstration path:
 Start the backend from the repository root:
 
 ```powershell
-python -m chronos_api
+python -m revon_api
 ```
 
 Then start the frontend in another terminal:

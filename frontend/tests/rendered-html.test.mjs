@@ -15,14 +15,14 @@ async function render() {
   );
 }
 
-test("server-renders the complete Chronos workspace", async () => {
+test("server-renders the complete Revon workspace", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Chronos - Structured Data Versioning<\/title>/i);
-  assert.match(html, /CHRONOS/);
+  assert.match(html, /<title>Revon - Structured Data Versioning<\/title>/i);
+  assert.match(html, /REVON/);
   assert.match(html, /Versioning metrics/);
   assert.match(html, /WORKLOAD SIZE/);
   assert.match(html, /10K/);
@@ -45,7 +45,7 @@ test("removes the disposable starter preview", async () => {
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /_sites-preview|SkeletonPreview|codex-preview/);
-  assert.match(page, /ChronosWorkspace/);
+  assert.match(page, /RevonWorkspace/);
   assert.match(layout, /openGraph/);
   assert.match(layout, /twitter/);
   await assert.rejects(access(new URL("app/_sites-preview/SkeletonPreview.tsx", root)));

@@ -1,4 +1,4 @@
-"""Audit a Chronos benchmark evidence bundle without altering source CSV rows."""
+"""Audit a Revon benchmark evidence bundle without altering source CSV rows."""
 
 from __future__ import annotations
 
@@ -28,12 +28,11 @@ METRICS = (
 DISPLAY_MODELS = {
     "snapshot": "Snapshot",
     "log": "Log-only",
-    "chronos-m": "Chronos-M (forced Merkle)",
-    "chronos-h": "Chronos-H",
-    "chronos-log": "Chronos-log calibration",
+    "revon-m": "Revon-M (forced Merkle)",
+    "revon-h": "Revon-H",
+    "revon-log": "Revon-log calibration",
     "dolt": "Dolt",
 }
-
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as stream:
@@ -80,7 +79,7 @@ def _expected_record_keys(manifest: dict[str, Any]) -> set[tuple[str, str, str, 
     trials = int(manifest["measured_trials"])
     expected: set[tuple[str, str, str, str, int]] = set()
     for spec in profile_specs(profile, seed, phase="calibration"):
-        for model in ("chronos-log", "chronos-m"):
+        for model in ("revon-log", "revon-m"):
             for kind, count in (("warmup", warmups), ("measured", trials)):
                 for trial in range(1, count + 1):
                     expected.add(("calibration", spec.name, DISPLAY_MODELS[model], kind, trial))
@@ -260,11 +259,11 @@ def audit(directory: Path) -> dict[str, Any]:
         expected_strategy = {
             "Snapshot": "full-scan",
             "Log-only": "operation-log",
-            "Chronos-M (forced Merkle)": "merkle",
-            "Chronos-log calibration": "log",
+            "Revon-M (forced Merkle)": "merkle",
+            "Revon-log calibration": "log",
             "Dolt": "dolt-native",
         }.get(row["model"])
-        if row["model"] == "Chronos-H":
+        if row["model"] == "Revon-H":
             operations = int(row["commits"]) * int(row["changes_per_commit"])
             expected_strategy = expected_hybrid_strategy(operations, threshold)
         if row["strategy_selected"] != expected_strategy:
@@ -331,13 +330,13 @@ def audit(directory: Path) -> dict[str, Any]:
         "correct_rows": sum(row["correctness"] == "True" for row in raw),
         "dolt_versions": dolt_versions,
         "hybrid_threshold_operations": threshold,
-        "chronos_h_evaluation_strategies": {
+        "revon_h_evaluation_strategies": {
             scenario: sorted(
                 {
                     row["strategy_selected"]
                     for row in raw
                     if row["phase"] == "evaluation"
-                    and row["model"] == "Chronos-H"
+                    and row["model"] == "Revon-H"
                     and row["scenario"] == scenario
                 }
             )

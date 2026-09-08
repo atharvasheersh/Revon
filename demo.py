@@ -1,4 +1,4 @@
-"""Run the one-flow Chronos demo."""
+"""Run the one-flow Revon demo."""
 
 from versioned_db import VersionedDatabase
 

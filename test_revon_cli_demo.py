@@ -1,9 +1,9 @@
 import unittest
 
-from chronos_cli_demo import run_demo
+from revon_cli_demo import run_demo
 
 
-class ChronosCLIDemoTests(unittest.TestCase):
+class RevonCLIDemoTests(unittest.TestCase):
     def test_demo_self_checks_incremental_model(self) -> None:
         result = run_demo(rows=200, updates=3, hybrid_threshold=128)
 

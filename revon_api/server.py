@@ -1,4 +1,4 @@
-"""Dependency-free REST server for the Chronos backend service."""
+"""Dependency-free REST server for the Revon backend service."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from .service import APIError, ChronosService
+from .service import APIError, RevonService
 
 
 DEFAULT_CORS_ORIGINS = (
@@ -51,7 +51,7 @@ def openapi_schema() -> dict[str, Any]:
     return {
         "openapi": "3.1.0",
         "info": {
-            "title": "Chronos API",
+            "title": "Revon API",
             "version": "1.0.0",
             "description": "API for content-addressed structured-data versioning.",
         },
@@ -96,7 +96,7 @@ def openapi_schema() -> dict[str, Any]:
 
 
 def make_handler(
-    service: ChronosService,
+    service: RevonService,
     *,
     cors_origins: tuple[str, ...] = DEFAULT_CORS_ORIGINS,
     maximum_body_bytes: int = 50 * 1024 * 1024,
@@ -105,8 +105,8 @@ def make_handler(
 
     allowed_origins = frozenset(cors_origins)
 
-    class ChronosRequestHandler(BaseHTTPRequestHandler):
-        server_version = "ChronosAPI/1.0"
+    class RevonRequestHandler(BaseHTTPRequestHandler):
+        server_version = "RevonAPI/1.0"
 
         def _cors_origin(self) -> Optional[str]:
             origin = self.headers.get("Origin")
@@ -215,7 +215,7 @@ def make_handler(
             segments = self._segments(parsed.path)
             query = parse_qs(parsed.query, keep_blank_values=True)
             if segments == ["api", "health"]:
-                return 200, {"status": "ok", "service": "chronos"}
+                return 200, {"status": "ok", "service": "revon"}
             if segments == ["api", "openapi.json"]:
                 return 200, openapi_schema()
             if segments == ["api", "repositories"]:
@@ -315,11 +315,11 @@ def make_handler(
             self.send_header("Content-Length", "0")
             self.end_headers()
 
-    return ChronosRequestHandler
+    return RevonRequestHandler
 
 
 def build_server(
-    service: ChronosService,
+    service: RevonService,
     host: str,
     port: int,
     *,
@@ -349,14 +349,14 @@ def main() -> int:
     )
     args = parser.parse_args()
     origins = tuple(args.cors_origins) if args.cors_origins else DEFAULT_CORS_ORIGINS
-    service = ChronosService(args.repository_root)
+    service = RevonService(args.repository_root)
     server = build_server(service, args.host, args.port, cors_origins=origins)
-    print(f"Chronos API listening on http://{args.host}:{args.port}")
+    print(f"Revon API listening on http://{args.host}:{args.port}")
     print(f"Repository root: {service.repositories.root}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("\nStopping Chronos API")
+        print("\nStopping Revon API")
     finally:
         server.server_close()
     return 0

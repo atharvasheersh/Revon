@@ -1,8 +1,8 @@
 # Final experimental harness
 
-This harness produces the raw evidence for the final Chronos evaluation. The
-primary comparison is Snapshot vs Log-only vs Chronos-H vs Dolt. The forced
-Merkle variant is reported as **Chronos-M (forced Merkle)** and is an ablation,
+This harness produces the raw evidence for the final Revon evaluation. The
+primary comparison is Snapshot vs Log-only vs Revon-H vs Dolt. The forced
+Merkle variant is reported as **Revon-M (forced Merkle)** and is an ablation,
 not a separate product claim.
 
 ## Run it
@@ -25,7 +25,7 @@ Every run creates an ignored timestamped directory under
 - `raw_results.csv`: one row per warmup or measured trial;
 - `summary.csv`: measured-trial median, 25th percentile, and 75th percentile;
 - `manifest.json`: environment, seed, model list, metric definitions, and the
-  calibrated Chronos-H threshold.
+  calibrated Revon-H threshold.
 
 Timestamped working CSV files are intentionally ignored by Git. The reviewed,
 anonymized paper and trie-sensitivity bundles are versioned under `evidence/`
@@ -37,12 +37,12 @@ so the published metrics can be audited from a fresh clone.
 | --- | --- | --- |
 | Snapshot | Canonical full-state JSON per version | Full key scan |
 | Log-only | Canonical base JSON plus fsynced JSONL changesets | Log replay/aggregation |
-| Chronos-M | SQLite-backed fixed-depth Merkle hash trie | Forced hash-pruned tree diff |
-| Chronos-H | Same trie plus changesets | Calibrated adaptive log/Merkle choice |
+| Revon-M | SQLite-backed fixed-depth Merkle hash trie | Forced hash-pruned tree diff |
+| Revon-H | Same trie plus changesets | Calibrated adaptive log/Merkle choice |
 | Dolt | Native Dolt repository and table | Native `dolt diff` |
 
-Chronos-M exists only to answer the ablation question: does adaptive selection
-improve the Merkle-only design? The paper's main system is Chronos-H.
+Revon-M exists only to answer the ablation question: does adaptive selection
+improve the Merkle-only design? The paper's main system is Revon-H.
 
 ## Reproducibility protocol
 
@@ -94,17 +94,17 @@ monitor; retain them as diagnostic evidence meanwhile.
 
 ## Interpretation rules
 
-Do not claim that Chronos is “faster than Dolt” from one workload or from the
+Do not claim that Revon is “faster than Dolt” from one workload or from the
 smoke profile. Report the dataset size, mutation density, history distance,
 locality, payload size, machine, versions, warmups, trial count, distribution,
-and Dolt version. Discuss where Chronos-H wins, ties, or loses. Dolt is a mature
-SQL database; Chronos is a Python research prototype testing whether adaptive
+and Dolt version. Discuss where Revon-H wins, ties, or loses. Dolt is a mature
+SQL database; Revon is a Python research prototype testing whether adaptive
 log/Merkle differencing and fixed-depth copy-on-write indexing are useful.
 
 ## Audit a completed evidence bundle
 
 The audit regenerates workloads from the manifest, verifies the exact trial
-matrix, recomputes every summary statistic, checks Chronos-H strategy
+matrix, recomputes every summary statistic, checks Revon-H strategy
 selection, confirms Dolt metadata, and writes a non-destructive Tukey outlier
 review:
 
@@ -126,4 +126,4 @@ python -m experiments.trie_sensitivity --output-dir output/benchmarks/trie-sensi
 The predefined configurations are `b4-d6`, `b8-d3`, `b8-d4`, `b8-d5`, and
 `b16-d3`. Three have exactly 4,096 theoretical leaf buckets so fanout/depth can
 be compared at constant bucket count. This experiment is an ablation and must
-not be mixed into the primary Snapshot/Log-only/Chronos-H/Dolt result table.
+not be mixed into the primary Snapshot/Log-only/Revon-H/Dolt result table.

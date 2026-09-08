@@ -3,13 +3,13 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import {
   Checkout,
-  ChronosApi,
+  RevonApi,
   Comparison,
   History,
   Metrics,
   OpenRepository,
   RepositorySummary,
-} from "../lib/chronos-api";
+} from "../lib/revon-api";
 
 type Modal = "create" | "import" | "commit" | "settings" | null;
 type Connection = "connecting" | "online" | "offline";
@@ -47,13 +47,13 @@ function relativeTime(timestamp: string) {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-export default function ChronosWorkspace() {
+export default function RevonWorkspace() {
   const [apiBase, setApiBase] = useState(() =>
     typeof window === "undefined"
       ? DEFAULT_API
-      : window.localStorage.getItem("chronos-api-url") ?? DEFAULT_API,
+      : window.localStorage.getItem("revon-api-url") ?? DEFAULT_API,
   );
-  const api = useMemo(() => new ChronosApi(apiBase), [apiBase]);
+  const api = useMemo(() => new RevonApi(apiBase), [apiBase]);
   const [connection, setConnection] = useState<Connection>("connecting");
   const [repositories, setRepositories] = useState<RepositorySummary[]>([]);
   const [activeName, setActiveName] = useState("");
@@ -81,7 +81,7 @@ export default function ChronosWorkspace() {
   const [settingsUrl, setSettingsUrl] = useState(() =>
     typeof window === "undefined"
       ? DEFAULT_API
-      : window.localStorage.getItem("chronos-api-url") ?? DEFAULT_API,
+      : window.localStorage.getItem("revon-api-url") ?? DEFAULT_API,
   );
 
   const clearFeedback = () => {
@@ -143,7 +143,7 @@ export default function ChronosWorkspace() {
       await loadRepositories(activeName || undefined);
     } catch (caught) {
       setConnection("offline");
-      setError(caught instanceof Error ? caught.message : "Could not reach Chronos API");
+      setError(caught instanceof Error ? caught.message : "Could not reach Revon API");
     }
   }, [activeName, api, loadRepositories]);
 
@@ -276,7 +276,7 @@ export default function ChronosWorkspace() {
   const applySettings = (event: FormEvent) => {
     event.preventDefault();
     const normalized = settingsUrl.trim().replace(/\/$/, "");
-    window.localStorage.setItem("chronos-api-url", normalized);
+    window.localStorage.setItem("revon-api-url", normalized);
     setApiBase(normalized);
     setModal(null);
   };
@@ -296,7 +296,7 @@ export default function ChronosWorkspace() {
       <aside className="sidebar">
         <div className="wordmark">
           <span className="mark" aria-hidden="true">C</span>
-          <div><strong>CHRONOS</strong><small>VERSIONED DATA STORE</small></div>
+          <div><strong>REVON</strong><small>VERSIONED DATA STORE</small></div>
         </div>
 
         <div className="repo-control">
@@ -335,7 +335,7 @@ export default function ChronosWorkspace() {
       <section className="workspace" id="workspace">
         <header className="topbar">
           <div>
-            <p className="eyebrow">CHRONOS / RESEARCH WORKSPACE</p>
+            <p className="eyebrow">REVON / RESEARCH WORKSPACE</p>
             <h1>Versioning metrics</h1>
             <p className="page-summary">Measure repository growth, structural sharing, and version-diff work without mixing configured workload scale with observed results.</p>
           </div>
@@ -368,7 +368,7 @@ export default function ChronosWorkspace() {
 
         {connection === "offline" && (
           <div className="connection-banner" role="alert">
-            <div><strong>The Chronos API is not running.</strong><span>Start it with <code>python -m chronos_api</code>, then reconnect.</span></div>
+            <div><strong>The Revon API is not running.</strong><span>Start it with <code>python -m revon_api</code>, then reconnect.</span></div>
             <button className="button primary" type="button" onClick={() => void connect()}>Reconnect</button>
           </div>
         )}
@@ -394,7 +394,7 @@ export default function ChronosWorkspace() {
           <section className="empty-repository panel">
             <p className="eyebrow">BEGIN A TIMELINE</p>
             <h2>Create your first repository</h2>
-            <p>Chronos stores each structured state by content hash and only rewrites paths touched by a commit.</p>
+            <p>Revon stores each structured state by content hash and only rewrites paths touched by a commit.</p>
             <button className="button primary" type="button" onClick={() => setModal("create")}>Create repository</button>
           </section>
         ) : (
@@ -426,7 +426,7 @@ export default function ChronosWorkspace() {
                 <label><span>FROM</span><select value={fromVersion} onChange={(event) => setFromVersion(Number(event.target.value))}>{versions.map((commit) => <option value={commit.version} key={`from-${commit.version}`}>v{commit.version}</option>)}</select></label>
                 <span className="arrow" aria-hidden="true">→</span>
                 <label><span>TO</span><select value={toVersion} onChange={(event) => setToVersion(Number(event.target.value))}>{versions.map((commit) => <option value={commit.version} key={`to-${commit.version}`}>v{commit.version}</option>)}</select></label>
-                <label><span>MODE</span><select value={strategy} onChange={(event) => setStrategy(event.target.value)}><option value="hybrid">Chronos-H</option><option value="merkle">Forced Merkle</option><option value="log">Forced log</option></select></label>
+                <label><span>MODE</span><select value={strategy} onChange={(event) => setStrategy(event.target.value)}><option value="hybrid">Revon-H</option><option value="merkle">Forced Merkle</option><option value="log">Forced log</option></select></label>
                 <button className="button dark" type="button" disabled={versions.length < 2 || busy} onClick={() => void runComparison()}>Run diff</button>
               </div>
               <div className="diff-summary">
@@ -504,7 +504,7 @@ export default function ChronosWorkspace() {
           <section className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <button className="modal-close" type="button" aria-label="Close" onClick={() => setModal(null)}>×</button>
             {modal === "create" && (
-              <form onSubmit={submitCreate}><p className="eyebrow">NEW TIMELINE</p><h2 id="modal-title">Create repository</h2><p>Use a stable lowercase name. Chronos creates an isolated SQLite object store.</p><label>Repository name<input required pattern="[a-z0-9][a-z0-9_-]{0,63}" value={newRepository} onChange={(event) => setNewRepository(event.target.value)} placeholder="customer-ledger" /></label><button className="button primary" disabled={busy}>Create repository</button></form>
+              <form onSubmit={submitCreate}><p className="eyebrow">NEW TIMELINE</p><h2 id="modal-title">Create repository</h2><p>Use a stable lowercase name. Revon creates an isolated SQLite object store.</p><label>Repository name<input required pattern="[a-z0-9][a-z0-9_-]{0,63}" value={newRepository} onChange={(event) => setNewRepository(event.target.value)} placeholder="customer-ledger" /></label><button className="button primary" disabled={busy}>Create repository</button></form>
             )}
             {modal === "import" && (
               <form onSubmit={submitImport}><p className="eyebrow">COMPLETE STATE</p><h2 id="modal-title">Import dataset</h2><p>Choose a UTF-8 CSV or JSON file. JSON arrays use the primary-key field; JSON objects are treated as keyed state.</p><label>Dataset<input required type="file" accept=".csv,.json,text/csv,application/json" onChange={(event) => setImportFile(event.target.files?.[0] ?? null)} /></label><label>Primary key<input required value={primaryKey} onChange={(event) => setPrimaryKey(event.target.value)} /></label><label>Commit message<input required value={importMessage} onChange={(event) => setImportMessage(event.target.value)} /></label><button className="button primary" disabled={busy || !importFile}>Import and commit</button></form>
@@ -513,7 +513,7 @@ export default function ChronosWorkspace() {
               <form onSubmit={submitCommit}><p className="eyebrow">ATOMIC MUTATION</p><h2 id="modal-title">Commit batch to v{opened?.head}</h2><p>Provide a JSON object of key/value puts and optional keys to delete.</p><label>Puts (JSON)<textarea required rows={7} value={putsText} onChange={(event) => setPutsText(event.target.value)} spellCheck={false} /></label><label>Deletes (comma or newline separated)<textarea rows={3} value={deletesText} onChange={(event) => setDeletesText(event.target.value)} /></label><label>Commit message<input required value={commitMessage} onChange={(event) => setCommitMessage(event.target.value)} /></label><button className="button primary" disabled={busy}>Commit atomically</button></form>
             )}
             {modal === "settings" && (
-              <form onSubmit={applySettings}><p className="eyebrow">CONNECTION</p><h2 id="modal-title">Backend API</h2><p>Change this only when Chronos is running on another local port or host.</p><label>API base URL<input required type="url" value={settingsUrl} onChange={(event) => setSettingsUrl(event.target.value)} /></label><button className="button primary">Save and reconnect</button></form>
+              <form onSubmit={applySettings}><p className="eyebrow">CONNECTION</p><h2 id="modal-title">Backend API</h2><p>Change this only when Revon is running on another local port or host.</p><label>API base URL<input required type="url" value={settingsUrl} onChange={(event) => setSettingsUrl(event.target.value)} /></label><button className="button primary">Save and reconnect</button></form>
             )}
             {error && <div className="form-error" role="alert">{error}</div>}
           </section>

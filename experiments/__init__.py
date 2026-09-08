@@ -1,1 +1,1 @@
-"""Reproducible evaluation harness for the Chronos research prototype."""
+"""Reproducible evaluation harness for the Revon research prototype."""

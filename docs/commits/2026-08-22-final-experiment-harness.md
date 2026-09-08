@@ -8,14 +8,14 @@
 ## Objective
 
 Produce a paper-ready measurement pipeline for the primary Snapshot,
-Log-only, Chronos-H, and Dolt comparison while retaining forced Merkle as a
-clearly labelled Chronos ablation.
+Log-only, Revon-H, and Dolt comparison while retaining forced Merkle as a
+clearly labelled Revon ablation.
 
 ## Changes
 
 - Added deterministic seeded workloads with identical mixed mutation batches
   and a SHA-256 workload identity shared across every model.
-- Added durable Snapshot, Log-only, SQLite Chronos-M, SQLite Chronos-H, and
+- Added durable Snapshot, Log-only, SQLite Revon-M, SQLite Revon-H, and
   native Dolt CLI adapters.
 - Added isolated threshold calibration, warmups, repeated trials, raw CSV,
   median/IQR summaries, an environment manifest, correctness oracles, and
@@ -39,8 +39,8 @@ all measured Python variants passed correctness; threshold = 128 operations
 
 Calibration workloads are disjoint from evaluation workloads, and the final
 evaluation always uses fresh repositories. Missing Dolt installations produce
-blank `unavailable` records rather than synthetic timings. Chronos-M is an
-ablation label; Chronos-H is the proposed system.
+blank `unavailable` records rather than synthetic timings. Revon-M is an
+ablation label; Revon-H is the proposed system.
 
 ## Known limitations
 

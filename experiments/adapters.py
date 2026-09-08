@@ -1,4 +1,4 @@
-"""Durable model adapters used by the final Chronos experiment harness."""
+"""Durable model adapters used by the final Revon experiment harness."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ import time
 from pathlib import Path
 from typing import Any, Optional
 
-from sqlite_store import SQLiteChronosRepository
+from sqlite_store import SQLiteRevonRepository
 
 from .workloads import Mutation, apply_mutations
 
@@ -170,7 +170,7 @@ class LogOnlyAdapter:
         pass
 
 
-class ChronosAdapter:
+class RevonAdapter:
     def __init__(
         self,
         path: Path,
@@ -181,16 +181,16 @@ class ChronosAdapter:
         tree_depth: int = 4,
     ) -> None:
         if strategy not in {"merkle", "hybrid", "log"}:
-            raise ValueError("invalid Chronos strategy")
+            raise ValueError("invalid Revon strategy")
         self.path = path
         self.strategy_requested = strategy
         self.name = {
-            "merkle": "Chronos-M (forced Merkle)",
-            "hybrid": "Chronos-H",
-            "log": "Chronos-log calibration",
+            "merkle": "Revon-M (forced Merkle)",
+            "hybrid": "Revon-H",
+            "log": "Revon-log calibration",
         }[strategy]
-        self.repository = SQLiteChronosRepository.create(
-            path / "chronos.sqlite",
+        self.repository = SQLiteRevonRepository.create(
+            path / "revon.sqlite",
             branching_factor=branching_factor,
             tree_depth=tree_depth,
             hybrid_log_threshold=hybrid_threshold,
@@ -279,7 +279,7 @@ class DoltAdapter:
         self.external_peak_memory: Optional[int] = None
         self._operation_peaks: list[int] = []
         self._run(
-            ["init", "--name", "Chronos Benchmark", "--email", "benchmark@chronos.local"]
+            ["init", "--name", "Revon Benchmark", "--email", "benchmark@revon.local"]
         )
         self._run(
             [
@@ -352,7 +352,7 @@ class DoltAdapter:
     def _commit_and_tag(self) -> None:
         self._run(["add", "."])
         self._run(["commit", "-m", f"benchmark version {self.version}"])
-        self._run(["tag", f"chronos-v{self.version}"])
+        self._run(["tag", f"revon-v{self.version}"])
 
     def initial_import(self, state: dict[str, str]) -> None:
         self._begin_operation()
@@ -396,7 +396,7 @@ class DoltAdapter:
         self._begin_operation()
         query = (
             "SELECT id,payload FROM records AS OF "
-            + self._literal(f"chronos-v{version}")
+            + self._literal(f"revon-v{version}")
             + " ORDER BY id"
         )
         output = self._run(["sql", "-r", "csv", "-q", query]).stdout
@@ -408,7 +408,7 @@ class DoltAdapter:
     def diff(self, left: int, right: int) -> None:
         self._begin_operation()
         self._run(
-            ["diff", f"chronos-v{left}", f"chronos-v{right}", "records"]
+            ["diff", f"revon-v{left}", f"revon-v{right}", "records"]
         )
         return None
 

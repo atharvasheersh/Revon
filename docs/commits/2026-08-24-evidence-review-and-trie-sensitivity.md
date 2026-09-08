@@ -7,14 +7,14 @@ Commit: `PENDING`
 ## Objective
 
 Validate the final paper-profile evidence without deleting unfavorable trials,
-then test whether Chronos's default fixed-depth trie geometry is a reasonable
+then test whether Revon's default fixed-depth trie geometry is a reasonable
 design point rather than assuming it is universally optimal.
 
 ## Changes
 
 - Added `experiments.evidence_audit`, which reconciles the manifest, raw CSV,
   and summary CSV; regenerates deterministic workload identities; validates
-  correctness, Dolt metadata, trial completeness, and Chronos-H selection; and
+  correctness, Dolt metadata, trial completeness, and Revon-H selection; and
   emits an outlier review without modifying raw evidence.
 - Audited `output/benchmarks/paper-final-20260824`: all 333 raw rows passed,
   Dolt 2.3.1 was recorded, and every one of the 37 summary groups reproduced

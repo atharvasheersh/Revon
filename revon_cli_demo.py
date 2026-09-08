@@ -1,8 +1,8 @@
-"""Run a deterministic, self-checking Chronos-H CLI demonstration.
+"""Run a deterministic, self-checking Revon-H CLI demonstration.
 
 Examples:
-    python chronos_cli_demo.py
-    python chronos_cli_demo.py --rows 10000 --updates 10 --show-changes
+    python revon_cli_demo.py
+    python revon_cli_demo.py --rows 10000 --updates 10 --show-changes
 """
 
 from __future__ import annotations
@@ -142,7 +142,7 @@ def run_demo(
 
 def print_report(result: DemoResult, show_changes: bool = False) -> None:
     work_unit = "operations" if result.hybrid_strategy == "log" else "node pairs"
-    print("Chronos-H incremental Merkle trie verification")
+    print("Revon-H incremental Merkle trie verification")
     print("=" * 54)
     print(f"Dataset                  {result.rows:,} rows")
     print(f"Mixed batch              {result.changed_keys} changed keys")

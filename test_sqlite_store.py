@@ -5,19 +5,19 @@ import unittest
 from pathlib import Path
 
 from csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
-from sqlite_store import ChronosIntegrityError, SQLiteChronosRepository
+from sqlite_store import RevonIntegrityError, SQLiteRevonRepository
 
 TEST_DATA = Path(__file__).parent / "test_data" / "sqlite"
 
 
-class SQLiteChronosRepositoryTests(unittest.TestCase):
+class SQLiteRevonRepositoryTests(unittest.TestCase):
     def setUp(self) -> None:
         TEST_DATA.mkdir(parents=True, exist_ok=True)
         for name in (
-            "history.chronos.db",
-            "atomic.chronos.db",
-            "tampered.chronos.db",
-            "csv-history.chronos.db",
+            "history.revon.db",
+            "atomic.revon.db",
+            "tampered.revon.db",
+            "csv-history.revon.db",
         ):
             path = TEST_DATA / name
             if path.exists():
@@ -27,13 +27,13 @@ class SQLiteChronosRepositoryTests(unittest.TestCase):
                 journal.unlink()
 
     def test_reopen_reproduces_history_checkout_diff_and_metrics(self) -> None:
-        path = TEST_DATA / "history.chronos.db"
+        path = TEST_DATA / "history.revon.db"
         initial = {
             "a": {"value": 1},
             "b": {"value": 2},
             "nullable": None,
         }
-        with SQLiteChronosRepository.create(path) as repository:
+        with SQLiteRevonRepository.create(path) as repository:
             root_v1 = repository.commit(initial, message="initial")
             root_v2 = repository.apply_changes(
                 root_v1,
@@ -44,7 +44,7 @@ class SQLiteChronosRepositoryTests(unittest.TestCase):
             commit_hashes = dict(repository.version_commits)
             self.assertEqual(repository.verify_integrity().versions, 2)
 
-        with SQLiteChronosRepository.open(path) as reopened:
+        with SQLiteRevonRepository.open(path) as reopened:
             self.assertEqual(reopened.head, 2)
             self.assertEqual(reopened.versions, {1: root_v1, 2: root_v2})
             self.assertEqual(reopened.version_commits, commit_hashes)
@@ -68,8 +68,8 @@ class SQLiteChronosRepositoryTests(unittest.TestCase):
             self.assertEqual(report.head_hash, commit_hashes[2])
 
     def test_failed_transaction_restores_in_memory_head(self) -> None:
-        path = TEST_DATA / "atomic.chronos.db"
-        with SQLiteChronosRepository.create(path) as repository:
+        path = TEST_DATA / "atomic.revon.db"
+        with SQLiteRevonRepository.create(path) as repository:
             root = repository.commit({"a": 1}, message="durable")
             durable_head = repository.head_hash
             repository._connection.execute(
@@ -92,13 +92,13 @@ class SQLiteChronosRepositoryTests(unittest.TestCase):
             self.assertEqual(repository.checkout(1), {"a": 1})
             self.assertEqual(repository.verify_integrity().versions, 1)
 
-        with SQLiteChronosRepository.open(path) as reopened:
+        with SQLiteRevonRepository.open(path) as reopened:
             self.assertEqual(reopened.head, 1)
             self.assertEqual(reopened.checkout(1), {"a": 1})
 
     def test_tampered_payload_is_rejected_on_open(self) -> None:
-        path = TEST_DATA / "tampered.chronos.db"
-        with SQLiteChronosRepository.create(path) as repository:
+        path = TEST_DATA / "tampered.revon.db"
+        with SQLiteRevonRepository.create(path) as repository:
             repository.commit({"a": 1})
             node_hash = repository.versions[1]
 
@@ -110,14 +110,14 @@ class SQLiteChronosRepositoryTests(unittest.TestCase):
         connection.commit()
         connection.close()
 
-        with self.assertRaisesRegex(ChronosIntegrityError, "hash mismatch"):
-            SQLiteChronosRepository.open(path)
+        with self.assertRaisesRegex(RevonIntegrityError, "hash mismatch"):
+            SQLiteRevonRepository.open(path)
 
     def test_csv_session_continues_after_repository_reopen(self) -> None:
         before, after, sql = generate_sample_files(TEST_DATA, rows=100)
-        path = TEST_DATA / "csv-history.chronos.db"
+        path = TEST_DATA / "csv-history.revon.db"
 
-        with SQLiteChronosRepository.create(path) as repository:
+        with SQLiteRevonRepository.create(path) as repository:
             session = CSVSnapshotSession(repository)
             with contextlib.redirect_stdout(io.StringIO()):
                 first = session.commit_csv(
@@ -127,7 +127,7 @@ class SQLiteChronosRepositoryTests(unittest.TestCase):
                     message="before",
                 )
 
-        with SQLiteChronosRepository.open(path) as repository:
+        with SQLiteRevonRepository.open(path) as repository:
             session = CSVSnapshotSession(repository)
             with contextlib.redirect_stdout(io.StringIO()):
                 second = session.commit_csv(
@@ -138,7 +138,7 @@ class SQLiteChronosRepositoryTests(unittest.TestCase):
                     sql_file=sql,
                 )
 
-        with SQLiteChronosRepository.open(path) as repository:
+        with SQLiteRevonRepository.open(path) as repository:
             self.assertEqual((first, second), (1, 2))
             self.assertEqual(len(repository.checkout(1)), 100)
             self.assertEqual(len(repository.checkout(2)), 100)

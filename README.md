@@ -1,16 +1,16 @@
-# Chronos
+# Revon
 
-Chronos is a content-addressed versioned data store for structured key-value
+Revon is a content-addressed versioned data store for structured key-value
 data. Its state index is a persistent fixed-depth Merkle hash trie. Atomic
 batch commits copy and re-hash only the affected paths; unchanged subtrees are
-shared by their existing hashes. Chronos-H adaptively chooses operation-log or
+shared by their existing hashes. Revon-H adaptively chooses operation-log or
 hash-pruned Merkle differencing for version comparisons.
 
 ## Paper and reproducibility
 
 - The final manuscript is available as
-  [PDF](paper/Chronos_Final_Research_Paper.pdf) and
-  [DOCX](paper/Chronos_Final_Research_Paper.docx).
+  [PDF](paper/Revon_Final_Research_Paper.pdf) and
+  [DOCX](paper/Revon_Final_Research_Paper.docx).
 - The audited 333-trial comparison is stored in
   [`evidence/paper-final-20260824/`](evidence/paper-final-20260824/).
 - The 45-trial trie-parameter sensitivity study is stored in
@@ -36,18 +36,18 @@ For a self-checking CLI demonstration that also proves the incremental root is
 identical to a clean full rebuild:
 
 ```powershell
-python chronos_cli_demo.py --show-changes
+python revon_cli_demo.py --show-changes
 ```
 
 Use `--rows`, `--updates`, and `--hybrid-threshold` to change the workload and
-observe when Chronos-H selects Log or Merkle differencing.
+observe when Revon-H selects Log or Merkle differencing.
 
 ## Verify durable SQLite persistence
 
 Run the complete persistence flow:
 
 ```powershell
-python chronos_sqlite_demo.py --database chronos_demo.chronos.db --reset
+python revon_sqlite_demo.py --database revon_demo.revon.db --reset
 ```
 
 The command generates two deterministic CSV states, imports them as versions,
@@ -60,7 +60,7 @@ closes the SQLite writer, and launches a separate Python process that:
 - reproduces the version diff.
 
 SQLite is the atomic durable object container. The fixed-depth Merkle trie,
-content-addressed commits, and Chronos-H diff selection remain Chronos logic.
+content-addressed commits, and Revon-H diff selection remain Revon logic.
 
 ## Run the tests
 
@@ -73,7 +73,7 @@ python -m unittest -v
 Start the dependency-free local REST API:
 
 ```powershell
-python -m chronos_api
+python -m revon_api
 ```
 
 It supports repository creation/opening, JSON or CSV import, atomic mutation
@@ -92,7 +92,7 @@ python benchmarks.py
 ```
 
 This compares a full-snapshot state model, an operation-log model, and the
-Chronos-H hybrid model. It reports median incremental commit time, median diff
+Revon-H hybrid model. It reports median incremental commit time, median diff
 time, logical serialized storage, and how much work each diff examines.
 
 For a shorter sample run:
@@ -104,7 +104,7 @@ python benchmarks.py --sizes 1000,10000 --versions 5 --changes 10
 ## Run the final research comparison
 
 The final reproducible harness compares Snapshot, Log-only, the forced-Merkle
-ablation, Chronos-H, and a real Dolt CLI adapter. It records raw trial CSV,
+ablation, Revon-H, and a real Dolt CLI adapter. It records raw trial CSV,
 summary statistics, a run manifest, storage, memory method, work examined, and
 correctness against a shared deterministic oracle.
 
@@ -129,7 +129,7 @@ committed.
 from versioned_db import VersionedDatabase
 
 db = VersionedDatabase()
-v1 = db.commit({"name": "Chronos", "status": "prototype", "users": 10})
+v1 = db.commit({"name": "Revon", "status": "prototype", "users": 10})
 v2 = db.apply_changes(v1, puts={"status": "demo-ready"})
 
 print(db.commit_stats[1])
@@ -147,7 +147,7 @@ Expected changed-key result:
 The core supports both direct in-memory experiments and durable single-file
 SQLite repositories. Branch references, merging, and concurrent writers remain
 outside the current scope. Commit history, addressed objects, historical
-checkout, structured Merkle diffs, operation-log diffs, and adaptive Chronos-H
+checkout, structured Merkle diffs, operation-log diffs, and adaptive Revon-H
 selection are implemented.
 
 ## CSV snapshot dry run

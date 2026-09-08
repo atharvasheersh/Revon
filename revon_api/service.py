@@ -1,4 +1,4 @@
-"""Framework-independent backend service for Chronos repositories."""
+"""Framework-independent backend service for Revon repositories."""
 
 from __future__ import annotations
 
@@ -10,10 +10,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterator, Mapping, Optional
 
-from sqlite_store import SQLiteChronosRepository
+from sqlite_store import SQLiteRevonRepository
 
 
 REPOSITORY_NAME = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
+REPOSITORY_SUFFIX = ".revon.db"
 
 
 class APIError(RuntimeError):
@@ -50,7 +51,7 @@ class RepositoryManager:
 
     def path(self, name: str) -> Path:
         valid = self.validate_name(name)
-        return self.root / f"{valid}.chronos.db"
+        return self.root / f"{valid}{REPOSITORY_SUFFIX}"
 
     def require_path(self, name: str) -> Path:
         path = self.path(name)
@@ -67,17 +68,16 @@ class RepositoryManager:
             yield
 
     def list_names(self) -> list[str]:
-        suffix = ".chronos.db"
         return sorted(
             name
-            for path in self.root.glob(f"*{suffix}")
+            for path in self.root.glob(f"*{REPOSITORY_SUFFIX}")
             if path.is_file()
-            if (name := path.name[: -len(suffix)])
+            if (name := path.name[: -len(REPOSITORY_SUFFIX)])
             if REPOSITORY_NAME.fullmatch(name)
         )
 
 
-class ChronosService:
+class RevonService:
     """Validated operations shared by the HTTP layer and unit tests."""
 
     def __init__(self, repository_root: str | Path) -> None:
@@ -109,7 +109,7 @@ class ChronosService:
         return value
 
     @staticmethod
-    def _commit_payload(repository: SQLiteChronosRepository) -> dict[str, Any]:
+    def _commit_payload(repository: SQLiteRevonRepository) -> dict[str, Any]:
         if repository.head is None:
             return {"head": None, "head_hash": None, "root_hash": None}
         commit = repository.commits[repository.head]
@@ -118,7 +118,7 @@ class ChronosService:
             "head": repository.head,
             "head_hash": repository.head_hash,
             "root_hash": commit.root_hash,
-            "commit": ChronosService._serialize_commit(commit),
+            "commit": RevonService._serialize_commit(commit),
             "commit_metrics": {
                 "changed_keys": stats.changed_keys,
                 "new_nodes": stats.new_nodes,
@@ -146,7 +146,7 @@ class ChronosService:
         }
 
     @staticmethod
-    def _diff_metrics(repository: SQLiteChronosRepository) -> dict[str, Any]:
+    def _diff_metrics(repository: SQLiteRevonRepository) -> dict[str, Any]:
         stats = repository.last_diff_stats
         if stats.strategy == "log":
             examined = stats.log_operations_examined
@@ -215,7 +215,7 @@ class ChronosService:
         for name in self.repositories.list_names():
             with self.repositories.locked(name):
                 try:
-                    with SQLiteChronosRepository.open(
+                    with SQLiteRevonRepository.open(
                         self.repositories.require_path(name), verify=False
                     ) as repository:
                         repositories.append(
@@ -250,7 +250,7 @@ class ChronosService:
             if path.exists():
                 raise APIError(409, "repository_exists", f"repository '{name}' already exists")
             try:
-                repository = SQLiteChronosRepository.create(
+                repository = SQLiteRevonRepository.create(
                     path,
                     branching_factor=branching_factor,
                     tree_depth=tree_depth,
@@ -272,7 +272,7 @@ class ChronosService:
 
     def open_repository(self, name: str) -> dict[str, Any]:
         with self.repositories.locked(name):
-            with SQLiteChronosRepository.open(
+            with SQLiteRevonRepository.open(
                 self.repositories.require_path(name), verify=False
             ) as repository:
                 report = repository.verify_integrity()
@@ -298,7 +298,7 @@ class ChronosService:
         if message is not None and not isinstance(message, str):
             raise APIError(400, "invalid_parameter", "'message' must be a string")
         with self.repositories.locked(name):
-            with SQLiteChronosRepository.open(
+            with SQLiteRevonRepository.open(
                 self.repositories.require_path(name), verify=True
             ) as repository:
                 started = time.perf_counter_ns()
@@ -338,7 +338,7 @@ class ChronosService:
             raise APIError(400, "invalid_parameter", "'message' must be a string")
 
         with self.repositories.locked(name):
-            with SQLiteChronosRepository.open(
+            with SQLiteRevonRepository.open(
                 self.repositories.require_path(name), verify=True
             ) as repository:
                 if repository.head is None:
@@ -378,7 +378,7 @@ class ChronosService:
 
     def history(self, name: str) -> dict[str, Any]:
         with self.repositories.locked(name):
-            with SQLiteChronosRepository.open(
+            with SQLiteRevonRepository.open(
                 self.repositories.require_path(name), verify=True
             ) as repository:
                 commits = [self._serialize_commit(commit) for commit in repository.log()]
@@ -404,7 +404,7 @@ class ChronosService:
         if limit is not None:
             limit = self._integer(limit, "limit", minimum=1, maximum=100_000)
         with self.repositories.locked(name):
-            with SQLiteChronosRepository.open(
+            with SQLiteRevonRepository.open(
                 self.repositories.require_path(name), verify=True
             ) as repository:
                 try:
@@ -439,7 +439,7 @@ class ChronosService:
         if strategy not in {"hybrid", "log", "merkle"}:
             raise APIError(400, "invalid_strategy", "strategy must be hybrid, log, or merkle")
         with self.repositories.locked(name):
-            with SQLiteChronosRepository.open(
+            with SQLiteRevonRepository.open(
                 self.repositories.require_path(name), verify=True
             ) as repository:
                 started = time.perf_counter_ns()
@@ -479,7 +479,7 @@ class ChronosService:
     ) -> dict[str, Any]:
         with self.repositories.locked(name):
             path = self.repositories.require_path(name)
-            with SQLiteChronosRepository.open(path, verify=True) as repository:
+            with SQLiteRevonRepository.open(path, verify=True) as repository:
                 result: dict[str, Any] = {
                     "name": name,
                     "head": repository.head,

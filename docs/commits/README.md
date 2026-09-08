@@ -1,4 +1,4 @@
-# Chronos commit notes
+# Revon commit notes
 
 This directory keeps a short Markdown handoff for every meaningful project
 commit. The Git commit remains the source of truth; these notes capture the
@@ -36,11 +36,11 @@ Prefer small, independently verifiable commits:
 
 ```text
 chore(repo): reconcile final-submission baseline
-feat(core): add atomic incremental Chronos-H commits
+feat(core): add atomic incremental Revon-H commits
 feat(storage): persist content-addressed nodes and commits
 feat(proofs): add verifiable Merkle diff certificates
 feat(api): expose project, commit, diff, and checkout workflows
-feat(ui): add the final Chronos workspace
+feat(ui): add the final Revon workspace
 perf(eval): add reproducible final benchmark suite
 docs(final): add final report and demo instructions
 fix(release): close final integration defects

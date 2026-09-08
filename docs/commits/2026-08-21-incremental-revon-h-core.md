@@ -1,8 +1,8 @@
-# Commit note: Incremental Chronos-H core
+# Commit note: Incremental Revon-H core
 
 - Date: 2026-08-21
 - Commit: `ef6ecaa`
-- Author: atharvasheersh / Chronos team
+- Author: atharvasheersh / Revon team
 - Scope: core and evaluation
 
 ## Objective
@@ -17,7 +17,7 @@ the final research evaluation.
 - Added one-key `get`, `put`, and `delete` operations over immutable roots.
 - Added content-addressed changesets and commit objects with hash parent links.
 - Added structured added/modified/deleted diff entries.
-- Added forced Log, forced Merkle, and adaptive Chronos-H diff modes.
+- Added forced Log, forced Merkle, and adaptive Revon-H diff modes.
 - Added stable instrumentation for nodes created, trie bytes written, nodes
   compared, leaf entries examined, log operations examined, and chosen mode.
 - Added exact offline structural-sharing measurement between two roots.
@@ -36,7 +36,7 @@ nodes were shared with v1; the hybrid selector examined 3 log operations.
 
 python benchmarks.py --sizes 1000,10000,100000 --versions 5 --changes 10 --diff-repeats 3
 All three models returned the same 40 changed keys at every dataset size.
-At 100,000 rows, the observed median Chronos-H incremental commit was 0.517 ms
+At 100,000 rows, the observed median Revon-H incremental commit was 0.517 ms
 on this development run. This is a smoke result, not a paper result.
 ```
 
@@ -47,7 +47,7 @@ on this development run. This is a smoke result, not a paper result.
 - Trie roots remain compatible with the original prototype's canonical hashes.
 - Commits and changesets use separate versioned hash domains.
 - Sequential version numbers are UI aliases; commit hashes are identities.
-- Chronos-M is a forced mode of Chronos-H, not a separate product.
+- Revon-M is a forced mode of Revon-H, not a separate product.
 - The hybrid threshold is configurable and must be calibrated by benchmark.
 - Expensive exact sharing analysis is deliberately outside the timed write path.
 

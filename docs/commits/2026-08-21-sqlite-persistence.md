@@ -2,12 +2,12 @@
 
 - Date: 2026-08-21
 - Commit: `9599a64`
-- Author: atharvasheersh / Chronos team
+- Author: atharvasheersh / Revon team
 - Scope: storage and core
 
 ## Objective
 
-Make Chronos durable without replacing its fixed-depth Merkle trie, and prove
+Make Revon durable without replacing its fixed-depth Merkle trie, and prove
 that committed history survives process boundaries with verifiable integrity.
 
 ## Changes
@@ -29,7 +29,7 @@ that committed history survives process boundaries with verifiable integrity.
 python -m unittest discover -v
 30 tests passed
 
-python chronos_sqlite_demo.py --database test_data/sqlite/manual-demo.chronos.db --rows 100 --reset
+python revon_sqlite_demo.py --database test_data/sqlite/manual-demo.revon.db --rows 100 --reset
 2 versions; 271 content objects; 267 trie nodes; 4-row reopened diff.
 PASS: atomic CSV commits, separate-process hash verification, exact checkout,
 and Hybrid diff reproduction.
@@ -41,7 +41,7 @@ is rejected on open.
 
 ## Design decisions
 
-- SQLite is an embedded object container, not the Chronos indexing model.
+- SQLite is an embedded object container, not the Revon indexing model.
 - The rollback journal and `synchronous=FULL` prioritize correctness for the
   final prototype.
 - Commit measurements are stored outside the content-addressed commit payload.
@@ -56,5 +56,5 @@ is rejected on open.
 
 ## Next action
 
-Build the reproducible Snapshot, Log-only, Chronos-M, Chronos-H, and Dolt
+Build the reproducible Snapshot, Log-only, Revon-M, Revon-H, and Dolt
 benchmark harness over durable repositories.

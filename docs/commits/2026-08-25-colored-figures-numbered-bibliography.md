@@ -4,7 +4,7 @@ Date: 2026-08-25
 
 ## Summary
 
-Improved the final Chronos manuscript's visual evidence and scholarly framing
+Improved the final Revon manuscript's visual evidence and scholarly framing
 without changing the audited benchmark results.
 
 ## Changes

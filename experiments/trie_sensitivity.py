@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from .adapters import ChronosAdapter
+from .adapters import RevonAdapter
 from .final_benchmark import _measure, _percentile
 from .workloads import Workload, WorkloadSpec, build_workload
 
@@ -157,9 +157,9 @@ def run_sensitivity_trial(
 ) -> SensitivityRecord:
     trial_path = scratch_root / f"{config.label}-{uuid.uuid4().hex}"
     trial_path.mkdir(parents=True)
-    adapter: Optional[ChronosAdapter] = None
+    adapter: Optional[RevonAdapter] = None
     try:
-        adapter = ChronosAdapter(
+        adapter = RevonAdapter(
             trial_path,
             strategy="merkle",
             hybrid_threshold=0,
@@ -379,7 +379,7 @@ def execute_sensitivity(
         "controlled_variables": {
             "state_and_mutations": "identical workload digest for every configuration and repetition",
             "diff_strategy": "forced Merkle",
-            "persistence": "SQLiteChronosRepository",
+            "persistence": "SQLiteRevonRepository",
             "summary": "warmups excluded; median, p25, and p75 over measured trials",
         },
         "python_version": platform.python_version(),

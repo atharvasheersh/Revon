@@ -4,7 +4,7 @@ Date: 2026-08-25
 
 ## Summary
 
-Replaced the generic project-team author block in the final Chronos research
+Replaced the generic project-team author block in the final Revon research
 paper with the confirmed student, affiliation, contact, and guide details.
 
 ## Changes

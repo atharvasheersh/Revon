@@ -1,4 +1,4 @@
-"""Compare state, operational, and Chronos key-value versioning models.
+"""Compare state, operational, and Revon key-value versioning models.
 
 Reported storage is compact serialized size rather than Python process memory,
 so Python object-header overhead does not distort the comparison.
@@ -217,7 +217,7 @@ def benchmark_operations(
     )
 
 
-def benchmark_chronos(
+def benchmark_revon(
     initial: dict[str, int], batches: list[list[Operation]], diff_repeats: int
 ) -> tuple[BenchmarkResult, list[str]]:
     model = VersionedDatabase(branching_factor=8, tree_depth=4)
@@ -259,7 +259,7 @@ def benchmark_chronos(
         work_unit = "tree nodes"
     return (
         BenchmarkResult(
-            model="Chronos-H (hybrid)",
+            model="Revon-H (hybrid)",
             commit_ms=statistics.median(commit_times),
             diff_ms=diff_ms,
             storage_bytes=storage,
@@ -283,7 +283,7 @@ def run_scenario(
     measured = [
         benchmark_state(initial, batches, diff_repeats),
         benchmark_operations(initial, batches, diff_repeats),
-        benchmark_chronos(initial, batches, diff_repeats),
+        benchmark_revon(initial, batches, diff_repeats),
     ]
 
     expected = measured[0][1]
@@ -348,7 +348,7 @@ def main() -> None:
     parser.add_argument("--diff-repeats", type=int, default=7)
     args = parser.parse_args()
 
-    print("Versioning benchmark: full state vs operation log vs Chronos-H")
+    print("Versioning benchmark: full state vs operation log vs Revon-H")
     print("Times are medians; storage is compact serialized data, not Python RAM.")
     for rows in args.sizes:
         results = run_scenario(
@@ -364,7 +364,7 @@ def main() -> None:
         "Diff examined uses each model's natural unit: keys, log operations, "
         "or tree-node pairs."
     )
-    print("Chronos-H commits use atomic incremental copy-on-write path updates.")
+    print("Revon-H commits use atomic incremental copy-on-write path updates.")
 
 
 if __name__ == "__main__":

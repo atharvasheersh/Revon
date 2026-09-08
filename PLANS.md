@@ -1,4 +1,4 @@
-# Chronos — Roadmap Beyond This Review
+# Revon — Roadmap Beyond This Review
 
 ## Already deferred
 - Branching (named pointer to a version) — near-free given the architecture, low risk

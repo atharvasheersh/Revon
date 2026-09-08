@@ -1,8 +1,8 @@
-# Chronos-H current model
+# Revon-H current model
 
 ## One-sentence definition
 
-Chronos-H is a content-addressed versioned key-value store whose state is held
+Revon-H is a content-addressed versioned key-value store whose state is held
 in a persistent fixed-depth Merkle hash trie and whose version diff adaptively
 uses either recorded operations or hash-pruned tree comparison.
 
@@ -89,7 +89,7 @@ The model exposes:
 - Merkle node pairs compared and equal subtrees skipped;
 - leaf entries examined;
 - log operations examined; and
-- the strategy selected by Chronos-H.
+- the strategy selected by Revon-H.
 
 Exact structural sharing traverses both roots and is diagnostic only. It is not
 included inside timed incremental commits.
@@ -97,7 +97,7 @@ included inside timed incremental commits.
 ## Persistence boundary
 
 The deterministic model can run directly in memory for algorithm experiments.
-`SQLiteChronosRepository` persists the same nodes, changesets, commits, metrics,
+`SQLiteRevonRepository` persists the same nodes, changesets, commits, metrics,
 versions, and `HEAD` reference without changing trie or diff semantics. Each
 version is one SQLite transaction, and reopening verifies canonical payloads,
 content hashes, object references, version continuity, and the parent chain.

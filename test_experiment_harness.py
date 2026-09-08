@@ -47,7 +47,7 @@ class HarnessTests(unittest.TestCase):
         shutil.rmtree(self.root, ignore_errors=True)
 
     def test_all_python_adapters_match_same_oracle(self) -> None:
-        for model in ("snapshot", "log", "chronos-m", "chronos-h"):
+        for model in ("snapshot", "log", "revon-m", "revon-h"):
             with self.subTest(model=model):
                 record = run_trial(
                     run_id="test",
@@ -91,7 +91,7 @@ class HarnessTests(unittest.TestCase):
             warmups=0,
             trials=1,
             seed=123,
-            models=("snapshot", "log", "chronos-m", "chronos-h"),
+            models=("snapshot", "log", "revon-m", "revon-h"),
         )
 
         self.assertGreaterEqual(threshold, 0)

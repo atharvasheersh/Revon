@@ -1,5 +1,5 @@
-import ChronosWorkspace from "./ChronosWorkspace";
+import RevonWorkspace from "./RevonWorkspace";
 
 export default function Home() {
-  return <ChronosWorkspace />;
+  return <RevonWorkspace />;
 }

@@ -9,8 +9,8 @@ Evidence bundle: `evidence/trie-sensitivity-20260824/`
 Does the current `branching_factor=8`, `tree_depth=4` configuration provide a
 reasonable balance, or is it universally optimal?
 
-The experiment is an ablation of the Chronos fixed-depth Merkle trie. It does
-not compare Chronos with Dolt and does not change the final comparison bundle.
+The experiment is an ablation of the Revon fixed-depth Merkle trie. It does
+not compare Revon with Dolt and does not change the final comparison bundle.
 
 ## Controlled design
 
@@ -20,7 +20,7 @@ not compare Chronos with Dolt and does not change the final comparison bundle.
 - Seed: 20260824
 - Repetitions: 2 warmups and 7 measured trials
 - Diff strategy: forced Merkle
-- Durability: `SQLiteChronosRepository`
+- Durability: `SQLiteRevonRepository`
 - Correctness: exact initial checkout, final checkout, and changed-key oracle
 - Workload identity: one SHA-256 digest reused by all 45 trials
 - Reporting: median, p25, and p75; warmups excluded

@@ -4,7 +4,7 @@ Date: 2026-08-23
 
 ## Summary
 
-Created the first paper-ready Chronos draft in editable DOCX and matching PDF
+Created the first paper-ready Revon draft in editable DOCX and matching PDF
 formats. The draft completes the architecture, methodology, and initial
 literature-review matrix while keeping final empirical claims gated on the
 paper-profile experiment.
@@ -17,7 +17,7 @@ paper-profile experiment.
 - Added a primary-source literature review covering Merkle trees, Git, Dolt,
   DataHub, Decibel, OrpheusDB, dataset-version storage trade-offs, Noms, and
   ForkBase.
-- Specified the Snapshot, Log-only, Chronos-M, Chronos-H, and Dolt variants,
+- Specified the Snapshot, Log-only, Revon-M, Revon-H, and Dolt variants,
   deterministic workloads, calibration/evaluation split, metric contracts,
   repetition protocol, fairness controls, and analysis plan.
 - Generated the preliminary result table and chart programmatically from
@@ -30,8 +30,8 @@ paper-profile experiment.
 
 ## Generated artifacts
 
-- `output/docs/Chronos_Research_Paper_Working_Draft.docx`
-- `output/pdf/Chronos_Research_Paper_Working_Draft.pdf`
+- `output/docs/Revon_Research_Paper_Working_Draft.docx`
+- `output/pdf/Revon_Research_Paper_Working_Draft.pdf`
 
 The reproducible generator is `tools/build_research_paper.py`.
 

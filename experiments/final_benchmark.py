@@ -1,4 +1,4 @@
-"""Run the final Snapshot / Log-only / Chronos / Dolt experiment matrix.
+"""Run the final Snapshot / Log-only / Revon / Dolt experiment matrix.
 
 Use ``python -m experiments.final_benchmark --profile smoke`` for a quick
 validation and ``--profile paper`` for the full measurement matrix.
@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 from .adapters import (
-    ChronosAdapter,
+    RevonAdapter,
     DoltAdapter,
     DoltUnavailableError,
     LogOnlyAdapter,
@@ -31,7 +31,7 @@ from .adapters import (
 from .workloads import Workload, WorkloadSpec, build_workload, profile_specs
 
 
-MODEL_KEYS = ("snapshot", "log", "chronos-m", "chronos-h", "dolt")
+MODEL_KEYS = ("snapshot", "log", "revon-m", "revon-h", "dolt")
 
 
 @dataclass
@@ -155,12 +155,12 @@ def _adapter_factory(model_key: str, path: Path, threshold: int) -> Any:
         return SnapshotAdapter(path)
     if model_key == "log":
         return LogOnlyAdapter(path)
-    if model_key == "chronos-m":
-        return ChronosAdapter(path, strategy="merkle", hybrid_threshold=threshold)
-    if model_key == "chronos-h":
-        return ChronosAdapter(path, strategy="hybrid", hybrid_threshold=threshold)
-    if model_key == "chronos-log":
-        return ChronosAdapter(path, strategy="log", hybrid_threshold=threshold)
+    if model_key == "revon-m":
+        return RevonAdapter(path, strategy="merkle", hybrid_threshold=threshold)
+    if model_key == "revon-h":
+        return RevonAdapter(path, strategy="hybrid", hybrid_threshold=threshold)
+    if model_key == "revon-log":
+        return RevonAdapter(path, strategy="log", hybrid_threshold=threshold)
     if model_key == "dolt":
         return DoltAdapter(path)
     raise ValueError(f"unknown model: {model_key}")
@@ -180,14 +180,14 @@ def run_trial(
     model_display = {
         "snapshot": "Snapshot",
         "log": "Log-only",
-        "chronos-m": "Chronos-M (forced Merkle)",
-        "chronos-h": "Chronos-H",
-        "chronos-log": "Chronos-log calibration",
+        "revon-m": "Revon-M (forced Merkle)",
+        "revon-h": "Revon-H",
+        "revon-log": "Revon-log calibration",
         "dolt": "Dolt",
     }[model_key]
     scratch = (scratch_root or Path("tmp") / "experiment-work").resolve()
     scratch.mkdir(parents=True, exist_ok=True)
-    trial_path = scratch / f"chronos-{model_key}-{uuid.uuid4().hex}"
+    trial_path = scratch / f"revon-{model_key}-{uuid.uuid4().hex}"
     trial_path.mkdir()
     adapter: Any = None
     try:
@@ -422,7 +422,7 @@ def execute(
     run_id = uuid.uuid4().hex
     records: list[TrialRecord] = []
 
-    calibration_models = ("chronos-log", "chronos-m")
+    calibration_models = ("revon-log", "revon-m")
     for spec in profile_specs(profile, seed, phase="calibration"):
         workload = build_workload(spec)
         for model_key in calibration_models:
@@ -445,7 +445,7 @@ def execute(
                         )
                     )
     threshold = calibrate_threshold(records)
-    print(f"Calibrated Chronos-H log threshold: {threshold} operations")
+    print(f"Calibrated Revon-H log threshold: {threshold} operations")
 
     for spec in profile_specs(profile, seed + 10_000, phase="evaluation"):
         workload = build_workload(spec)
@@ -546,7 +546,7 @@ def main() -> int:
     print(f"Raw results: {args.output_dir / 'raw_results.csv'}")
     print(f"Summary:     {args.output_dir / 'summary.csv'}")
     print(f"Manifest:    {args.output_dir / 'manifest.json'}")
-    print(f"Chronos-H threshold: {threshold} operations")
+    print(f"Revon-H threshold: {threshold} operations")
     if unavailable:
         print("Dolt rows were marked unavailable because the dolt executable is not on PATH.")
     if errors:

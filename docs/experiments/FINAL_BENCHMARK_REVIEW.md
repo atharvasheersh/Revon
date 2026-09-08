@@ -30,7 +30,7 @@ python -m experiments.evidence_audit evidence/paper-final-20260824
 | Dolt version is recorded | Pass | Every Dolt row records `dolt version 2.3.1`. |
 | No unavailable or failed trials | Pass | Status distribution is exactly `ok: 333`. |
 | Raw CSV, summary CSV, and manifest agree | Pass | Trial matrix, run ID, platform, workload metadata, digests, summary medians, p25, and p75 were independently recomputed. |
-| Chronos-H selection behaves correctly | Pass | The selector follows the inclusive 4,096-operation threshold in every raw row. |
+| Revon-H selection behaves correctly | Pass | The selector follows the inclusive 4,096-operation threshold in every raw row. |
 | Outliers investigated, not deleted | Pass | All candidates remain in `raw_results.csv` and therefore in the seven-trial medians and quartiles. |
 
 ## Bundle reconciliation
@@ -41,8 +41,8 @@ python -m experiments.evidence_audit evidence/paper-final-20260824
 - Measured trials: 7 per configuration
 - Raw rows: 333
 - Summary rows: 37
-- Models: Snapshot, Log-only, Chronos-M, Chronos-H, and Dolt
-- Calibration models: Chronos log and forced Merkle
+- Models: Snapshot, Log-only, Revon-M, Revon-H, and Dolt
+- Calibration models: Revon log and forced Merkle
 - Workload integrity: every scenario was regenerated from its manifest seed;
   all workload SHA-256 values and expected changed-key counts matched.
 - Environment integrity: raw Python version and platform fields agree with the
@@ -56,9 +56,9 @@ evaluation:  5 scenarios x 5 models x (2 warmups + 7 measured) = 225
 total:                                                        = 333
 ```
 
-## Chronos-H strategy review
+## Revon-H strategy review
 
-The calibrated threshold is 4,096 operations. Chronos-H uses the log when the
+The calibrated threshold is 4,096 operations. Revon-H uses the log when the
 number of operations on the ancestor path is at or below the threshold and
 uses Merkle comparison above it.
 
@@ -93,7 +93,7 @@ Four timing values were at least twice their group median:
 
 | Scenario / model / trial | Metric | Value | Median multiple | Investigation |
 | --- | --- | ---: | ---: | --- |
-| small-sparse / Chronos-M / 7 | checkout | 4.417 ms | 3.20x | Diff was also elevated (1.98x), while correctness and node work were unchanged. |
+| small-sparse / Revon-M / 7 | checkout | 4.417 ms | 3.20x | Diff was also elevated (1.98x), while correctness and node work were unchanged. |
 | small-sparse / Dolt / 2 | diff | 493.972 ms | 2.62x | Import, commit, and checkout were also elevated, indicating a whole-trial CLI/runtime slowdown. |
 | small-sparse / Log-only / 6 | checkout | 5.358 ms | 2.44x | Diff was simultaneously elevated; correctness and operation count were unchanged. |
 | small-sparse / Log-only / 6 | diff | 2.472 ms | 2.09x | Same transient late-operation slowdown as the checkout value. |
@@ -106,8 +106,8 @@ report medians and interquartile ranges rather than selecting faster trials.
 
 ## Interpretation boundary
 
-This audit establishes evidence integrity, not that Chronos wins every metric.
-The paper should report where Chronos-H wins, loses, or trades latency for
+This audit establishes evidence integrity, not that Revon wins every metric.
+The paper should report where Revon-H wins, loses, or trades latency for
 storage. Dolt's broader SQL and production feature set also remains part of
 the comparison context. Dolt peak memory is blank in this bundle because a
 directly comparable memory method was not available; it must not be fabricated

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   ),
-  title: "Chronos - Structured Data Versioning",
+  title: "Revon - Structured Data Versioning",
   description:
     "Content-addressed metrics for versioned structured data.",
   icons: {
@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg",
   },
   openGraph: {
-    title: "Chronos - Structured Data Versioning",
+    title: "Revon - Structured Data Versioning",
     description: "Content-addressed metrics for versioned data.",
     type: "website",
-    images: [{ url: "/og.png", width: 1536, height: 1024, alt: "Chronos content-addressed versioning metrics" }],
+    images: [{ url: "/og.png", width: 1536, height: 1024, alt: "Revon content-addressed versioning metrics" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chronos - Structured Data Versioning",
+    title: "Revon - Structured Data Versioning",
     description: "Content-addressed metrics for versioned data.",
     images: ["/og.png"],
   },

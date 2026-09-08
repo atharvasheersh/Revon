@@ -1,13 +1,13 @@
-# Chronos backend API
+# Revon backend API
 
 The backend is a dependency-free REST/JSON layer over
-`SQLiteChronosRepository`. It is intended for the local Chronos frontend and
+`SQLiteRevonRepository`. It is intended for the local Revon frontend and
 binds to `127.0.0.1` by default.
 
 ## Start the server
 
 ```powershell
-python -m chronos_api
+python -m revon_api
 ```
 
 Default locations:
@@ -15,12 +15,12 @@ Default locations:
 - API: `http://127.0.0.1:8000`
 - health check: `GET /api/health`
 - OpenAPI index: `GET /api/openapi.json`
-- repositories: `data/repositories/*.chronos.db`
+- repositories: `data/repositories/*.revon.db`
 
 Select another port or repository directory when needed:
 
 ```powershell
-python -m chronos_api --port 8080 --repository-root data/local-repositories
+python -m revon_api --port 8080 --repository-root data/local-repositories
 ```
 
 The default CORS allowlist covers frontend development servers on ports 3000

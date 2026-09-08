@@ -1,4 +1,4 @@
-# Chronos — Benchmark Results After Incremental put()/delete()
+# Revon — Benchmark Results After Incremental put()/delete()
 
 Raw numbers, no interpretation beyond what the measurements support.
 

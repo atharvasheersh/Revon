@@ -1,4 +1,4 @@
-"""Commit CSV snapshots to Chronos and attach SQL text as commit history.
+"""Commit CSV snapshots to Revon and attach SQL text as commit history.
 
 Interactive usage:
 
@@ -22,7 +22,7 @@ from versioned_db import VersionedDatabase
 
 
 class CSVSnapshotSession:
-    """One in-memory Chronos session containing CSV snapshots and metadata."""
+    """One in-memory Revon session containing CSV snapshots and metadata."""
 
     def __init__(self, database: Optional[VersionedDatabase] = None) -> None:
         self.db = database or VersionedDatabase()
@@ -262,7 +262,7 @@ def show_diff(left_version: int, right_version: int) -> list[str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Commit and compare before/after CSV snapshots with Chronos."
+        description="Commit and compare before/after CSV snapshots with Revon."
     )
     parser.add_argument("before_csv", nargs="?")
     parser.add_argument("after_csv", nargs="?")

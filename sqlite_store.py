@@ -1,4 +1,4 @@
-"""Durable SQLite repository for the Chronos-H in-memory model.
+"""Durable SQLite repository for the Revon-H in-memory model.
 
 SQLite supplies atomic persistence only. Trie routing, content addressing,
 version identity, and diff behavior remain defined by ``VersionedDatabase``.
@@ -27,7 +27,7 @@ from versioned_db import (
 SCHEMA_VERSION = "1"
 
 
-class ChronosIntegrityError(RuntimeError):
+class RevonIntegrityError(RuntimeError):
     """Stored hashes, references, or canonical payloads are inconsistent."""
 
 
@@ -41,8 +41,8 @@ class IntegrityReport:
     head_hash: Optional[str]
 
 
-class SQLiteChronosRepository:
-    """A single-file durable Chronos repository.
+class SQLiteRevonRepository:
+    """A single-file durable Revon repository.
 
     Use ``create`` for a new file and ``open`` for an existing one. Each model
     write is persisted as one ``BEGIN IMMEDIATE`` SQLite transaction containing
@@ -62,10 +62,10 @@ class SQLiteChronosRepository:
         branching_factor: int = 8,
         tree_depth: int = 4,
         hybrid_log_threshold: int = 128,
-    ) -> "SQLiteChronosRepository":
+    ) -> "SQLiteRevonRepository":
         target = Path(path).resolve()
         if target.exists():
-            raise FileExistsError(f"Chronos repository already exists: {target}")
+            raise FileExistsError(f"Revon repository already exists: {target}")
         target.parent.mkdir(parents=True, exist_ok=True)
         connection = cls._connect(target)
         repository = cls(target, connection)
@@ -90,10 +90,10 @@ class SQLiteChronosRepository:
         path: str | Path,
         *,
         verify: bool = True,
-    ) -> "SQLiteChronosRepository":
+    ) -> "SQLiteRevonRepository":
         target = Path(path).resolve()
         if not target.is_file():
-            raise FileNotFoundError(f"Chronos repository not found: {target}")
+            raise FileNotFoundError(f"Revon repository not found: {target}")
         connection = cls._connect(target)
         repository = cls(target, connection)
         try:
@@ -164,8 +164,8 @@ class SQLiteChronosRepository:
         required = {"metadata", "objects", "versions", "commit_stats", "refs"}
         missing = required - tables
         if missing:
-            raise ChronosIntegrityError(
-                f"not a Chronos repository; missing tables: {sorted(missing)}"
+            raise RevonIntegrityError(
+                f"not a Revon repository; missing tables: {sorted(missing)}"
             )
 
     def _write_configuration(self) -> None:
@@ -199,11 +199,11 @@ class SQLiteChronosRepository:
         }
         missing = required - set(values)
         if missing:
-            raise ChronosIntegrityError(
+            raise RevonIntegrityError(
                 f"repository metadata is incomplete: {sorted(missing)}"
             )
         if values["schema_version"] != SCHEMA_VERSION:
-            raise ChronosIntegrityError(
+            raise RevonIntegrityError(
                 "unsupported schema version: " + values["schema_version"]
             )
         return values
@@ -213,7 +213,7 @@ class SQLiteChronosRepository:
         try:
             return json.loads(payload.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-            raise ChronosIntegrityError(
+            raise RevonIntegrityError(
                 f"object {object_hash} is not canonical JSON"
             ) from exc
 
@@ -271,7 +271,7 @@ class SQLiteChronosRepository:
                 payload = database.commit_store[commit_hash]
                 stats = stats_by_version[version]
             except KeyError as exc:
-                raise ChronosIntegrityError(
+                raise RevonIntegrityError(
                     f"version {version} references missing commit data"
                 ) from exc
             parent_hash = payload["parent"]
@@ -319,7 +319,7 @@ class SQLiteChronosRepository:
             "SELECT kind, payload FROM objects WHERE hash = ?", (object_hash,)
         ).fetchone()
         if row is None or row["kind"] != kind or bytes(row["payload"]) != payload:
-            raise ChronosIntegrityError(
+            raise RevonIntegrityError(
                 f"content-address collision or inconsistent object: {object_hash}"
             )
 
@@ -435,7 +435,7 @@ class SQLiteChronosRepository:
     def verify_integrity(self) -> IntegrityReport:
         sqlite_check = self._connection.execute("PRAGMA integrity_check").fetchone()[0]
         if sqlite_check != "ok":
-            raise ChronosIntegrityError(
+            raise RevonIntegrityError(
                 f"SQLite integrity check failed: {sqlite_check}"
             )
         rows = list(
@@ -452,7 +452,7 @@ class SQLiteChronosRepository:
             payload = bytes(row["payload"])
             value = self._decode(payload, object_hash)
             if payload != self._db._canonical_bytes(value):
-                raise ChronosIntegrityError(
+                raise RevonIntegrityError(
                     f"object {object_hash} is not canonically encoded"
                 )
             if kind == "node":
@@ -460,7 +460,7 @@ class SQLiteChronosRepository:
             else:
                 calculated = self._db._content_hash(kind, value)
             if calculated != object_hash:
-                raise ChronosIntegrityError(
+                raise RevonIntegrityError(
                     f"hash mismatch for {kind} object {object_hash}"
                 )
             kinds[object_hash] = kind
@@ -474,11 +474,11 @@ class SQLiteChronosRepository:
                 if node_type == "internal":
                     for child_hash in value.get("children", {}).values():
                         if kinds.get(child_hash) != "node":
-                            raise ChronosIntegrityError(
+                            raise RevonIntegrityError(
                                 f"node {object_hash} references missing child {child_hash}"
                             )
                 elif node_type != "leaf":
-                    raise ChronosIntegrityError(
+                    raise RevonIntegrityError(
                         f"node {object_hash} has invalid type {node_type!r}"
                     )
             elif kind == "commit":
@@ -486,15 +486,15 @@ class SQLiteChronosRepository:
                 changeset_hash = value.get("changeset")
                 parent_hash = value.get("parent")
                 if kinds.get(root_hash) != "node":
-                    raise ChronosIntegrityError(
+                    raise RevonIntegrityError(
                         f"commit {object_hash} references missing root {root_hash}"
                     )
                 if kinds.get(changeset_hash) != "changeset":
-                    raise ChronosIntegrityError(
+                    raise RevonIntegrityError(
                         f"commit {object_hash} references missing changeset"
                     )
                 if parent_hash is not None and kinds.get(parent_hash) != "commit":
-                    raise ChronosIntegrityError(
+                    raise RevonIntegrityError(
                         f"commit {object_hash} references missing parent"
                     )
 
@@ -506,16 +506,16 @@ class SQLiteChronosRepository:
         expected_versions = list(range(1, len(version_rows) + 1))
         actual_versions = [row["version"] for row in version_rows]
         if actual_versions != expected_versions:
-            raise ChronosIntegrityError("version numbers are not contiguous")
+            raise RevonIntegrityError("version numbers are not contiguous")
         previous_hash: Optional[str] = None
         for row in version_rows:
             commit_hash = row["commit_hash"]
             if kinds.get(commit_hash) != "commit":
-                raise ChronosIntegrityError(
+                raise RevonIntegrityError(
                     f"version {row['version']} references a missing commit"
                 )
             if values[commit_hash].get("parent") != previous_hash:
-                raise ChronosIntegrityError(
+                raise RevonIntegrityError(
                     f"version {row['version']} has an invalid parent"
                 )
             previous_hash = commit_hash
@@ -524,7 +524,7 @@ class SQLiteChronosRepository:
             "SELECT COUNT(*) AS count FROM commit_stats"
         ).fetchone()["count"]
         if stats_count != len(version_rows):
-            raise ChronosIntegrityError("commit statistics are incomplete")
+            raise RevonIntegrityError("commit statistics are incomplete")
 
         head_row = self._connection.execute(
             "SELECT commit_hash FROM refs WHERE name = 'HEAD'"
@@ -532,7 +532,7 @@ class SQLiteChronosRepository:
         head_hash = head_row["commit_hash"] if head_row is not None else None
         expected_head = version_rows[-1]["commit_hash"] if version_rows else None
         if head_hash != expected_head:
-            raise ChronosIntegrityError("HEAD does not reference the latest version")
+            raise RevonIntegrityError("HEAD does not reference the latest version")
 
         return IntegrityReport(
             objects=len(rows),
@@ -600,7 +600,7 @@ class SQLiteChronosRepository:
     def close(self) -> None:
         self._connection.close()
 
-    def __enter__(self) -> "SQLiteChronosRepository":
+    def __enter__(self) -> "SQLiteRevonRepository":
         return self
 
     def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> None:

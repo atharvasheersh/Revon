@@ -1,13 +1,13 @@
-# Chronos final research paper
+# Revon final research paper
 
 Date: 2026-08-24
 
 ## Deliverables
 
-- `paper/Chronos_Final_Research_Paper.docx`
-- `paper/Chronos_Final_Research_Paper.pdf`
+- `paper/Revon_Final_Research_Paper.docx`
+- `paper/Revon_Final_Research_Paper.pdf`
 - Generator: `tools/build_final_research_paper.py`
-- Canonical repository: <https://github.com/atharvasheersh/Chronos>
+- Canonical repository: <https://github.com/atharvasheersh/Revon>
 
 Only the final paper artifacts are versioned in the repository. Earlier working
 drafts remain local preparation material and are excluded from Git. The final
@@ -43,7 +43,7 @@ The final structure is:
 
 1. Introduction
 2. Literature Review and Related Work
-3. Chronos Design
+3. Revon Design
 4. Experimental Methodology
 5. Results
 6. Discussion
@@ -75,22 +75,22 @@ Dolt 2.3.1 and the audited paper run ID
 
 ## Figures
 
-1. Chronos architecture and research-contribution boundary
+1. Revon architecture and research-contribution boundary
 2. Incremental commit and adaptive diff workflow
-3. Independent Chronos-H threshold calibration
+3. Independent Revon-H threshold calibration
 4. Final five-variant diff latency with interquartile whiskers
-5. Chronos-H versus Dolt commit and checkout latency
+5. Revon-H versus Dolt commit and checkout latency
 6. Fixed-trie branching-factor/depth sensitivity
 
 ## Claim boundaries
 
 - The paper reports the observed system-level CLI-facing results, not an
   isolated claim that fixed tries are intrinsically faster than Prolly Trees.
-- Chronos-H's latency advantages are presented with its higher storage cost,
+- Revon-H's latency advantages are presented with its higher storage cost,
   slower 100,000-row initial import, narrower feature set, and runtime/interface
   asymmetry.
-- Chronos-M remains an ablation; the primary comparison is Snapshot, Log-only,
-  Chronos-H, and Dolt.
+- Revon-M remains an ablation; the primary comparison is Snapshot, Log-only,
+  Revon-H, and Dolt.
 - Dolt and Python memory results are not placed on one comparative graph because
   their measurement methods are not equivalent.
 - The 4,096-operation threshold is described as a frozen sampled boundary, not
@@ -129,7 +129,7 @@ DOCX. Export the resulting DOCX to PDF using Microsoft Word or LibreOffice.
   figures, broken tables, or misplaced captions
 - Literature review: four explicit subsections plus an eleven-row comparison
   matrix covering content addressing, persistent structures, dataset
-  versioning, the system-design gap, and the implications for Chronos-H's
+  versioning, the system-design gap, and the implications for Revon-H's
   hypotheses and evaluation design
 - Bibliographic validation: corrected the Merkle Search Tree DOI, author names
   for the dataset-versioning and OrpheusDB papers, upgraded DataHub to its CIDR

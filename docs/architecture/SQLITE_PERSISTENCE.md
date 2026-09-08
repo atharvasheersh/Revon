@@ -2,7 +2,7 @@
 
 ## Role
 
-SQLite is Chronos's embedded durable object container. It does not perform trie
+SQLite is Revon's embedded durable object container. It does not perform trie
 routing, version differencing, or content-address calculation. Those remain in
 the deterministic `VersionedDatabase` model.
 
@@ -65,12 +65,12 @@ Opening a repository verifies:
 7. `HEAD` against the latest version.
 
 The test suite deliberately changes a stored root payload and verifies that
-reopening raises `ChronosIntegrityError`.
+reopening raises `RevonIntegrityError`.
 
 ## Reopen demonstration
 
 ```powershell
-python chronos_sqlite_demo.py --database chronos_demo.chronos.db --reset
+python revon_sqlite_demo.py --database revon_demo.revon.db --reset
 ```
 
 The writer imports and commits two generated CSV files, closes, then starts a

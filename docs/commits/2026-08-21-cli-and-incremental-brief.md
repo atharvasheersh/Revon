@@ -2,7 +2,7 @@
 
 - Date: 2026-08-21
 - Commit: `ef6ecaa`
-- Author: atharvasheersh / Chronos team
+- Author: atharvasheersh / Revon team
 - Scope: core, evaluation, and docs
 
 ## Objective
@@ -13,7 +13,7 @@ reviewer.
 
 ## Changes
 
-- Added `chronos_cli_demo.py` with deterministic mixed updates.
+- Added `revon_cli_demo.py` with deterministic mixed updates.
 - Verified that the incremental root equals a clean canonical rebuild.
 - Verified exact checkout of both versions.
 - Verified that Log, Merkle, and Hybrid modes return identical structured diffs.
@@ -27,11 +27,11 @@ reviewer.
 python -m unittest discover -v
 25 tests passed
 
-python chronos_cli_demo.py --show-changes
+python revon_cli_demo.py --show-changes
 PASS: 1,000 rows, 5 changes, 19 new nodes, 98.64% exact sharing,
 incremental root equals rebuild, all diff modes agree, both checkouts agree.
 
-python chronos_cli_demo.py --hybrid-threshold 2
+python revon_cli_demo.py --hybrid-threshold 2
 PASS: Hybrid selected Merkle and compared 87 node pairs.
 
 PDF validation

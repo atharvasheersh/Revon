@@ -9,14 +9,14 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional
 
-from chronos_api import APIError, ChronosService
-from chronos_api.server import build_server
+from revon_api import APIError, RevonService
+from revon_api.server import build_server
 
 
-class ChronosServiceValidationTests(unittest.TestCase):
+class RevonServiceValidationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.root = Path("tmp") / f"api-validation-{uuid.uuid4().hex}"
-        self.service = ChronosService(self.root)
+        self.service = RevonService(self.root)
 
     def tearDown(self) -> None:
         shutil.rmtree(self.root, ignore_errors=True)
@@ -41,10 +41,10 @@ class ChronosServiceValidationTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, "stale_base_version")
 
 
-class ChronosHTTPTests(unittest.TestCase):
+class RevonHTTPTests(unittest.TestCase):
     def setUp(self) -> None:
         self.root = Path("tmp") / f"api-http-{uuid.uuid4().hex}"
-        self.service = ChronosService(self.root)
+        self.service = RevonService(self.root)
         self.server = build_server(self.service, "127.0.0.1", 0)
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()

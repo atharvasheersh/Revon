@@ -22,7 +22,7 @@ from docx.text.run import Run
 ROOT = Path(__file__).resolve().parents[1]
 FINAL_DIR = ROOT / "evidence" / "paper-final-20260824"
 SENSITIVITY_DIR = ROOT / "evidence" / "trie-sensitivity-20260824"
-OUT_DOCX = ROOT / "paper" / "Chronos_Final_Research_Paper.docx"
+OUT_DOCX = ROOT / "paper" / "Revon_Final_Research_Paper.docx"
 ASSET_DIR = ROOT / "tmp" / "final_paper_assets"
 
 INK = "000000"
@@ -39,8 +39,8 @@ HYPERLINK_BLUE = "0000FF"
 COLORS = {
     "Snapshot": "4C78A8",
     "Log-only": "F58518",
-    "Chronos-M (forced Merkle)": "E45756",
-    "Chronos-H": "54A24B",
+    "Revon-M (forced Merkle)": "E45756",
+    "Revon-H": "54A24B",
     "Dolt": "B279A2",
 }
 SENSITIVITY_COLORS = {
@@ -50,7 +50,6 @@ SENSITIVITY_COLORS = {
     "b8-d5": "E45756",
     "b16-d3": "B279A2",
 }
-
 
 def column_widths_from_weights(weights, total_width_dxa):
     if not weights or any(weight <= 0 for weight in weights):
@@ -197,16 +196,16 @@ def make_architecture(path: Path):
     title = pil_font(36, bold=True)
     label = pil_font(36, bold=True)
     body = pil_font(32)
-    draw.text((55, 35), "Chronos-H architecture", font=title, fill=hex_color(INK))
+    draw.text((55, 35), "Revon-H architecture", font=title, fill=hex_color(INK))
     layers = [
         ((75, 150, 360, 315), "Frontend\nmetrics workspace", "F3EEF7", "B279A2"),
         ((440, 150, 725, 315), "REST API\nrepository operations", BLUE_LIGHT, BLUE),
-        ((805, 150, 1090, 315), "Chronos-H core\ncommit, checkout, diff", "EAF4EA", GREEN),
+        ((805, 150, 1090, 315), "Revon-H core\ncommit, checkout, diff", "EAF4EA", GREEN),
         ((1170, 150, 1455, 315), "SQLite object store\nobjects, commits, HEAD", "FFF4E6", AMBER),
     ]
     for box, text, fill, outline in layers:
         draw.rounded_rectangle(box, radius=16, fill=hex_color(fill), outline=hex_color(outline), width=4)
-        text_center(draw, box, text, label if "Chronos-H" in text else body)
+        text_center(draw, box, text, label if "Revon-H" in text else body)
     for left, right in zip(layers, layers[1:]):
         arrow(draw, (left[0][2] + 12, 232), (right[0][0] - 12, 232), BLUE)
 
@@ -283,7 +282,7 @@ def draw_log_axis(draw, left, right, top, bottom, ticks, minimum, maximum, label
 
 def make_diff_chart(path: Path, evaluation):
     scenarios = ["small-sparse", "medium-sparse", "medium-dense", "large-sparse", "large-hot"]
-    models = ["Snapshot", "Log-only", "Chronos-M (forced Merkle)", "Chronos-H", "Dolt"]
+    models = ["Snapshot", "Log-only", "Revon-M (forced Merkle)", "Revon-H", "Dolt"]
     image = Image.new("RGB", (1900, 1080), "white")
     draw = ImageDraw.Draw(image)
     draw.text((65, 25), "End-to-end version diff latency", font=pil_font(48, bold=True), fill=hex_color(INK))
@@ -318,7 +317,7 @@ def make_diff_chart(path: Path, evaluation):
 
     legend_y = 1000
     legend_x = 175
-    legend_labels = ["Snapshot", "Log-only", "Chronos-M", "Chronos-H", "Dolt"]
+    legend_labels = ["Snapshot", "Log-only", "Revon-M", "Revon-H", "Dolt"]
     for index, (model, label) in enumerate(zip(models, legend_labels)):
         x = legend_x + index * 320
         draw.rectangle((x, legend_y, x + 35, legend_y + 25), fill=hex_color(COLORS[model]))
@@ -334,7 +333,7 @@ def make_operational_chart(path: Path, evaluation):
     ]
     image = Image.new("RGB", (1900, 980), "white")
     draw = ImageDraw.Draw(image)
-    draw.text((65, 25), "Chronos-H and Dolt operational latency", font=pil_font(48, bold=True), fill=hex_color(INK))
+    draw.text((65, 25), "Revon-H and Dolt operational latency", font=pil_font(48, bold=True), fill=hex_color(INK))
     draw.text((65, 86), "Median with 25th-75th percentile whiskers; CLI-facing system protocol", font=pil_font(36), fill=hex_color(MUTED))
     panel_width = 790
     panel_gap = 110
@@ -349,7 +348,7 @@ def make_operational_chart(path: Path, evaluation):
         group_width = panel_width / len(scenarios)
         for group_index, scenario in enumerate(scenarios):
             center = left + group_width * (group_index + 0.5)
-            for offset, model in [(-27, "Chronos-H"), (27, "Dolt")]:
+            for offset, model in [(-27, "Revon-H"), (27, "Dolt")]:
                 row = evaluation[(scenario, model)]
                 median = float(row[f"{metric}_ms_median"])
                 low = float(row[f"{metric}_ms_p25"])
@@ -365,8 +364,8 @@ def make_operational_chart(path: Path, evaluation):
             label = {"small-sparse": "S-S", "medium-sparse": "M-S", "medium-dense": "M-D", "large-sparse": "L-S", "large-hot": "L-H"}[scenario]
             bounds = draw.textbbox((0, 0), label, font=pil_font(34))
             draw.text((center - (bounds[2] - bounds[0]) / 2, bottom + 25), label, font=pil_font(34), fill=hex_color(INK))
-    draw.rectangle((700, 875, 740, 900), fill=hex_color(COLORS["Chronos-H"]))
-    draw.text((752, 865), "Chronos-H", font=pil_font(34), fill=hex_color(INK))
+    draw.rectangle((700, 875, 740, 900), fill=hex_color(COLORS["Revon-H"]))
+    draw.text((752, 865), "Revon-H", font=pil_font(34), fill=hex_color(INK))
     draw.rectangle((970, 875, 1010, 900), fill=hex_color(COLORS["Dolt"]))
     draw.text((1022, 865), "Dolt", font=pil_font(34), fill=hex_color(INK))
     draw.text((1200, 868), "S/M/L: size; S/D/H: locality", font=pil_font(30), fill=hex_color(MUTED))
@@ -379,12 +378,12 @@ def make_calibration_chart(path: Path, calibration):
         by_model.setdefault(row["model"], []).append(row)
     for rows in by_model.values():
         rows.sort(key=lambda row: float(row["work_examined_median"]))
-    log_rows = by_model["Chronos-log calibration"]
-    merkle_rows = by_model["Chronos-M (forced Merkle)"]
+    log_rows = by_model["Revon-log calibration"]
+    merkle_rows = by_model["Revon-M (forced Merkle)"]
     operations = [float(row["work_examined_median"]) for row in log_rows]
     image = Image.new("RGB", (1600, 900), "white")
     draw = ImageDraw.Draw(image)
-    draw.text((60, 30), "Independent Chronos-H threshold calibration", font=pil_font(37, bold=True), fill=hex_color(INK))
+    draw.text((60, 30), "Independent Revon-H threshold calibration", font=pil_font(37, bold=True), fill=hex_color(INK))
     draw.text((60, 82), "Calibration workloads are disjoint from final evaluation scenarios", font=pil_font(22), fill=hex_color(MUTED))
     left, right, top, bottom = 170, 1500, 180, 720
     minimum_y, maximum_y = 0.03, 100
@@ -782,10 +781,12 @@ def add_table(doc, headers, rows, weights, *, font_size=9, width_dxa=4270):
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT if index == 0 else WD_ALIGN_PARAGRAPH.CENTER
                 for run in paragraph.runs:
                     set_font(run, font_size)
+    for row in table.rows:
+        for cell in row.cells:
+            for paragraph in cell.paragraphs:
+                paragraph.paragraph_format.keep_with_next = True
     for cell in table.rows[-1].cells:
         set_cell_border(cell, edges=("bottom",), size="6")
-        for paragraph in cell.paragraphs:
-            paragraph.paragraph_format.keep_with_next = True
     widths = column_widths_from_weights(weights, width_dxa)
     apply_table_geometry(table, widths, table_width_dxa=width_dxa, indent_dxa=25)
     return table
@@ -882,9 +883,11 @@ def build():
 
     doc = Document()
     configure_document(doc)
-    doc.core_properties.title = "Chronos: A Content-Addressed Versioned Data Store"
+    doc.core_properties.title = "Revon: A Content-Addressed Versioned Data Store"
     doc.core_properties.subject = "Final research paper"
-    doc.core_properties.author = "Adhyan Jain; Atharva Sheersh Pandey"
+    doc.core_properties.author = (
+        "Adhyan Jain; Atharva Sheersh Pandey; Poornima Nedunchezhian"
+    )
     doc.core_properties.keywords = (
         "content-addressed storage, structured data versioning, Merkle trie, "
         "incremental hashing, adaptive diff, Dolt"
@@ -892,7 +895,7 @@ def build():
 
     title = doc.add_paragraph(style="Title")
     title.add_run(
-        "Chronos: A Content-Addressed Versioned Data Store: A Git-Inspired Approach to "
+        "Revon: A Content-Addressed Versioned Data Store: A Git-Inspired Approach to "
         "Structured Data Versioning Using Merkle Search Trees"
     )
     title_ppr = title._p.get_or_add_pPr()
@@ -904,62 +907,49 @@ def build():
     author.paragraph_format.first_line_indent = Inches(0)
     author.paragraph_format.space_after = Pt(0)
     run = author.add_run("[Adhyan Jain]")
-    set_font(run, 12)
+    set_font(run, 12, color=INK)
     marker = author.add_run("1")
-    set_font(marker, 8)
+    set_font(marker, 8, color=INK)
     marker.font.superscript = True
     run = author.add_run(", [Atharva Sheersh Pandey]")
-    set_font(run, 12)
+    set_font(run, 12, color=INK)
     marker = author.add_run("1")
-    set_font(marker, 8)
+    set_font(marker, 8, color=INK)
     marker.font.superscript = True
-    affiliation = doc.add_paragraph()
-    affiliation.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    affiliation.paragraph_format.first_line_indent = Inches(0)
-    affiliation.paragraph_format.space_after = Pt(0)
-    marker = affiliation.add_run("1")
-    set_font(marker, 8)
+    run = author.add_run(", [Poornima Nedunchezhian]")
+    set_font(run, 12, color=INK)
+    marker = author.add_run("2")
+    set_font(marker, 8, color=INK)
     marker.font.superscript = True
-    run = affiliation.add_run("Department of Computer Science and Engineering, VIT Vellore")
-    set_font(run, 11)
+
     contact = doc.add_paragraph()
     contact.alignment = WD_ALIGN_PARAGRAPH.CENTER
     contact.paragraph_format.first_line_indent = Inches(0)
     contact.paragraph_format.space_after = Pt(0)
     run = contact.add_run("adhyan.jain2024@vitstudent.ac.in")
-    set_font(run, 10.5, color=HYPERLINK_BLUE)
-    run.font.underline = True
-    run = contact.add_run(", atharva.sheersh2024@vitstudent.ac.in")
-    set_font(run, 10.5, color=HYPERLINK_BLUE)
-    run.font.underline = True
-    guide = doc.add_paragraph()
-    guide.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    guide.paragraph_format.first_line_indent = Inches(0)
-    guide.paragraph_format.space_after = Pt(0)
-    run = guide.add_run("Guide: Dr. Poornima N")
-    set_font(run, 11)
+    set_font(run, 10.5, color=INK)
+    run = contact.add_run("; atharva.sheersh2024@vitstudent.ac.in;")
+    set_font(run, 10.5, color=INK)
+
+    faculty_email = doc.add_paragraph()
+    faculty_email.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    faculty_email.paragraph_format.first_line_indent = Inches(0)
+    faculty_email.paragraph_format.space_after = Pt(0)
+    run = faculty_email.add_run("poornima.n@vit.ac.in")
+    set_font(run, 10.5, color=INK)
+
     faculty_school = doc.add_paragraph()
     faculty_school.alignment = WD_ALIGN_PARAGRAPH.CENTER
     faculty_school.paragraph_format.first_line_indent = Inches(0)
     faculty_school.paragraph_format.space_after = Pt(0)
     run = faculty_school.add_run("School of Computer Science and Engineering")
-    set_font(run, 11)
+    set_font(run, 11, color=INK)
     faculty_affiliation = doc.add_paragraph()
     faculty_affiliation.alignment = WD_ALIGN_PARAGRAPH.CENTER
     faculty_affiliation.paragraph_format.first_line_indent = Inches(0)
     faculty_affiliation.paragraph_format.space_after = Pt(0)
     run = faculty_affiliation.add_run("VIT Vellore")
-    set_font(run, 11)
-    faculty_email = doc.add_paragraph()
-    faculty_email.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    faculty_email.paragraph_format.first_line_indent = Inches(0)
-    faculty_email.paragraph_format.space_after = Pt(24)
-    add_external_hyperlink(
-        faculty_email,
-        "poornima.n@vit.ac.in",
-        "mailto:poornima.n@vit.ac.in",
-        color=INK,
-    )
+    set_font(run, 11, color=INK)
 
     add_two_column_section(doc)
 
@@ -979,15 +969,15 @@ def build():
     body = abstract.add_run(
         "Versioning structured datasets requires durable history, efficient sparse updates, "
         "historical reconstruction, and comparison without copying or scanning every record. "
-        "Chronos is a Python prototype built around an immutable fixed-depth Merkle hash trie. "
+        "Revon is a Python prototype built around an immutable fixed-depth Merkle hash trie. "
         "A commit rewrites only affected leaf buckets and the union of their ancestor paths; "
-        "unchanged subtrees are reused by content hash. Chronos-H adds addressed changesets and "
+        "unchanged subtrees are reused by content hash. Revon-H adds addressed changesets and "
         "selects between log aggregation and hash-pruned tree differencing using a separately "
-        "calibrated threshold. We evaluate Snapshot, Log-only, forced-Merkle Chronos-M, "
-        "Chronos-H, and Dolt 2.3.1 on identical deterministic workloads up to 100,000 rows. "
+        "calibrated threshold. We evaluate Snapshot, Log-only, forced-Merkle Revon-M, "
+        "Revon-H, and Dolt 2.3.1 on identical deterministic workloads up to 100,000 rows. "
         "The audited paper run contains 333 successful and correct trials. Under the CLI-facing "
-        "protocol, Chronos-H diff latency was 5.8x to 554.2x lower than Dolt and its incremental "
-        "commit latency was 2.3x to 37.4x lower, while Chronos-H consumed 1.83x to 6.43x more "
+        "protocol, Revon-H diff latency was 5.8x to 554.2x lower than Dolt and its incremental "
+        "commit latency was 2.3x to 37.4x lower, while Revon-H consumed 1.83x to 6.43x more "
         "repository storage. Against forced Merkle, the hybrid log path reduced median sparse or "
         "hot diff latency by 6.0x to 10.0x. A five-configuration sensitivity study shows that "
         "the current b=8, d=4 trie minimizes storage in the tested set, whereas b=8, d=3 favors "
@@ -1010,8 +1000,8 @@ def build():
     )
     add_body(
         doc,
-        "Chronos evaluates whether a deliberately simple fixed-depth Merkle hash trie can unite "
-        "incremental structural sharing with an operation index. Its primary variant, Chronos-H, "
+        "Revon evaluates whether a deliberately simple fixed-depth Merkle hash trie can unite "
+        "incremental structural sharing with an operation index. Its primary variant, Revon-H, "
         "uses the log path for short or sparse intervals and switches to the Merkle path when the "
         "accumulated operations cross a calibration boundary fixed before evaluation. SQLite "
         "provides atomic durable storage, but does not determine the versioning algorithm."
@@ -1019,7 +1009,7 @@ def build():
     add_body(
         doc,
         "Dolt is the production comparator because it combines SQL semantics, a Git-style commit "
-        "graph, and content-addressed Prolly Trees [8], [9]. Chronos is not presented as a feature "
+        "graph, and content-addressed Prolly Trees [8], [9]. Revon is not presented as a feature "
         "replacement for Dolt. The comparison instead identifies the performance and storage "
         "trade-offs of a smaller instrumentable mechanism under a reproducible CLI-facing protocol."
     )
@@ -1028,7 +1018,7 @@ def build():
     add_bullets(
         doc,
         [
-            "RQ1: What latency and storage trade-offs does Chronos-H exhibit against Snapshot, Log-only, and Dolt across dataset size, mutation density, and locality?",
+            "RQ1: What latency and storage trade-offs does Revon-H exhibit against Snapshot, Log-only, and Dolt across dataset size, mutation density, and locality?",
             "RQ2: Does adaptive log/Merkle selection improve diff latency relative to a forced-Merkle ablation without changing correctness?",
             "RQ3: How sensitive are fixed-trie latency, storage, and examined work to branching factor and depth?",
         ],
@@ -1053,7 +1043,7 @@ def build():
         "commit to a larger collection [13], while persistent-data-structure theory formalized "
         "path copying and bounded-overhead access to historical versions [10]. Git applies "
         "content-addressed blobs, trees, and commits to software history [7], and IPFS generalizes "
-        "content-addressed links into a versionable Merkle DAG [4]. Chronos adopts immutable object "
+        "content-addressed links into a versionable Merkle DAG [4]. Revon adopts immutable object "
         "identity and parent links, but routes structured keys by hash into a persistent trie rather "
         "than mirroring a filesystem hierarchy.",
         indent=False,
@@ -1061,7 +1051,7 @@ def build():
     add_body(
         doc,
         "Merkle Search Trees combine search-tree ordering with Merkle authentication for efficient "
-        "state reconciliation [3]. Chronos shares hash-pruned comparison but intentionally uses "
+        "state reconciliation [3]. Revon shares hash-pruned comparison but intentionally uses "
         "fixed-depth routing and a centralized commit history rather than a replicated CRDT. "
         "Content-defined chunking, established in LBFS for redundancy detection [14], also explains "
         "why history-independent boundaries are a credible storage improvement beyond the current "
@@ -1088,13 +1078,13 @@ def build():
         "semantics, and duplicate-content detection for forkable applications [15]. Dolt stores "
         "table indexes as content-addressed Prolly Trees: ordered, B-tree-like structures with "
         "history-independent chunk boundaries, structural sharing, and native diff [8], [9]. "
-        "Chronos differs by using fixed-depth hash routing and by exposing an explicit alternative "
+        "Revon differs by using fixed-depth hash routing and by exposing an explicit alternative "
         "operation-log path. This simplifies instrumentation, but gives up Dolt's ordered range "
         "behavior, SQL surface, mature branching, merging, and production engineering."
     )
     add_table(
         doc,
-        ["Prior work", "Core representation", "Relationship to Chronos"],
+        ["Prior work", "Core representation", "Relationship to Revon"],
         [
             ("Persistent DS [10]", "Path copying", "Formal structural-sharing basis"),
             ("Git [7]", "Object DAG", "Identity and commit ancestry; file-oriented"),
@@ -1111,7 +1101,7 @@ def build():
         [0.85, 1.2, 1.45],
         font_size=6.8,
     )
-    add_caption(doc, "Table 1: Literature-review matrix and the gap addressed by Chronos.")
+    add_caption(doc, "Table 1: Literature-review matrix and the gap addressed by Revon.")
 
     add_subsection(doc, "2.4  Design Implications and Research Positioning")
     add_body(
@@ -1136,7 +1126,7 @@ def build():
         "branches are opened. The observed cost then depends on trie shape, leaf occupancy, key "
         "distribution, and where updates land. The MST retains key order [3]. Noms and Dolt use "
         "content-defined boundaries to form history-independent Prolly Trees [2], [9], while "
-        "ForkBase reuses addressed content across objects, branches, and versions [15]. Chronos chooses fixed "
+        "ForkBase reuses addressed content across objects, branches, and versions [15]. Revon chooses fixed "
         "hash-derived routes. This choice removes ordered range access and adaptive boundaries, but "
         "gives the experiment a stable geometry whose depth and branching factor can be measured."
     )
@@ -1144,26 +1134,26 @@ def build():
         doc,
         "The gap addressed here is not a new content-addressed store, but a controlled study in "
         "which two correct diff algorithms share one durable history and are chosen from observable "
-        "properties of the requested interval. Every Chronos-H commit records both a Merkle root and an addressed changeset, so "
+        "properties of the requested interval. Every Revon-H commit records both a Merkle root and an addressed changeset, so "
         "changing the diff path does not change the meaning of a version. We expect log aggregation "
         "to suit short, sparse intervals and hash pruning to become preferable after many operations. "
         "We also expect b and d to change latency, examined work, and storage. Snapshot and Log-only provide "
-        "representation baselines; Chronos-M removes the selector; Chronos-H retains it; and Dolt "
+        "representation baselines; Revon-M removes the selector; Revon-H retains it; and Dolt "
         "provides a production reference point. This design tests the hybrid mechanism while keeping "
         "the system-level Dolt comparison separate from any claim about intrinsic tree superiority."
     )
 
-    add_section(doc, "3  Chronos Design")
+    add_section(doc, "3  Revon Design")
     add_picture(
         doc,
         architecture_path,
-        "Chronos layered architecture showing the frontend, REST API, Chronos-H core, SQLite object store, and the research contribution boundary.",
+        "Revon layered architecture showing the frontend, REST API, Revon-H core, SQLite object store, and the research contribution boundary.",
     )
-    add_caption(doc, "Figure 1: Chronos system architecture and the boundary of its research contribution.")
+    add_caption(doc, "Figure 1: Revon system architecture and the boundary of its research contribution.")
     add_subsection(doc, "3.1  Addressed Object Model")
     add_body(
         doc,
-        "Chronos serializes trie nodes and changesets as canonical JSON, then names each object with "
+        "Revon serializes trie nodes and changesets as canonical JSON, then names each object with "
         "its SHA-256 digest. The commit digest includes the root, parent, changeset, message, and "
         "timestamp. Labels such as v1 and v2 are only human-readable aliases; they do not determine "
         "object identity. The durable HEAD reference stores the current commit.",
@@ -1190,7 +1180,7 @@ def build():
     add_picture(
         doc,
         workflow_path,
-        "Incremental commit workflow followed by Chronos-H selection between addressed changeset aggregation and hash-pruned Merkle comparison.",
+        "Incremental commit workflow followed by Revon-H selection between addressed changeset aggregation and hash-pruned Merkle comparison.",
     )
     add_caption(doc, "Figure 2: Incremental commit path and adaptive diff decision.")
     add_subsection(doc, "3.4  Hybrid Diff")
@@ -1198,8 +1188,8 @@ def build():
         doc,
         "The log path walks the ancestor chain and aggregates key operations. The Merkle path "
         "recursively compares roots, prunes equal subtree hashes, and examines full leaf entries "
-        "only below unequal paths. Chronos-H counts accumulated ancestor operations and uses the "
-        "log at or below 4,096 operations; it uses Merkle above that boundary. Chronos-M forces "
+        "only below unequal paths. Revon-H counts accumulated ancestor operations and uses the "
+        "log at or below 4,096 operations; it uses Merkle above that boundary. Revon-M forces "
         "the Merkle path and therefore serves only as an ablation."
     )
 
@@ -1209,8 +1199,8 @@ def build():
         doc,
         "Five implementations receive identical logical states and mutation batches: a complete "
         "Snapshot per version, an initial state plus operation-log baseline, forced-Merkle "
-        "Chronos-M, adaptive Chronos-H, and Dolt 2.3.1 using a keyed SQL table and native diff. "
-        "Chronos-M is not a headline product variant; it isolates the selector.",
+        "Revon-M, adaptive Revon-H, and Dolt 2.3.1 using a keyed SQL table and native diff. "
+        "Revon-M is not a headline product variant; it isolates the selector.",
         indent=False,
     )
     add_table(
@@ -1266,7 +1256,7 @@ def build():
     add_picture(
         doc,
         diff_path,
-        "Log-scale grouped bar chart of final median diff latency with interquartile whiskers for Snapshot, Log-only, Chronos-M, Chronos-H, and Dolt across five workloads.",
+        "Log-scale grouped bar chart of final median diff latency with interquartile whiskers for Snapshot, Log-only, Revon-M, Revon-H, and Dolt across five workloads.",
         width=Inches(2.82),
     )
     add_caption(doc, "Figure 4: Final diff latency from the audited CSV bundle; lower is better.")
@@ -1278,7 +1268,7 @@ def build():
         ("large-sparse", "Large sparse"),
         ("large-hot", "Large hot"),
     ]:
-        h = evaluation[(scenario, "Chronos-H")]
+        h = evaluation[(scenario, "Revon-H")]
         d = evaluation[(scenario, "Dolt")]
         speedup = float(d["diff_ms_median"]) / float(h["diff_ms_median"])
         result_rows.append(
@@ -1297,10 +1287,10 @@ def build():
         [1.25, 0.7, 0.72, 0.85, 0.68],
         font_size=6.7,
     )
-    add_caption(doc, "Table 3: Chronos-H versus Dolt median diff latency.")
+    add_caption(doc, "Table 3: Revon-H versus Dolt median diff latency.")
     add_body(
         doc,
-        "Chronos-H selected log for the four sparse or hot workloads and Merkle for the 10,000-operation "
+        "Revon-H selected log for the four sparse or hot workloads and Merkle for the 10,000-operation "
         "medium-dense workload. Relative to Dolt, its median diff was 5.8x lower in medium-dense and "
         "58.7x to 554.2x lower in the other workloads. These ratios include repeated Dolt CLI and SQL "
         "invocation costs and therefore describe the evaluated system protocol, not isolated Prolly "
@@ -1309,9 +1299,9 @@ def build():
     add_subsection(doc, "5.2  Hybrid Ablation")
     add_body(
         doc,
-        "For log-selected workloads, Chronos-H reduced median diff latency relative to forced-Merkle "
-        "Chronos-M by 6.0x (small sparse), 8.7x (medium sparse), 8.8x (large sparse), and 10.0x "
-        "(large hot). In medium-dense, both used Merkle and Chronos-H was within 7.3% of the forced "
+        "For log-selected workloads, Revon-H reduced median diff latency relative to forced-Merkle "
+        "Revon-M by 6.0x (small sparse), 8.7x (medium sparse), 8.8x (large sparse), and 10.0x "
+        "(large hot). In medium-dense, both used Merkle and Revon-H was within 7.3% of the forced "
         "variant. This supports the selector's intended mechanism without claiming that its threshold "
         "is hardware-independent."
     )
@@ -1319,21 +1309,21 @@ def build():
     add_picture(
         doc,
         operational_path,
-        "Two-panel log-scale chart comparing Chronos-H and Dolt median incremental commit and historical checkout latency with interquartile whiskers.",
+        "Two-panel log-scale chart comparing Revon-H and Dolt median incremental commit and historical checkout latency with interquartile whiskers.",
     )
-    add_caption(doc, "Figure 5: Chronos-H and Dolt operational latency; lower is better.")
+    add_caption(doc, "Figure 5: Revon-H and Dolt operational latency; lower is better.")
     add_body(
         doc,
-        "Chronos-H incremental commit medians were 2.3x to 37.4x lower than Dolt, and checkout "
-        "medians were 35.8x to 123.4x lower. Initial import was mixed: Chronos-H was 4.9x faster "
+        "Revon-H incremental commit medians were 2.3x to 37.4x lower than Dolt, and checkout "
+        "medians were 35.8x to 123.4x lower. Initial import was mixed: Revon-H was 4.9x faster "
         "for small sparse and 1.14x faster for medium sparse, approximately tied for medium dense, "
         "and 2.73x to 2.79x slower at 100,000 rows. The latency advantage is therefore not uniform."
     )
     add_body(
         doc,
-        "Chronos-H paid a consistent storage cost. Its median repository footprint was 1.83x, "
+        "Revon-H paid a consistent storage cost. Its median repository footprint was 1.83x, "
         "3.16x, 2.19x, 4.10x, and 6.43x Dolt's for small sparse through large hot, respectively. "
-        "The 100,000-row Chronos repositories occupied about 34.4 MiB. This reflects inline values, "
+        "The 100,000-row Revon repositories occupied about 34.4 MiB. This reflects inline values, "
         "JSON object encoding, and the absence of compact chunk packing and garbage collection."
     )
     add_subsection(doc, "5.4  Trie-Parameter Sensitivity")
@@ -1356,7 +1346,7 @@ def build():
     add_section(doc, "6  Discussion")
     add_body(
         doc,
-        "The results answer RQ1 with a trade-off rather than a single winner. Chronos-H offered "
+        "The results answer RQ1 with a trade-off rather than a single winner. Revon-H offered "
         "low diff, commit, and checkout latency under the benchmark interface, but its import "
         "advantage disappeared at 100,000 rows and its repository was always larger than Dolt's. "
         "Snapshot and Log-only also remain relevant baselines: their simpler representations often "
@@ -1366,7 +1356,7 @@ def build():
     )
     add_body(
         doc,
-        "RQ2 is supported more directly. Because Chronos-H and Chronos-M share the same durable "
+        "RQ2 is supported more directly. Because Revon-H and Revon-M share the same durable "
         "trie, their sparse-workload diff gap isolates adaptive selection more cleanly than an "
         "absolute comparison with Dolt. The log path avoided thousands of trie comparisons when "
         "only 100 or 1,000 operations separated the endpoints; the dense case switched to Merkle."
@@ -1381,7 +1371,7 @@ def build():
     add_body(
         doc,
         "The Dolt ratios need a system-level interpretation. Dolt performs SQL parsing, schema "
-        "management, version-control operations, and production durability work that the Chronos "
+        "management, version-control operations, and production durability work that the Revon "
         "prototype does not. Dolt's Prolly Trees also serve ordered queries, branches, merges, and "
         "remote workflows. Our timings compare the declared interfaces used in the experiment. They "
         "do not isolate the tree algorithms and therefore cannot show that a fixed trie is inherently "
@@ -1392,8 +1382,8 @@ def build():
     add_bullets(
         doc,
         [
-            "Runtime and interface asymmetry: Chronos executes in-process in Python, whereas Dolt is a mature Go executable invoked repeatedly through CLI and SQL interfaces.",
-            "Feature asymmetry: Chronos supports one writer and a linear history, but not SQL, branches, merges, remotes, schema evolution, or production concurrency.",
+            "Runtime and interface asymmetry: Revon executes in-process in Python, whereas Dolt is a mature Go executable invoked repeatedly through CLI and SQL interfaces.",
+            "Feature asymmetry: Revon supports one writer and a linear history, but not SQL, branches, merges, remotes, schema evolution, or production concurrency.",
             "Synthetic scope: the deterministic key/value workloads reach 100,000 rows, but cannot represent every real schema, key skew, payload size, or history length.",
             "Single environment: all results were obtained on one Windows 11 machine, where cache state, scheduling, filesystem behavior, and antivirus activity can affect short measurements.",
             "Calibration boundary: 4,096 is the largest sampled operation count that favored the log; this does not establish a universal crossover.",
@@ -1422,7 +1412,7 @@ def build():
     )
     add_body(
         doc,
-        "To move beyond a linear prototype, Chronos still needs named branches, merge commits, "
+        "To move beyond a linear prototype, Revon still needs named branches, merge commits, "
         "conflict reporting, schema-aware records, concurrent readers and writers, and remote synchronization. "
         "Evaluation should add "
         "public structured datasets, one-million-row and longer-history workloads, Linux replication, "
@@ -1435,10 +1425,10 @@ def build():
     add_section(doc, "9  Conclusion")
     add_body(
         doc,
-        "Chronos demonstrates a complete content-addressed versioning path for structured key/value "
+        "Revon demonstrates a complete content-addressed versioning path for structured key/value "
         "data: canonical immutable objects, incremental copy-on-write Merkle trie updates, atomic "
         "SQLite persistence, historical checkout, and adaptive differencing. The audited 333-trial "
-        "comparison shows that Chronos-H can substantially reduce CLI-facing diff, commit, and "
+        "comparison shows that Revon-H can substantially reduce CLI-facing diff, commit, and "
         "checkout latency relative to Dolt 2.3.1, but it also exposes slower large imports, higher "
         "storage consumption, a narrower feature set, and runtime/interface asymmetry. The ablation "
         "supports hybrid log/Merkle selection, while the sensitivity experiment shows that trie "
@@ -1483,7 +1473,7 @@ def build():
         doc,
         "The repository contains the benchmark harness, evidence audit, trie-sensitivity harness, "
         "and paper generator. Source code, artifacts, and reproduction instructions are available "
-        "at https://github.com/atharvasheersh/Chronos. The final evidence bundle is "
+        "at https://github.com/atharvasheersh/Revon. The final evidence bundle is "
         "evidence/paper-final-20260824; "
         "the sensitivity bundle is evidence/trie-sensitivity-20260824. Results in this "
         "paper are generated programmatically from their summary CSV files and verified against "

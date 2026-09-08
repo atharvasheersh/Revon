@@ -11,7 +11,7 @@ from __future__ import annotations
 import statistics
 import time
 
-from benchmarks import build_workload, benchmark_chronos
+from benchmarks import build_workload, benchmark_revon
 from versioned_db import VersionedDatabase
 
 CHANGED_KEYS = ("key-00000001", "key-00050000", "key-00099999")
@@ -73,8 +73,8 @@ def commit_time_by_scale(
     rows_out: list[dict[str, float]] = []
     for rows in sizes:
         initial, batches = build_workload(rows, versions, changes)
-        before, _ = benchmark_chronos(initial, batches, 3, incremental=False)
-        after, _ = benchmark_chronos(initial, batches, 3, incremental=True)
+        before, _ = benchmark_revon(initial, batches, 3, incremental=False)
+        after, _ = benchmark_revon(initial, batches, 3, incremental=True)
         rows_out.append(
             {
                 "rows": rows,

@@ -1,4 +1,4 @@
-"""Chronos: a content-addressed, incrementally versioned key-value store.
+"""Revon: a content-addressed, incrementally versioned key-value store.
 
 The state index is a persistent fixed-depth Merkle hash trie. A batch update
 copies only the paths touched by changed keys; every unaffected subtree is
@@ -194,11 +194,11 @@ class VersionedDatabase:
 
     @classmethod
     def _content_hash(cls, kind: str, value: Any) -> str:
-        payload = b"chronos:" + kind.encode("ascii") + b":v1\x00"
+        payload = b"revon:" + kind.encode("ascii") + b":v1\x00"
         return hashlib.sha256(payload + cls._canonical_bytes(value)).hexdigest()
 
     def _node_hash(self, node: dict[str, Any]) -> str:
-        # Kept compatible with the prototype's existing trie root hashes.
+        # Trie node hashes remain stable across repository operations.
         return hashlib.sha256(self._canonical_bytes(node)).hexdigest()
 
     def _route(self, key: str) -> tuple[int, ...]:
@@ -724,7 +724,7 @@ class VersionedDatabase:
         right_version: int,
         strategy: str = "hybrid",
     ) -> list[DiffEntry]:
-        """Compare commits using forced Merkle, forced log, or Chronos-H mode."""
+        """Compare commits using forced Merkle, forced log, or Revon-H mode."""
         if left_version not in self.commits or right_version not in self.commits:
             raise KeyError("unknown commit version")
         if strategy not in {"hybrid", "log", "merkle"}:

@@ -4,7 +4,7 @@ Date: 2026-08-25
 
 ## Summary
 
-Updated the final Chronos manuscript using the explicit values in
+Updated the final Revon manuscript using the explicit values in
 `BERT_Paper_Formatting_Details.pdf` rather than relying only on visual
 estimation from the source paper.
 

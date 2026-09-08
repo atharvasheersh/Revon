@@ -5,17 +5,17 @@ from pathlib import Path
 
 
 TEST_DATABASE = (
-    Path(__file__).parent / "test_data" / "sqlite" / "cli-demo.chronos.db"
+    Path(__file__).parent / "test_data" / "sqlite" / "cli-demo.revon.db"
 )
 
 
-class ChronosSQLiteDemoTests(unittest.TestCase):
+class RevonSQLiteDemoTests(unittest.TestCase):
     def test_cli_closes_and_reopens_in_child_process(self) -> None:
         TEST_DATABASE.parent.mkdir(parents=True, exist_ok=True)
         process = subprocess.run(
             [
                 sys.executable,
-                "chronos_sqlite_demo.py",
+                "revon_sqlite_demo.py",
                 "--database",
                 str(TEST_DATABASE),
                 "--rows",

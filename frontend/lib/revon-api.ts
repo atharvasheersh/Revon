@@ -114,7 +114,7 @@ type RepositoryList = {
   count: number;
 };
 
-export class ChronosApi {
+export class RevonApi {
   constructor(readonly baseUrl: string) {}
 
   private async request<T>(path: string, init?: RequestInit): Promise<T> {

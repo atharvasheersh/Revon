@@ -1,4 +1,4 @@
-"""Create, close, and reopen a durable Chronos SQLite repository.
+"""Create, close, and reopen a durable Revon SQLite repository.
 
 The normal command imports two generated CSV states, closes the writer, and
 launches a separate Python process that reopens and verifies the repository.
@@ -16,12 +16,12 @@ from pathlib import Path
 from typing import Any
 
 from csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
-from sqlite_store import SQLiteChronosRepository
+from sqlite_store import SQLiteRevonRepository
 
 
 def inspect_repository(path: Path) -> dict[str, Any]:
     """Open and verify a repository; used by the child process."""
-    with SQLiteChronosRepository.open(path, verify=True) as repository:
+    with SQLiteRevonRepository.open(path, verify=True) as repository:
         if repository.head is None or repository.head < 2:
             raise RuntimeError("demo repository does not contain two versions")
         report = repository.verify_integrity()
@@ -58,7 +58,7 @@ def run_demo(database_path: Path, rows: int, reset: bool) -> dict[str, Any]:
     sample_dir = Path(__file__).parent / "test_data" / "sqlite-demo"
     before, after, sql = generate_sample_files(sample_dir, rows=rows)
 
-    with SQLiteChronosRepository.create(database_path) as repository:
+    with SQLiteRevonRepository.create(database_path) as repository:
         session = CSVSnapshotSession(repository)
         first = session.commit_csv(
             before,
@@ -113,7 +113,7 @@ def run_demo(database_path: Path, rows: int, reset: bool) -> dict[str, Any]:
 
 def print_report(result: dict[str, Any]) -> None:
     print()
-    print("Chronos SQLite persistence verification")
+    print("Revon SQLite persistence verification")
     print("=" * 48)
     print(f"Repository          {result['database']}")
     print(f"SQLite file         {result['file_bytes']:,} bytes")
@@ -134,7 +134,7 @@ def main() -> None:
     parser.add_argument(
         "--database",
         type=Path,
-        default=Path("chronos_demo.chronos.db"),
+        default=Path("revon_demo.revon.db"),
     )
     parser.add_argument("--rows", type=int, default=100)
     parser.add_argument("--reset", action="store_true")

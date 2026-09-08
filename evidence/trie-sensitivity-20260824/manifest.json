@@ -43,7 +43,7 @@
   ],
   "controlled_variables": {
     "diff_strategy": "forced Merkle",
-    "persistence": "SQLiteChronosRepository",
+    "persistence": "SQLiteRevonRepository",
     "state_and_mutations": "identical workload digest for every configuration and repetition",
     "summary": "warmups excluded; median, p25, and p75 over measured trials"
   },

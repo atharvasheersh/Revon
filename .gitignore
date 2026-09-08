@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
 # Local Python environments
 .venv/
@@ -18,11 +22,19 @@ venv/
 *.csv
 !evidence/**/*.csv
 
-# Local durable Chronos repositories
+# Local durable Revon repositories
 *.db
 *.db-journal
+*.db-shm
+*.db-wal
 *.sqlite
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
 *.sqlite3
+*.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
 
 # Test-generated fixtures (retain the directory itself)
 test_data/*
@@ -35,12 +47,12 @@ tmp*/
 /local_artifacts/
 
 # Local-only preparation and review material
-/Chronos_Current_Stage_Presentation_Guide.pdf
+/Revon_Current_Stage_Presentation_Guide.pdf
 /Paper Basics.pdf
 /Research Abstract Review 1.pdf
 /docs/commits/2026-08-25-supporting-submission-materials.md
 /docs/commits/2026-08-25-viva-question-bank.md
-/tools/build_chronos_viva_questions.py
+/tools/build_revon_viva_questions.py
 /tools/build_daily_summary_pdf.py
 /tools/build_research_paper.py
 
