@@ -890,7 +890,7 @@ def build():
     configure_document(doc)
     doc.core_properties.title = PAPER_TITLE
     doc.core_properties.subject = "Final research paper"
-    authors = "Adhyan Jain; Poornima Nedunchezhian; Atharva Sheersh Pandey"
+    authors = "Atharva Sheersh Pandey; Adhyan Jain; Poornima Nedunchezhian"
     document_timestamp = datetime.now(timezone.utc)
     doc.core_properties.author = authors
     doc.core_properties.last_modified_by = authors
@@ -912,7 +912,12 @@ def build():
     author.alignment = WD_ALIGN_PARAGRAPH.CENTER
     author.paragraph_format.first_line_indent = Inches(0)
     author.paragraph_format.space_after = Pt(0)
-    run = author.add_run("[Adhyan Jain]")
+    run = author.add_run("[Atharva Sheersh Pandey]")
+    set_font(run, 12, color=INK)
+    marker = author.add_run("1")
+    set_font(marker, 8, color=INK)
+    marker.font.superscript = True
+    run = author.add_run(", [Adhyan Jain]")
     set_font(run, 12, color=INK)
     marker = author.add_run("1")
     set_font(marker, 8, color=INK)
@@ -922,11 +927,6 @@ def build():
     marker = author.add_run("2")
     set_font(marker, 8, color=INK)
     marker.font.superscript = True
-    run = author.add_run(", [Atharva Sheersh Pandey]")
-    set_font(run, 12, color=INK)
-    marker = author.add_run("1")
-    set_font(marker, 8, color=INK)
-    marker.font.superscript = True
 
     contact = doc.add_paragraph()
     contact.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -934,8 +934,8 @@ def build():
     contact.paragraph_format.space_after = Pt(0)
     add_external_hyperlink(
         contact,
-        "adhyan.jain2024@vitstudent.ac.in",
-        "mailto:adhyan.jain2024@vitstudent.ac.in",
+        "atharva.sheersh2024@vitstudent.ac.in",
+        "mailto:atharva.sheersh2024@vitstudent.ac.in",
         size=10.5,
         color=INK,
         underline=False,
@@ -944,8 +944,8 @@ def build():
     set_font(run, 10.5, color=INK)
     add_external_hyperlink(
         contact,
-        "atharva.sheersh2024@vitstudent.ac.in",
-        "mailto:atharva.sheersh2024@vitstudent.ac.in",
+        "adhyan.jain2024@vitstudent.ac.in",
+        "mailto:adhyan.jain2024@vitstudent.ac.in",
         size=10.5,
         color=INK,
         underline=False,
