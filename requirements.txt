@@ -1,0 +1,5 @@
+# Pinned dependencies for paper and architecture-PDF generation.
+# Revon's core runtime and unit tests use only the Python standard library.
+Pillow==12.3.0
+python-docx==1.2.0
+reportlab==4.4.9

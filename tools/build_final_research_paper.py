@@ -4,6 +4,7 @@ import csv
 import json
 import math
 from copy import deepcopy
+from datetime import datetime, timezone
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -24,6 +25,10 @@ FINAL_DIR = ROOT / "evidence" / "paper-final-20260824"
 SENSITIVITY_DIR = ROOT / "evidence" / "trie-sensitivity-20260824"
 OUT_DOCX = ROOT / "paper" / "Revon_Final_Research_Paper.docx"
 ASSET_DIR = ROOT / "tmp" / "final_paper_assets"
+PAPER_TITLE = (
+    "Revon: A Content-Addressed Versioned Data Store: A Git-Inspired Approach to "
+    "Structured Data Versioning Using Merkle Hash Tries"
+)
 
 INK = "000000"
 MUTED = "52606D"
@@ -471,7 +476,7 @@ def set_font(run, size=None, *, bold=None, italic=None, name="Times New Roman", 
 
 
 def add_external_hyperlink(
-    paragraph, text, url, *, size=10.5, color=HYPERLINK_BLUE
+    paragraph, text, url, *, size=10.5, color=HYPERLINK_BLUE, underline=True
 ):
     """Add a visibly linked external URL while preserving the paper typography."""
     relationship_id = paragraph.part.relate_to(url, RT.HYPERLINK, is_external=True)
@@ -484,7 +489,7 @@ def add_external_hyperlink(
     run = Run(run_element, paragraph)
     run.text = text
     set_font(run, size, color=color)
-    run.font.underline = True
+    run.font.underline = underline
     return run
 
 
@@ -883,21 +888,22 @@ def build():
 
     doc = Document()
     configure_document(doc)
-    doc.core_properties.title = "Revon: A Content-Addressed Versioned Data Store"
+    doc.core_properties.title = PAPER_TITLE
     doc.core_properties.subject = "Final research paper"
-    doc.core_properties.author = (
-        "Adhyan Jain; Atharva Sheersh Pandey; Poornima Nedunchezhian"
-    )
+    authors = "Adhyan Jain; Poornima Nedunchezhian; Atharva Sheersh Pandey"
+    document_timestamp = datetime.now(timezone.utc)
+    doc.core_properties.author = authors
+    doc.core_properties.last_modified_by = authors
+    doc.core_properties.comments = ""
+    doc.core_properties.created = document_timestamp
+    doc.core_properties.modified = document_timestamp
     doc.core_properties.keywords = (
         "content-addressed storage, structured data versioning, Merkle trie, "
         "incremental hashing, adaptive diff, Dolt"
     )
 
     title = doc.add_paragraph(style="Title")
-    title.add_run(
-        "Revon: A Content-Addressed Versioned Data Store: A Git-Inspired Approach to "
-        "Structured Data Versioning Using Merkle Search Trees"
-    )
+    title.add_run(PAPER_TITLE)
     title_ppr = title._p.get_or_add_pPr()
     title_border = title_ppr.find(qn("w:pBdr"))
     if title_border is not None:
@@ -911,14 +917,14 @@ def build():
     marker = author.add_run("1")
     set_font(marker, 8, color=INK)
     marker.font.superscript = True
-    run = author.add_run(", [Atharva Sheersh Pandey]")
-    set_font(run, 12, color=INK)
-    marker = author.add_run("1")
-    set_font(marker, 8, color=INK)
-    marker.font.superscript = True
     run = author.add_run(", [Poornima Nedunchezhian]")
     set_font(run, 12, color=INK)
     marker = author.add_run("2")
+    set_font(marker, 8, color=INK)
+    marker.font.superscript = True
+    run = author.add_run(", [Atharva Sheersh Pandey]")
+    set_font(run, 12, color=INK)
+    marker = author.add_run("1")
     set_font(marker, 8, color=INK)
     marker.font.superscript = True
 
@@ -926,17 +932,39 @@ def build():
     contact.alignment = WD_ALIGN_PARAGRAPH.CENTER
     contact.paragraph_format.first_line_indent = Inches(0)
     contact.paragraph_format.space_after = Pt(0)
-    run = contact.add_run("adhyan.jain2024@vitstudent.ac.in")
+    add_external_hyperlink(
+        contact,
+        "adhyan.jain2024@vitstudent.ac.in",
+        "mailto:adhyan.jain2024@vitstudent.ac.in",
+        size=10.5,
+        color=INK,
+        underline=False,
+    )
+    run = contact.add_run("; ")
     set_font(run, 10.5, color=INK)
-    run = contact.add_run("; atharva.sheersh2024@vitstudent.ac.in;")
+    add_external_hyperlink(
+        contact,
+        "atharva.sheersh2024@vitstudent.ac.in",
+        "mailto:atharva.sheersh2024@vitstudent.ac.in",
+        size=10.5,
+        color=INK,
+        underline=False,
+    )
+    run = contact.add_run(";")
     set_font(run, 10.5, color=INK)
 
     faculty_email = doc.add_paragraph()
     faculty_email.alignment = WD_ALIGN_PARAGRAPH.CENTER
     faculty_email.paragraph_format.first_line_indent = Inches(0)
     faculty_email.paragraph_format.space_after = Pt(0)
-    run = faculty_email.add_run("poornima.n@vit.ac.in")
-    set_font(run, 10.5, color=INK)
+    add_external_hyperlink(
+        faculty_email,
+        "poornima.n@vit.ac.in",
+        "mailto:poornima.n@vit.ac.in",
+        size=10.5,
+        color=INK,
+        underline=False,
+    )
 
     faculty_school = doc.add_paragraph()
     faculty_school.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1469,16 +1497,25 @@ def build():
         add_bookmark(paragraph, bookmark, bookmark_id)
 
     add_section(doc, "Appendix A  Reproducibility and Data Availability")
-    add_body(
+    appendix = add_body(
         doc,
         "The repository contains the benchmark harness, evidence audit, trie-sensitivity harness, "
-        "and paper generator. Source code, artifacts, and reproduction instructions are available "
-        "at https://github.com/atharvasheersh/Revon. The final evidence bundle is "
-        "evidence/paper-final-20260824; "
+        "and paper generator. Source code, artifacts, and reproduction instructions are available at ",
+        indent=False,
+    )
+    add_external_hyperlink(
+        appendix,
+        "https://github.com/atharvasheersh/Revon",
+        "https://github.com/atharvasheersh/Revon",
+        size=11,
+        color=INK,
+        underline=False,
+    )
+    appendix.add_run(
+        ". The final evidence bundle is evidence/paper-final-20260824; "
         "the sensitivity bundle is evidence/trie-sensitivity-20260824. Results in this "
         "paper are generated programmatically from their summary CSV files and verified against "
-        "raw results and manifests; no table or graph uses an earlier validation export.",
-        indent=False,
+        "raw results and manifests; no table or graph uses an earlier validation export."
     )
 
     # A terminal continuous section balances the final two-column reference page.

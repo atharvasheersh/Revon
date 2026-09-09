@@ -1,9 +1,9 @@
 # Final Revon platform architecture
 
-Date: 2026-08-23
+Date: 2026-09-09
 
 Revon is a content-addressed, versioned data store for structured state. The
-final platform keeps the fixed-depth Merkle search trie and adds a durable
+final platform keeps the fixed-depth Merkle hash trie and adds a durable
 SQLite object store, operation changesets, adaptive Revon-H diff selection, a
 dependency-free local HTTP API, and a final React/Vinext frontend.
 
@@ -43,6 +43,8 @@ does not yet provide authentication, TLS, rate limiting, or multi-host locking.
 The correct final demonstration is two local processes: `python -m revon_api`
 and `npm run dev` from `frontend/`.
 
-The pre-rename visual companion remains archived as
-`docs/architecture/Revon_System_Architecture.pdf`; the current Revon diagram
-is embedded in the final paper.
+The current visual companions are `Revon_System_Architecture.pdf`,
+`Revon_Architecture_Explanation.pdf`, and
+`Revon_H_Incremental_Merkle_Trie_Brief.pdf`. They are generated from the
+current implementation model by `tools/build_architecture_pdfs.py`. The final
+paper also embeds a compact Revon architecture diagram.

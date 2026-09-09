@@ -6,6 +6,8 @@ batch commits copy and re-hash only the affected paths; unchanged subtrees are
 shared by their existing hashes. Revon-H adaptively chooses operation-log or
 hash-pruned Merkle differencing for version comparisons.
 
+Revon is licensed under the [Apache License 2.0](LICENSE).
+
 ## Paper and reproducibility
 
 - The final manuscript is available as
@@ -20,6 +22,25 @@ hash-pruned Merkle differencing for version comparisons.
 
 The `output/` directory is reserved for generated local runs and is ignored by
 Git. Personal presentation and review material is not part of the repository.
+
+## Rebuild publication artifacts
+
+Install the pinned document-generation dependencies:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+Then rebuild the editable paper and the three architecture PDFs:
+
+```powershell
+python tools/build_final_research_paper.py
+python tools/build_architecture_pdfs.py
+```
+
+Export `paper/Revon_Final_Research_Paper.docx` to PDF with Microsoft Word or
+LibreOffice. The core Revon runtime and test suite use only the Python standard
+library; the pinned packages are required only for publication artifacts.
 
 ## Run the demo
 
