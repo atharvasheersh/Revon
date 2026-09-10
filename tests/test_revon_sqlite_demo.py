@@ -16,7 +16,8 @@ class RevonSQLiteDemoTests(unittest.TestCase):
         process = subprocess.run(
             [
                 sys.executable,
-                str(PROJECT_ROOT / "revon_sqlite_demo.py"),
+                "-m",
+                "examples.revon_sqlite_demo",
                 "--database",
                 str(TEST_DATABASE),
                 "--rows",

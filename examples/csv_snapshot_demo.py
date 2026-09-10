@@ -2,7 +2,7 @@
 
 Interactive usage:
 
-    >>> from csv_snapshot_demo import commit, show_diff, commit_metadata
+    >>> from examples.csv_snapshot_demo import commit, show_diff, commit_metadata
     >>> v1 = commit("data/users_before.csv", table="users", primary_key="id")
     >>> v2 = commit("data/users_after.csv", table="users", primary_key="id",
     ...             sql_file="data/changes.sql")

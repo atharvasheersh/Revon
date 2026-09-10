@@ -30,11 +30,11 @@ the final research evaluation.
 python -m unittest discover -s tests -v
 25 tests passed
 
-python demo.py
+python -m examples.demo
 3 changed keys created 12 new nodes at depth 4; 99.2% of v2's reachable
 nodes were shared with v1; the hybrid selector examined 3 log operations.
 
-python benchmarks.py --sizes 1000,10000,100000 --versions 5 --changes 10 --diff-repeats 3
+python -m experiments.benchmarks --sizes 1000,10000,100000 --versions 5 --changes 10 --diff-repeats 3
 All three models returned the same 40 changed keys at every dataset size.
 At 100,000 rows, the observed median Revon-H incremental commit was 0.517 ms
 on this development run. This is a smoke result, not a paper result.

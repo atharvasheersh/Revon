@@ -2,7 +2,7 @@
 
 Raw numbers, no interpretation beyond what the measurements support.
 
-Reproduce with `python incremental_benchmark.py`.
+Reproduce with `python -m experiments.incremental_benchmark`.
 
 Configuration: `branching_factor=8`, `tree_depth=4` (unchanged — `_route()`,
 `_node_hash()`, and `_canonical_bytes()` were not modified, so these numbers are
@@ -40,7 +40,7 @@ That is the cost the incremental path removes.
 
 ## Headline result 2 — commit time by scale, before vs after
 
-5 versions, 10 mutations per version, from `benchmarks.py`'s workload.
+5 versions, 10 mutations per version, from `experiments.benchmarks`' workload.
 
 | Rows | Before (full rebuild, ms) | After (incremental, ms) | Speedup |
 |---:|---:|---:|---:|

@@ -70,7 +70,7 @@ reopening raises `RevonIntegrityError`.
 ## Reopen demonstration
 
 ```powershell
-python revon_sqlite_demo.py --database revon_demo.revon.db --reset
+python -m examples.revon_sqlite_demo --database revon_demo.revon.db --reset
 ```
 
 The writer imports and commits two generated CSV files, closes, then starts a

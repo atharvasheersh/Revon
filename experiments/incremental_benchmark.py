@@ -11,7 +11,7 @@ from __future__ import annotations
 import statistics
 import time
 
-from benchmarks import build_workload, benchmark_revon
+from experiments.benchmarks import build_workload, benchmark_revon
 from versioned_db import VersionedDatabase
 
 CHANGED_KEYS = ("key-00000001", "key-00050000", "key-00099999")

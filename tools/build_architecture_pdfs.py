@@ -393,7 +393,7 @@ def architecture_explanation_story() -> list:
         ),
         h2("Reproduce locally"),
         p(
-            "Run <font name='Courier'>python revon_sqlite_demo.py --database revon_demo.revon.db --reset</font> for the durable reopen flow, and <font name='Courier'>python -m unittest -v</font> for the complete automated test suite.",
+            "Run <font name='Courier'>python -m examples.revon_sqlite_demo --database revon_demo.revon.db --reset</font> for the durable reopen flow, and <font name='Courier'>python -m unittest discover -s tests -v</font> for the complete automated test suite.",
             "small",
         ),
     ]
@@ -471,8 +471,8 @@ def incremental_brief_story() -> list:
         ),
         h2("Run the verified flows"),
         p(
-            "<font name='Courier'>python revon_cli_demo.py --show-changes</font><br/>"
-            "<font name='Courier'>python revon_sqlite_demo.py --database revon_demo.revon.db --reset</font><br/>"
+            "<font name='Courier'>python -m examples.revon_cli_demo --show-changes</font><br/>"
+            "<font name='Courier'>python -m examples.revon_sqlite_demo --database revon_demo.revon.db --reset</font><br/>"
             "<font name='Courier'>python -m unittest -v</font>",
             "small",
         ),

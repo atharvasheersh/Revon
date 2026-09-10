@@ -1,8 +1,8 @@
 """Run a deterministic, self-checking Revon-H CLI demonstration.
 
 Examples:
-    python revon_cli_demo.py
-    python revon_cli_demo.py --rows 10000 --updates 10 --show-changes
+    python -m examples.revon_cli_demo
+    python -m examples.revon_cli_demo --rows 10000 --updates 10 --show-changes
 """
 
 from __future__ import annotations

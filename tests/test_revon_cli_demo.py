@@ -1,6 +1,6 @@
 import unittest
 
-from revon_cli_demo import run_demo
+from examples.revon_cli_demo import run_demo
 
 
 class RevonCLIDemoTests(unittest.TestCase):

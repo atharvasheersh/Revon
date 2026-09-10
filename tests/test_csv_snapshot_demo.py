@@ -3,7 +3,7 @@ import io
 import unittest
 from pathlib import Path
 
-from csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
+from examples.csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
 
 TEST_DATA = Path(__file__).parent / "test_data"
 

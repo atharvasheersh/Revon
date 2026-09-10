@@ -13,7 +13,7 @@ reviewer.
 
 ## Changes
 
-- Added `revon_cli_demo.py` with deterministic mixed updates.
+- Added `examples/revon_cli_demo.py` with deterministic mixed updates.
 - Verified that the incremental root equals a clean canonical rebuild.
 - Verified exact checkout of both versions.
 - Verified that Log, Merkle, and Hybrid modes return identical structured diffs.
@@ -27,11 +27,11 @@ reviewer.
 python -m unittest discover -s tests -v
 25 tests passed
 
-python revon_cli_demo.py --show-changes
+python -m examples.revon_cli_demo --show-changes
 PASS: 1,000 rows, 5 changes, 19 new nodes, 98.64% exact sharing,
 incremental root equals rebuild, all diff modes agree, both checkouts agree.
 
-python revon_cli_demo.py --hybrid-threshold 2
+python -m examples.revon_cli_demo --hybrid-threshold 2
 PASS: Hybrid selected Merkle and compared 87 node pairs.
 
 PDF validation

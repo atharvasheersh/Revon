@@ -1,6 +1,6 @@
 import unittest
 
-from benchmarks import build_workload, run_scenario
+from experiments.benchmarks import build_workload, run_scenario
 
 
 class BenchmarkTests(unittest.TestCase):

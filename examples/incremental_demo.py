@@ -1,6 +1,6 @@
 """Live demo: incremental put(), message-bearing commits, log(), checkout().
 
-    python incremental_demo.py
+    python -m examples.incremental_demo
 
 Commits a large CSV snapshot, edits a single row with put() without rebuilding
 the tree, then walks the commit graph and checks out the earlier version.
@@ -12,7 +12,7 @@ import contextlib
 import io
 import time
 
-from csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
+from examples.csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
 
 ROWS = 20_000
 EDIT_KEY = "users:500"

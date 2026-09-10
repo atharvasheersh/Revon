@@ -47,7 +47,7 @@ library; the pinned packages are required only for publication artifacts.
 Requires Python 3.10 or newer and no third-party packages.
 
 ```powershell
-python demo.py
+python -m examples.demo
 ```
 
 The output shows the root for each version, new/reused nodes, the sharing
@@ -57,7 +57,7 @@ For a self-checking CLI demonstration that also proves the incremental root is
 identical to a clean full rebuild:
 
 ```powershell
-python revon_cli_demo.py --show-changes
+python -m examples.revon_cli_demo --show-changes
 ```
 
 Use `--rows`, `--updates`, and `--hybrid-threshold` to change the workload and
@@ -68,7 +68,7 @@ observe when Revon-H selects Log or Merkle differencing.
 Run the complete persistence flow:
 
 ```powershell
-python revon_sqlite_demo.py --database revon_demo.revon.db --reset
+python -m examples.revon_sqlite_demo --database revon_demo.revon.db --reset
 ```
 
 The command generates two deterministic CSV states, imports them as versions,
@@ -109,7 +109,7 @@ boundary.
 ## Compare the three versioning models
 
 ```powershell
-python benchmarks.py
+python -m experiments.benchmarks
 ```
 
 This compares a full-snapshot state model, an operation-log model, and the
@@ -119,7 +119,7 @@ time, logical serialized storage, and how much work each diff examines.
 For a shorter sample run:
 
 ```powershell
-python benchmarks.py --sizes 1000,10000 --versions 5 --changes 10
+python -m experiments.benchmarks --sizes 1000,10000 --versions 5 --changes 10
 ```
 
 ## Run the final research comparison
@@ -176,18 +176,18 @@ selection are implemented.
 Generate 1,000 sample rows, matching SQL history, and an after-change export:
 
 ```powershell
-python csv_snapshot_demo.py --generate-sample
+python -m examples.csv_snapshot_demo --generate-sample
 ```
 
 Commit both snapshots and print roots, sharing statistics, changed rows, and
 changed columns:
 
 ```powershell
-python csv_snapshot_demo.py data/users_before.csv data/users_after.csv --table users --primary-key id --sql data/changes.sql
+python -m examples.csv_snapshot_demo data/users_before.csv data/users_after.csv --table users --primary-key id --sql data/changes.sql
 ```
 
 For an interactive Python session, import `commit` and `show_diff` from
-`csv_snapshot_demo`. Commit the before and after files separately, then call
+`examples.csv_snapshot_demo`. Commit the before and after files separately, then call
 `show_diff(v1, v2)` when you want to print the comparison. The SQL file is
 retained as commit metadata; the actual state diff comes from the two CSV
 snapshots.

@@ -15,8 +15,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
+from examples.csv_snapshot_demo import CSVSnapshotSession, generate_sample_files
 from sqlite_store import SQLiteRevonRepository
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 def inspect_repository(path: Path) -> dict[str, Any]:
@@ -55,7 +58,7 @@ def run_demo(database_path: Path, rows: int, reset: bool) -> dict[str, Any]:
     if journal_path.exists():
         journal_path.unlink()
 
-    sample_dir = Path(__file__).parent / "tests" / "test_data" / "sqlite-demo"
+    sample_dir = PROJECT_ROOT / "tests" / "test_data" / "sqlite-demo"
     before, after, sql = generate_sample_files(sample_dir, rows=rows)
 
     with SQLiteRevonRepository.create(database_path) as repository:
@@ -80,11 +83,12 @@ def run_demo(database_path: Path, rows: int, reset: bool) -> dict[str, Any]:
     process = subprocess.run(
         [
             sys.executable,
-            str(Path(__file__).resolve()),
+            "-m",
+            "examples.revon_sqlite_demo",
             "--inspect",
             str(database_path),
         ],
-        cwd=Path(__file__).parent,
+        cwd=PROJECT_ROOT,
         check=False,
         capture_output=True,
         text=True,
