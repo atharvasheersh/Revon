@@ -36,9 +36,9 @@ venv/
 *.sqlite3-shm
 *.sqlite3-wal
 
-# Test-generated fixtures (retain the directory itself)
-test_data/*
-!test_data/.gitkeep
+# Test-generated fixtures (retain the organized fixture directory itself)
+tests/test_data/*
+!tests/test_data/.gitkeep
 
 # Generated working, rendering, and local review files
 tmp/

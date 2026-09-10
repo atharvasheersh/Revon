@@ -86,7 +86,7 @@ content-addressed commits, and Revon-H diff selection remain Revon logic.
 ## Run the tests
 
 ```powershell
-python -m unittest -v
+python -m unittest discover -s tests -v
 ```
 
 ## Run the backend API

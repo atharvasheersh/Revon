@@ -38,7 +38,8 @@ npm test
 ```
 
 `npm test` performs a production build and checks the server-rendered product
-surface. Backend HTTP behavior is covered by `python -m unittest discover -v`
+surface. Backend HTTP behavior is covered by
+`python -m unittest discover -s tests -v`
 from the repository root.
 
 ## Deployment boundary

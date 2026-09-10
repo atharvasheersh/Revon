@@ -26,10 +26,10 @@ that committed history survives process boundaries with verifiable integrity.
 ## Verification
 
 ```text
-python -m unittest discover -v
+python -m unittest discover -s tests -v
 30 tests passed
 
-python revon_sqlite_demo.py --database test_data/sqlite/manual-demo.revon.db --rows 100 --reset
+python revon_sqlite_demo.py --database tests/test_data/sqlite/manual-demo.revon.db --rows 100 --reset
 2 versions; 271 content objects; 267 trie nodes; 4-row reopened diff.
 PASS: atomic CSV commits, separate-process hash verification, exact checkout,
 and Hybrid diff reproduction.

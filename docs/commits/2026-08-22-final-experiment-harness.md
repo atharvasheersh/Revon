@@ -27,7 +27,7 @@ clearly labelled Revon ablation.
 ## Verification
 
 ```text
-python -m unittest -v
+python -m unittest discover -s tests -v
 Ran 35 tests in 6.414s; OK
 
 python -m experiments.final_benchmark --profile smoke --warmups 1 --trials 3

@@ -27,7 +27,7 @@ the final research evaluation.
 ## Verification
 
 ```text
-python -m unittest discover -v
+python -m unittest discover -s tests -v
 25 tests passed
 
 python demo.py

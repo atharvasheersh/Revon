@@ -26,7 +26,7 @@ without changing the audited benchmark results.
 
 ## Verification
 
-- Rebuilt the DOCX from the paper generator and exported the PDF with
+- Rebuilt the DOCX from the reviewed manuscript source and exported the PDF with
   Microsoft Word.
 - Visually inspected all seven rendered pages at full resolution.
 - Confirmed six inline figures, three geometrically valid tables, and zero

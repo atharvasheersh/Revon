@@ -54,28 +54,28 @@ The study contains two complementary comparisons:
 
 | Config | Buckets | Expected occupancy | Import ms | Commit ms | Diff ms | Checkout ms | Storage MiB | Node pairs | Leaf entries |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| b4-d6 | 4,096 | 2.441 | 1,502.72 | 130.94 | 37.595 | 9.40 | 4.34 | 3,628 | 5,682 |
-| b8-d3 | 512 | 19.531 | 921.99 | 116.91 | 20.152 | 2.76 | 6.88 | 585 | 17,048 |
-| **b8-d4** | **4,096** | **2.441** | **1,681.82** | **138.42** | **44.431** | **10.44** | **4.27** | **3,729** | **5,682** |
-| b8-d5 | 32,768 | 0.305 | 3,112.58 | 188.99 | 59.224 | 24.76 | 6.18 | 6,089 | 2,426 |
-| b16-d3 | 4,096 | 2.441 | 1,828.34 | 148.01 | 40.456 | 9.66 | 8.15 | 3,929 | 5,682 |
+| b4-d6 | 4,096 | 2.441 | 2,831.35 | 280.65 | 50.600 | 15.81 | 4.34 | 3,628 | 5,682 |
+| b8-d3 | 512 | 19.531 | 1,795.30 | 207.05 | 36.088 | 4.03 | 6.89 | 585 | 17,048 |
+| **b8-d4** | **4,096** | **2.441** | **2,689.86** | **209.03** | **52.647** | **12.96** | **4.26** | **3,729** | **5,682** |
+| b8-d5 | 32,768 | 0.305 | 3,749.90 | 270.90 | 69.545 | 29.16 | 6.17 | 6,089 | 2,426 |
+| b16-d3 | 4,096 | 2.441 | 2,864.74 | 256.17 | 51.937 | 11.98 | 8.14 | 3,929 | 5,682 |
 
 ## Interpretation
 
 ### Latency-optimized configuration
 
 `b8-d3` was fastest on this 10,000-row spread workload. Relative to the current
-`b8-d4` default, its median import was 45.2% lower, commit time 15.5% lower,
-Merkle diff 54.6% lower, and checkout 73.6% lower. The shallower tree compared
+`b8-d4` default, its median import was 33.3% lower, commit time 0.9% lower,
+Merkle diff 31.5% lower, and checkout 68.9% lower. The shallower tree compared
 84.3% fewer node pairs.
 
-This speed comes with a clear trade-off: storage was 61.2% higher and the diff
+This speed comes with a clear trade-off: storage was 61.9% higher and the diff
 examined three times as many leaf entries because each bucket held more keys.
 It is therefore a latency-oriented point, not a universal replacement.
 
 ### Current default
 
-`b8-d4` used the least storage of the five configurations (about 4.27 MiB). In
+`b8-d4` used the least storage of the five configurations (about 4.26 MiB). In
 the constant-4,096-bucket comparison, it also created fewer new nodes per
 incremental commit than `b4-d6` and used dramatically less storage than
 `b16-d3`.
@@ -85,16 +85,16 @@ as a storage-conscious balanced default, not as an optimum.
 
 ### Constant-bucket comparison
 
-Compared with `b8-d4`, `b4-d6` was 15.4% faster for Merkle diff and wrote 8.9%
+Compared with `b8-d4`, `b4-d6` was 3.9% faster for Merkle diff and wrote 8.9%
 fewer trie bytes per incremental commit, but created 39.7% more new nodes and
-used 1.6% more repository storage. `b16-d3` reduced diff latency by 8.9% and
-created 21.2% fewer new nodes, but used 91.0% more storage and wrote 19.7% more
+used 2.0% more repository storage. `b16-d3` reduced diff latency by 1.3% and
+created 21.2% fewer new nodes, but used 91.3% more storage and wrote 19.7% more
 trie bytes per commit.
 
 ### Over-deep configuration
 
 `b8-d5` reduced examined leaf entries by 57.3%, but it compared 63.3% more node
-pairs, used 44.8% more storage, and was slower on every timed operation. At
+pairs, used 44.9% more storage, and was slower on every timed operation. At
 this scale, the extra internal-node traversal outweighed the smaller buckets.
 
 ## Paper-ready conclusion

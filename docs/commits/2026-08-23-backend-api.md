@@ -25,7 +25,7 @@ changing the fixed-depth Merkle trie or SQLite persistence model.
 ## Verification
 
 ```text
-python -m unittest -v
+python -m unittest discover -s tests -v
 Ran 40 tests in 8.016s; OK
 ```
 

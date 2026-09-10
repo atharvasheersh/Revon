@@ -7,6 +7,7 @@ from pathlib import Path
 TEST_DATABASE = (
     Path(__file__).parent / "test_data" / "sqlite" / "cli-demo.revon.db"
 )
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 class RevonSQLiteDemoTests(unittest.TestCase):
@@ -15,14 +16,14 @@ class RevonSQLiteDemoTests(unittest.TestCase):
         process = subprocess.run(
             [
                 sys.executable,
-                "revon_sqlite_demo.py",
+                str(PROJECT_ROOT / "revon_sqlite_demo.py"),
                 "--database",
                 str(TEST_DATABASE),
                 "--rows",
                 "100",
                 "--reset",
             ],
-            cwd=Path(__file__).parent,
+            cwd=PROJECT_ROOT,
             check=False,
             capture_output=True,
             text=True,

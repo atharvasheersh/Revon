@@ -198,15 +198,15 @@ def arrow(draw, start, end, color=INK, width=4):
 def make_architecture(path: Path):
     image = Image.new("RGB", (1500, 880), "white")
     draw = ImageDraw.Draw(image)
-    title = pil_font(36, bold=True)
-    label = pil_font(36, bold=True)
-    body = pil_font(32)
+    title = pil_font(60, bold=True)
+    label = pil_font(42, bold=True)
+    body = pil_font(40)
     draw.text((55, 35), "Revon-H architecture", font=title, fill=hex_color(INK))
     layers = [
-        ((75, 150, 360, 315), "Frontend\nmetrics workspace", "F3EEF7", "B279A2"),
-        ((440, 150, 725, 315), "REST API\nrepository operations", BLUE_LIGHT, BLUE),
-        ((805, 150, 1090, 315), "Revon-H core\ncommit, checkout, diff", "EAF4EA", GREEN),
-        ((1170, 150, 1455, 315), "SQLite object store\nobjects, commits, HEAD", "FFF4E6", AMBER),
+        ((75, 150, 360, 315), "Frontend\nmetrics", "F3EEF7", "B279A2"),
+        ((440, 150, 725, 315), "REST API", BLUE_LIGHT, BLUE),
+        ((805, 150, 1090, 315), "Revon-H core\ncommit\ncheckout / diff", "EAF4EA", GREEN),
+        ((1170, 150, 1455, 315), "SQLite store\nobjects\ncommits / HEAD", "FFF4E6", AMBER),
     ]
     for box, text, fill, outline in layers:
         draw.rounded_rectangle(box, radius=16, fill=hex_color(fill), outline=hex_color(outline), width=4)
@@ -216,11 +216,11 @@ def make_architecture(path: Path):
 
     boundary = (280, 430, 1220, 795)
     draw.rounded_rectangle(boundary, radius=20, fill="#FAFAFA", outline=hex_color(BLUE), width=5)
-    draw.text((320, 465), "Research contribution boundary", font=label, fill=hex_color(BLUE))
+    draw.text((320, 465), "Research contribution boundary", font=pil_font(46, bold=True), fill=hex_color(BLUE))
     components = [
-        ((330, 570, 570, 720), "Fixed-depth\nMerkle hash trie"),
-        ((630, 570, 870, 720), "Incremental\ncopy-on-write hashing"),
-        ((930, 570, 1170, 720), "Adaptive log /\nMerkle differencing"),
+        ((330, 570, 570, 720), "Fixed-depth\nhash trie"),
+        ((630, 570, 870, 720), "Incremental\npath\nrewriting"),
+        ((930, 570, 1170, 720), "Adaptive\nlog/Merkle\ndiff"),
     ]
     for box, text in components:
         draw.rounded_rectangle(box, radius=13, fill="white", outline=hex_color(BLUE), width=3)
@@ -231,16 +231,16 @@ def make_architecture(path: Path):
 def make_workflow(path: Path):
     image = Image.new("RGB", (1500, 780), "white")
     draw = ImageDraw.Draw(image)
-    title = pil_font(36, bold=True)
-    body = pil_font(32)
-    strong = pil_font(34, bold=True)
+    title = pil_font(60, bold=True)
+    body = pil_font(41)
+    strong = pil_font(50, bold=True)
     draw.text((55, 35), "Incremental commit and hybrid diff", font=title, fill=hex_color(INK))
     steps = [
-        "Canonical\nmutation batch",
-        "Hash keys and\ngroup routes",
-        "Rewrite affected\nleaf buckets once",
-        "Rewrite ancestor\npath union",
-        "Persist objects,\ncommit, and HEAD",
+        "Mutation\nbatch",
+        "Hash keys\nand route",
+        "Rewrite\nchanged leaves",
+        "Rewrite\nancestor paths",
+        "Persist objects\ncommit / HEAD",
     ]
     xs = [55, 345, 635, 925, 1215]
     for index, (x, text) in enumerate(zip(xs, steps)):
@@ -257,8 +257,8 @@ def make_workflow(path: Path):
     right = (825, 470, 1240, 690)
     draw.rounded_rectangle(left, radius=16, fill="#EAF4EA", outline=hex_color(GREEN), width=4)
     draw.rounded_rectangle(right, radius=16, fill="#FFF4E6", outline=hex_color(AMBER), width=4)
-    text_center(draw, left, "Operations <= 4,096\naggregate addressed changesets\n(log path)", body)
-    text_center(draw, right, "Operations > 4,096\ncompare unequal subtree hashes\n(Merkle path)", body)
+    text_center(draw, left, "Operations <= 4,096\naggregate changesets\n(log path)", body)
+    text_center(draw, right, "Operations > 4,096\ncompare unequal hashes\n(Merkle path)", body)
     arrow(draw, (725, 435), (600, 470), GREEN)
     arrow(draw, (775, 435), (900, 470), AMBER)
     image.save(path, dpi=(300, 300))
@@ -275,14 +275,15 @@ def log_position(value, minimum, maximum, top, bottom):
 def draw_log_axis(draw, left, right, top, bottom, ticks, minimum, maximum, label):
     draw.line((left, top, left, bottom), fill=hex_color(INK), width=3)
     draw.line((left, bottom, right, bottom), fill=hex_color(INK), width=3)
-    tick_font = pil_font(40)
+    tick_font = pil_font(64)
     for tick in ticks:
         y = log_position(tick, minimum, maximum, top, bottom)
         draw.line((left, y, right, y), fill="#DDDDDD", width=1)
         text = f"{tick:g}"
         bounds = draw.textbbox((0, 0), text, font=tick_font)
         draw.text((left - 14 - (bounds[2] - bounds[0]), y - 10), text, font=tick_font, fill=hex_color(MUTED))
-    draw.text((left, top - 58), label, font=pil_font(42, bold=True), fill=hex_color(INK))
+    if label:
+        draw.text((left, top - 62), label, font=pil_font(48, bold=True), fill=hex_color(INK))
 
 
 def make_diff_chart(path: Path, evaluation):
@@ -290,9 +291,9 @@ def make_diff_chart(path: Path, evaluation):
     models = ["Snapshot", "Log-only", "Revon-M (forced Merkle)", "Revon-H", "Dolt"]
     image = Image.new("RGB", (1900, 1080), "white")
     draw = ImageDraw.Draw(image)
-    draw.text((65, 25), "End-to-end version diff latency", font=pil_font(48, bold=True), fill=hex_color(INK))
-    draw.text((65, 86), "Median with 25th-75th percentile whiskers; seven measured trials", font=pil_font(36), fill=hex_color(MUTED))
-    left, right, top, bottom = 165, 1840, 205, 850
+    draw.text((65, 20), "End-to-end version diff latency", font=pil_font(72, bold=True), fill=hex_color(INK))
+    draw.text((65, 102), "Median and interquartile range; seven trials", font=pil_font(56), fill=hex_color(MUTED))
+    left, right, top, bottom = 165, 1840, 225, 850
     minimum, maximum = 0.1, 1000
     draw_log_axis(draw, left, right, top, bottom, [0.1, 1, 10, 100, 1000], minimum, maximum, "milliseconds (log scale)")
     group_width = (right - left) / len(scenarios)
@@ -318,7 +319,7 @@ def make_diff_chart(path: Path, evaluation):
             draw.line((mid_x - 9, y_low, mid_x + 9, y_low), fill=hex_color(INK), width=3)
             draw.line((mid_x - 9, y_high, mid_x + 9, y_high), fill=hex_color(INK), width=3)
         label = scenario.replace("-", "\n")
-        text_center(draw, (center - 140, 870, center + 140, 965), label, pil_font(38))
+        text_center(draw, (center - 150, 855, center + 150, 970), label, pil_font(60))
 
     legend_y = 1000
     legend_x = 175
@@ -326,7 +327,7 @@ def make_diff_chart(path: Path, evaluation):
     for index, (model, label) in enumerate(zip(models, legend_labels)):
         x = legend_x + index * 320
         draw.rectangle((x, legend_y, x + 35, legend_y + 25), fill=hex_color(COLORS[model]))
-        draw.text((x + 48, legend_y - 8), label, font=pil_font(34), fill=hex_color(INK))
+        draw.text((x + 48, legend_y - 18), label, font=pil_font(58), fill=hex_color(INK))
     image.save(path, dpi=(300, 300))
 
 
@@ -338,8 +339,8 @@ def make_operational_chart(path: Path, evaluation):
     ]
     image = Image.new("RGB", (1900, 980), "white")
     draw = ImageDraw.Draw(image)
-    draw.text((65, 25), "Revon-H and Dolt operational latency", font=pil_font(48, bold=True), fill=hex_color(INK))
-    draw.text((65, 86), "Median with 25th-75th percentile whiskers; CLI-facing system protocol", font=pil_font(36), fill=hex_color(MUTED))
+    draw.text((65, 20), "Revon-H and Dolt operational latency", font=pil_font(72, bold=True), fill=hex_color(INK))
+    draw.text((65, 102), "Median and interquartile range; CLI-facing protocol", font=pil_font(54), fill=hex_color(MUTED))
     panel_width = 790
     panel_gap = 110
     panel_lefts = [155, 155 + panel_width + panel_gap]
@@ -348,8 +349,8 @@ def make_operational_chart(path: Path, evaluation):
         left = panel_lefts[panel_index]
         right = left + panel_width
         draw_log_axis(draw, left, right, top, bottom, ticks, minimum, maximum, "")
-        draw.text((left, 172), "ms (log)", font=pil_font(28, bold=True), fill=hex_color(INK))
-        draw.text((left + 220, 138), title, font=pil_font(38, bold=True), fill=hex_color(INK))
+        draw.text((left, 172), "ms (log)", font=pil_font(54, bold=True), fill=hex_color(INK))
+        draw.text((left + 215, 138), title, font=pil_font(60, bold=True), fill=hex_color(INK))
         group_width = panel_width / len(scenarios)
         for group_index, scenario in enumerate(scenarios):
             center = left + group_width * (group_index + 0.5)
@@ -367,13 +368,13 @@ def make_operational_chart(path: Path, evaluation):
                 draw.line((center + offset - 7, y_low, center + offset + 7, y_low), fill=hex_color(INK), width=3)
                 draw.line((center + offset - 7, y_high, center + offset + 7, y_high), fill=hex_color(INK), width=3)
             label = {"small-sparse": "S-S", "medium-sparse": "M-S", "medium-dense": "M-D", "large-sparse": "L-S", "large-hot": "L-H"}[scenario]
-            bounds = draw.textbbox((0, 0), label, font=pil_font(34))
-            draw.text((center - (bounds[2] - bounds[0]) / 2, bottom + 25), label, font=pil_font(34), fill=hex_color(INK))
+            bounds = draw.textbbox((0, 0), label, font=pil_font(58))
+            draw.text((center - (bounds[2] - bounds[0]) / 2, bottom + 20), label, font=pil_font(58), fill=hex_color(INK))
     draw.rectangle((700, 875, 740, 900), fill=hex_color(COLORS["Revon-H"]))
-    draw.text((752, 865), "Revon-H", font=pil_font(34), fill=hex_color(INK))
+    draw.text((752, 852), "Revon-H", font=pil_font(58), fill=hex_color(INK))
     draw.rectangle((970, 875, 1010, 900), fill=hex_color(COLORS["Dolt"]))
-    draw.text((1022, 865), "Dolt", font=pil_font(34), fill=hex_color(INK))
-    draw.text((1200, 868), "S/M/L: size; S/D/H: locality", font=pil_font(30), fill=hex_color(MUTED))
+    draw.text((1022, 852), "Dolt", font=pil_font(58), fill=hex_color(INK))
+    draw.text((1200, 858), "S/M/L: size; S/D/H: locality", font=pil_font(50), fill=hex_color(MUTED))
     image.save(path, dpi=(300, 300))
 
 
@@ -388,9 +389,9 @@ def make_calibration_chart(path: Path, calibration):
     operations = [float(row["work_examined_median"]) for row in log_rows]
     image = Image.new("RGB", (1600, 900), "white")
     draw = ImageDraw.Draw(image)
-    draw.text((60, 30), "Independent Revon-H threshold calibration", font=pil_font(37, bold=True), fill=hex_color(INK))
-    draw.text((60, 82), "Calibration workloads are disjoint from final evaluation scenarios", font=pil_font(22), fill=hex_color(MUTED))
-    left, right, top, bottom = 170, 1500, 180, 720
+    draw.text((60, 22), "Independent Revon-H threshold calibration", font=pil_font(60, bold=True), fill=hex_color(INK))
+    draw.text((60, 92), "Separate calibration workloads", font=pil_font(48), fill=hex_color(MUTED))
+    left, right, top, bottom = 170, 1500, 225, 720
     minimum_y, maximum_y = 0.03, 100
     draw_log_axis(draw, left, right, top, bottom, [0.03, 0.1, 1, 10, 100], minimum_y, maximum_y, "diff milliseconds (log scale)")
     minimum_x, maximum_x = math.log10(4), math.log10(4096)
@@ -402,9 +403,9 @@ def make_calibration_chart(path: Path, calibration):
         x = xpos(operation)
         draw.line((x, bottom, x, bottom + 8), fill=hex_color(INK), width=2)
         label = f"{int(operation):,}"
-        bounds = draw.textbbox((0, 0), label, font=pil_font(34))
-        draw.text((x - (bounds[2] - bounds[0]) / 2, bottom + 18), label, font=pil_font(34), fill=hex_color(MUTED))
-    draw.text((570, 810), "accumulated operations (log scale)", font=pil_font(38, bold=True), fill=hex_color(INK))
+        bounds = draw.textbbox((0, 0), label, font=pil_font(52))
+        draw.text((x - (bounds[2] - bounds[0]) / 2, bottom + 14), label, font=pil_font(52), fill=hex_color(MUTED))
+    draw.text((500, 800), "accumulated operations (log scale)", font=pil_font(60, bold=True), fill=hex_color(INK))
 
     for rows, color, label in [
         (log_rows, GREEN, "Log aggregation"),
@@ -416,19 +417,19 @@ def make_calibration_chart(path: Path, calibration):
         draw.line(points, fill=hex_color(color), width=6)
         for x, y in points:
             draw.ellipse((x - 8, y - 8, x + 8, y + 8), fill=hex_color(color), outline="white", width=2)
-        draw.text((1050, 118 if label.startswith("Log") else 160), label, font=pil_font(34, bold=True), fill=hex_color(color))
+        draw.text((870 if label.startswith("Log") else 1240, 160), label, font=pil_font(42, bold=True), fill=hex_color(color))
     threshold_x = xpos(4096)
     draw.line((threshold_x, top, threshold_x, bottom), fill=hex_color(BLUE), width=4)
-    draw.text((1040, 610), "Frozen boundary: 4,096", font=pil_font(34, bold=True), fill=hex_color(BLUE))
+    draw.text((960, 600), "Frozen boundary: 4,096", font=pil_font(54, bold=True), fill=hex_color(BLUE))
     image.save(path, dpi=(300, 300))
 
 
 def make_sensitivity_chart(path: Path, sensitivity):
     image = Image.new("RGB", (1600, 900), "white")
     draw = ImageDraw.Draw(image)
-    draw.text((60, 30), "Fixed-trie geometry sensitivity", font=pil_font(37, bold=True), fill=hex_color(INK))
-    draw.text((60, 82), "10,000 rows, 100 changes/commit, forced-Merkle diff; seven trials", font=pil_font(22), fill=hex_color(MUTED))
-    left, right, top, bottom = 175, 1500, 175, 730
+    draw.text((60, 22), "Fixed-trie geometry sensitivity", font=pil_font(60, bold=True), fill=hex_color(INK))
+    draw.text((60, 92), "10,000 rows; forced-Merkle diff; seven trials", font=pil_font(48), fill=hex_color(MUTED))
+    left, right, top, bottom = 175, 1500, 225, 700
     min_x, max_x = 4.0, 8.7
     min_y, max_y = 15.0, 65.0
     draw.line((left, top, left, bottom), fill=hex_color(INK), width=3)
@@ -436,14 +437,14 @@ def make_sensitivity_chart(path: Path, sensitivity):
     for value in [4, 5, 6, 7, 8]:
         x = left + (value - min_x) / (max_x - min_x) * (right - left)
         draw.line((x, top, x, bottom), fill="#E2E2E2", width=1)
-        draw.text((x - 14, bottom + 20), str(value), font=pil_font(34), fill=hex_color(MUTED))
+        draw.text((x - 18, bottom + 14), str(value), font=pil_font(54), fill=hex_color(MUTED))
     for value in [20, 30, 40, 50, 60]:
         y = bottom - (value - min_y) / (max_y - min_y) * (bottom - top)
         draw.line((left, y, right, y), fill="#E2E2E2", width=1)
-        draw.text((85, y - 17), str(value), font=pil_font(34), fill=hex_color(MUTED))
-    draw.text((590, 815), "repository storage (MiB)", font=pil_font(38, bold=True), fill=hex_color(INK))
-    draw.text((48, 125), "diff ms", font=pil_font(38, bold=True), fill=hex_color(INK))
-    offsets = {"b4-d6": (-110, -52), "b8-d3": (20, -45), "b8-d4": (20, 15), "b8-d5": (20, -18), "b16-d3": (-150, -42)}
+        draw.text((70, y - 24), str(value), font=pil_font(54), fill=hex_color(MUTED))
+    draw.text((520, 790), "repository storage (MiB)", font=pil_font(60, bold=True), fill=hex_color(INK))
+    draw.text((48, 168), "diff ms", font=pil_font(54, bold=True), fill=hex_color(INK))
+    offsets = {"b4-d6": (-110, -48), "b8-d3": (20, -42), "b8-d4": (20, 12), "b8-d5": (20, 12), "b16-d3": (-150, -38)}
     for row in sensitivity:
         storage = float(row["storage_bytes_median"]) / (1024 * 1024)
         diff = float(row["diff_ms_median"])
@@ -454,8 +455,7 @@ def make_sensitivity_chart(path: Path, sensitivity):
         radius = 13 if config == "b8-d4" else 10
         draw.ellipse((x - radius, y - radius, x + radius, y + radius), fill=hex_color(color))
         dx, dy = offsets[config]
-        draw.text((x + dx, y + dy), config, font=pil_font(34, bold=config == "b8-d4"), fill=hex_color(color))
-    draw.text((180, 765), "Lower-left is better; the current b8-d4 default is highlighted.", font=pil_font(32, italic=True), fill=hex_color(MUTED))
+        draw.text((x + dx, y + dy), config, font=pil_font(52, bold=config == "b8-d4"), fill=hex_color(color))
     image.save(path, dpi=(300, 300))
 
 
@@ -912,17 +912,17 @@ def build():
     author.alignment = WD_ALIGN_PARAGRAPH.CENTER
     author.paragraph_format.first_line_indent = Inches(0)
     author.paragraph_format.space_after = Pt(0)
-    run = author.add_run("[Atharva Sheersh Pandey]")
+    run = author.add_run("Atharva Sheersh Pandey")
     set_font(run, 12, color=INK)
     marker = author.add_run("1")
     set_font(marker, 8, color=INK)
     marker.font.superscript = True
-    run = author.add_run(", [Adhyan Jain]")
+    run = author.add_run(", Adhyan Jain")
     set_font(run, 12, color=INK)
     marker = author.add_run("1")
     set_font(marker, 8, color=INK)
     marker.font.superscript = True
-    run = author.add_run(", [Poornima Nedunchezhian]")
+    run = author.add_run(", Poornima Nedunchezhian")
     set_font(run, 12, color=INK)
     marker = author.add_run("2")
     set_font(marker, 8, color=INK)
@@ -1021,7 +1021,7 @@ def build():
         "retain exact versions, apply sparse mutations without rebuilding the complete state, "
         "reconstruct historical versions, and identify changes efficiently. Git provides the "
         "starting idea--immutable objects named by content and commits linked to their parents "
-        "[7]--but organizes those objects around files and directories. A record store presents "
+        "[1]--but organizes those objects around files and directories. A record store presents "
         "a different workload: keys remain stable, update density varies, and two versions may "
         "be separated by a handful of edits or by a long sequence of commits.",
         indent=False,
@@ -1037,7 +1037,7 @@ def build():
     add_body(
         doc,
         "Dolt is the production comparator because it combines SQL semantics, a Git-style commit "
-        "graph, and content-addressed Prolly Trees [8], [9]. Revon is not presented as a feature "
+        "graph, and content-addressed Prolly Trees [2], [3]. Revon is not presented as a feature "
         "replacement for Dolt. The comparison instead identifies the performance and storage "
         "trade-offs of a smaller instrumentable mechanism under a reproducible CLI-facing protocol."
     )
@@ -1068,10 +1068,10 @@ def build():
     add_body(
         doc,
         "Merkle's authenticated tree construction established that a compact root digest can "
-        "commit to a larger collection [13], while persistent-data-structure theory formalized "
-        "path copying and bounded-overhead access to historical versions [10]. Git applies "
-        "content-addressed blobs, trees, and commits to software history [7], and IPFS generalizes "
-        "content-addressed links into a versionable Merkle DAG [4]. Revon adopts immutable object "
+        "commit to a larger collection [4], while persistent-data-structure theory formalized "
+        "path copying and bounded-overhead access to historical versions [5]. Git applies "
+        "content-addressed blobs, trees, and commits to software history [1], and IPFS generalizes "
+        "content-addressed links into a versionable Merkle DAG [6]. Revon adopts immutable object "
         "identity and parent links, but routes structured keys by hash into a persistent trie rather "
         "than mirroring a filesystem hierarchy.",
         indent=False,
@@ -1079,9 +1079,9 @@ def build():
     add_body(
         doc,
         "Merkle Search Trees combine search-tree ordering with Merkle authentication for efficient "
-        "state reconciliation [3]. Revon shares hash-pruned comparison but intentionally uses "
+        "state reconciliation [7]. Revon shares hash-pruned comparison but intentionally uses "
         "fixed-depth routing and a centralized commit history rather than a replicated CRDT. "
-        "Content-defined chunking, established in LBFS for redundancy detection [14], also explains "
+        "Content-defined chunking, established in LBFS for redundancy detection [8], also explains "
         "why history-independent boundaries are a credible storage improvement beyond the current "
         "fixed buckets."
     )
@@ -1089,12 +1089,12 @@ def build():
     add_body(
         doc,
         "Dataset-versioning research exposes a broader storage-retrieval design space. DataHub "
-        "motivates collaborative dataset history at scale [5]. Decibel integrates branching into "
+        "motivates collaborative dataset history at scale [9]. Decibel integrates branching into "
         "a relational storage engine and compares version-first, tuple-first, and hybrid layouts "
-        "[12]. OrpheusDB bolts versioning onto a conventional DBMS and optimizes partitioning for "
-        "version retrieval [11]. The dataset-versioning model in [6] formalizes the conflict between "
+        "[10]. OrpheusDB bolts versioning onto a conventional DBMS and optimizes partitioning for "
+        "version retrieval [11]. The dataset-versioning model in [12] formalizes the conflict between "
         "storing more materialized state and paying more reconstruction cost. Delta Lake represents "
-        "the complementary log-and-checkpoint design for ACID tables and time travel [1]. These "
+        "the complementary log-and-checkpoint design for ACID tables and time travel [13]. These "
         "systems motivate "
         "reporting commit, checkout, diff, and storage together rather than selecting a single metric."
     )
@@ -1102,10 +1102,10 @@ def build():
     add_body(
         doc,
         "Noms represents structured data as a Merkle DAG of immutable chunks and supports "
-        "efficient diff and synchronization [2]. ForkBase combines content addressing, fork "
+        "efficient diff and synchronization [14]. ForkBase combines content addressing, fork "
         "semantics, and duplicate-content detection for forkable applications [15]. Dolt stores "
         "table indexes as content-addressed Prolly Trees: ordered, B-tree-like structures with "
-        "history-independent chunk boundaries, structural sharing, and native diff [8], [9]. "
+        "history-independent chunk boundaries, structural sharing, and native diff [2], [3]. "
         "Revon differs by using fixed-depth hash routing and by exposing an explicit alternative "
         "operation-log path. This simplifies instrumentation, but gives up Dolt's ordered range "
         "behavior, SQL surface, mature branching, merging, and production engineering."
@@ -1114,17 +1114,17 @@ def build():
         doc,
         ["Prior work", "Core representation", "Relationship to Revon"],
         [
-            ("Persistent DS [10]", "Path copying", "Formal structural-sharing basis"),
-            ("Git [7]", "Object DAG", "Identity and commit ancestry; file-oriented"),
-            ("IPFS [4]", "Merkle DAG", "General content-addressed versioning"),
-            ("MST [3]", "Merkle search tree", "Authenticated ordered reconciliation"),
-            ("DataHub [5]", "Version graph", "Collaborative dataset motivation"),
-            ("Decibel [12]", "Relational layouts", "Native database branching"),
+            ("Persistent DS [5]", "Path copying", "Formal structural-sharing basis"),
+            ("Git [1]", "Object DAG", "Identity and commit ancestry; file-oriented"),
+            ("IPFS [6]", "Merkle DAG", "General content-addressed versioning"),
+            ("MST [7]", "Merkle search tree", "Authenticated ordered reconciliation"),
+            ("DataHub [9]", "Version graph", "Collaborative dataset motivation"),
+            ("Decibel [10]", "Relational layouts", "Native database branching"),
             ("OrpheusDB [11]", "Partitioned versions", "Storage/retrieval optimization"),
-            ("Delta Lake [1]", "Log/checkpoints", "ACID time travel at data-lake scale"),
-            ("Noms [2]", "Merkle DAG", "Structured content addressing"),
+            ("Delta Lake [13]", "Log/checkpoints", "ACID time travel at data-lake scale"),
+            ("Noms [14]", "Merkle DAG", "Structured content addressing"),
             ("ForkBase [15]", "Forkable CAS", "Fork and deduplication semantics"),
-            ("DoltHub [8,9]", "Prolly Trees", "Production SOTA comparator"),
+            ("DoltHub [2,3]", "Prolly Trees", "Production SOTA comparator"),
         ],
         [0.85, 1.2, 1.45],
         font_size=6.8,
@@ -1139,9 +1139,9 @@ def build():
         "by copying unchanged records. A log avoids that copy at commit time, but the deferred work "
         "returns during replay, compaction, or checkpointing. Path-copying persistent structures "
         "take a third route: only the paths changed by an update are new, while the remaining "
-        "topology is shared [10]. The storage-versus-recreation model in [6] makes this trade-off "
+        "topology is shared [5]. The storage-versus-recreation model in [12] makes this trade-off "
         "explicit. Decibel and OrpheusDB likewise show that one physical layout does not dominate "
-        "scans, version retrieval, and storage for every branching workload [11], [12]. For that "
+        "scans, version retrieval, and storage for every branching workload [10], [11]. For that "
         "reason, our evaluation reports import, commit, "
         "checkout, diff, and storage rather than using one measurement as a proxy for the system."
     )
@@ -1152,8 +1152,8 @@ def build():
         "changesets instead makes the interval length decisive and requires an unbroken ancestry "
         "path with complete changesets. With Merkle differencing, matching subtree hashes stop the search; only mismatching "
         "branches are opened. The observed cost then depends on trie shape, leaf occupancy, key "
-        "distribution, and where updates land. The MST retains key order [3]. Noms and Dolt use "
-        "content-defined boundaries to form history-independent Prolly Trees [2], [9], while "
+        "distribution, and where updates land. The MST retains key order [7]. Noms and Dolt use "
+        "content-defined boundaries to form history-independent Prolly Trees [14], [3], while "
         "ForkBase reuses addressed content across objects, branches, and versions [15]. Revon chooses fixed "
         "hash-derived routes. This choice removes ordered range access and adaptive boundaries, but "
         "gives the experiment a stable geometry whose depth and branching factor can be measured."
@@ -1364,10 +1364,10 @@ def build():
     add_body(
         doc,
         "All 45 sensitivity trials were correct. The b8-d3 configuration delivered the lowest "
-        "median diff latency (20.15 ms versus 44.43 ms for b8-d4) and compared 84.3% fewer node "
-        "pairs, but consumed 61.2% more storage and examined three times as many leaf entries. "
-        "The current b8-d4 default used the least storage (4.27 MiB). The over-deep b8-d5 design "
-        "was slower for every timed operation and used 44.8% more storage. Thus b8-d4 is a "
+        "median diff latency (36.09 ms versus 52.65 ms for b8-d4) and compared 84.3% fewer node "
+        "pairs, but consumed 61.9% more storage and examined three times as many leaf entries. "
+        "The current b8-d4 default used the least storage (4.26 MiB). The over-deep b8-d5 design "
+        "was slower for every timed operation and used 44.9% more storage. Thus b8-d4 is a "
         "storage-conscious balanced default, not a universal optimum."
     )
 
@@ -1475,20 +1475,20 @@ def build():
 
     add_section(doc, "References")
     references = [
-        ("ref_delta", "[1] Michael Armbrust et al. 2020. Delta Lake: High-Performance ACID Table Storage over Cloud Object Stores. Proceedings of the VLDB Endowment, 13(12):3411-3424. doi:10.14778/3415478.3415560."),
-        ("ref_noms", "[2] Attic Labs. n.d. Noms technical overview. GitHub. https://github.com/attic-labs/noms/blob/master/doc/intro.md."),
-        ("ref_mst", "[3] Alex Auvolat and Francois Taiani. 2019. Merkle Search Trees: Efficient State-Based CRDTs in Open Networks. 38th IEEE International Symposium on Reliable Distributed Systems, pages 1-10. doi:10.1109/SRDS47363.2019.00032."),
-        ("ref_ipfs", "[4] Juan Benet. 2014. IPFS - Content Addressed, Versioned, P2P File System. arXiv:1407.3561."),
-        ("ref_datahub", "[5] Anant Bhardwaj, Souvik Bhattacherjee, Amit Chavan, Amol Deshpande, Aaron J. Elmore, Samuel Madden, and Aditya G. Parameswaran. 2015. DataHub: Collaborative Data Science and Dataset Version Management at Scale. 7th Biennial Conference on Innovative Data Systems Research."),
-        ("ref_versioning", "[6] Souvik Bhattacherjee, Amit Chavan, Silu Huang, Amol Deshpande, and Aditya Parameswaran. 2015. Principles of Dataset Versioning: Exploring the Recreation/Storage Tradeoff. Proceedings of the VLDB Endowment, 8(12):1346-1357. doi:10.14778/2824032.2824035."),
-        ("ref_git", "[7] Scott Chacon and Ben Straub. 2014. Git Internals - Git Objects. In Pro Git, 2nd edition. https://git-scm.com/book/en/v2/Git-Internals-Git-Objects."),
-        ("ref_dolt_block", "[8] DoltHub. 2024a. Dolt Storage Engine: Block Store. Dolt Documentation. https://www.dolthub.com/docs/architecture/storage-engine/block-store/."),
-        ("ref_dolt_prolly", "[9] DoltHub. 2024b. Dolt's Storage Engine: Prolly Trees and Commit Graph. https://www.dolthub.com/blog/2024-02-29-storage-engine/."),
-        ("ref_persistent", "[10] James R. Driscoll, Neil Sarnak, Daniel D. Sleator, and Robert E. Tarjan. 1989. Making Data Structures Persistent. Journal of Computer and System Sciences, 38(1):86-124. doi:10.1016/0022-0000(89)90034-2."),
+        ("ref_git", "[1] Scott Chacon and Ben Straub. 2014. Git Internals - Git Objects. In Pro Git, 2nd edition. https://git-scm.com/book/en/v2/Git-Internals-Git-Objects."),
+        ("ref_dolt_block", "[2] DoltHub. 2024. Dolt Storage Engine: Block Store. Dolt Documentation. https://www.dolthub.com/docs/architecture/storage-engine/block-store/."),
+        ("ref_dolt_prolly", "[3] Tim Sehn. 2024. Dolt's Storage Engine. DoltHub Blog, February 29, 2024. https://www.dolthub.com/blog/2024-02-29-storage-engine/."),
+        ("ref_merkle", "[4] Ralph C. Merkle. 1988. A Digital Signature Based on a Conventional Encryption Function. In Advances in Cryptology - CRYPTO '87, LNCS 293, pages 369-378. doi:10.1007/3-540-48184-2_32."),
+        ("ref_persistent", "[5] James R. Driscoll, Neil Sarnak, Daniel D. Sleator, and Robert E. Tarjan. 1989. Making Data Structures Persistent. Journal of Computer and System Sciences, 38(1):86-124. doi:10.1016/0022-0000(89)90034-2."),
+        ("ref_ipfs", "[6] Juan Benet. 2014. IPFS - Content Addressed, Versioned, P2P File System. arXiv:1407.3561."),
+        ("ref_mst", "[7] Alex Auvolat and François Taïani. 2019. Merkle Search Trees: Efficient State-Based CRDTs in Open Networks. 38th IEEE International Symposium on Reliable Distributed Systems, pages 221-230. doi:10.1109/SRDS47363.2019.00032."),
+        ("ref_lbfs", "[8] Athicha Muthitacharoen, Benjie Chen, and David Mazières. 2001. A Low-Bandwidth Network File System. Proceedings of the 18th ACM Symposium on Operating Systems Principles, pages 174-187. doi:10.1145/502034.502052."),
+        ("ref_datahub", "[9] Anant Bhardwaj, Souvik Bhattacherjee, Amit Chavan, Amol Deshpande, Aaron J. Elmore, Samuel Madden, and Aditya G. Parameswaran. 2015. DataHub: Collaborative Data Science and Dataset Version Management at Scale. 7th Biennial Conference on Innovative Data Systems Research."),
+        ("ref_decibel", "[10] Michael Maddox, David Goehring, Aaron J. Elmore, Samuel Madden, Aditya G. Parameswaran, and Amol Deshpande. 2016. Decibel: The Relational Dataset Branching System. Proceedings of the VLDB Endowment, 9(9):624-635. doi:10.14778/2947618.2947619."),
         ("ref_orpheus", "[11] Silu Huang, Liqi Xu, Jialin Liu, Aaron J. Elmore, and Aditya G. Parameswaran. 2017. OrpheusDB: Bolt-on Versioning for Relational Databases. Proceedings of the VLDB Endowment, 10(10):1130-1141. doi:10.14778/3115404.3115417."),
-        ("ref_decibel", "[12] Michael A. Maddox et al. 2016. Decibel: The Relational Dataset Branching System. Proceedings of the VLDB Endowment, 9(9):624-635. doi:10.14778/2947618.2947619."),
-        ("ref_merkle", "[13] Ralph C. Merkle. 1988. A Digital Signature Based on a Conventional Encryption Function. In Advances in Cryptology - CRYPTO '87, LNCS 293, pages 369-378. doi:10.1007/3-540-48184-2_32."),
-        ("ref_lbfs", "[14] Athicha Muthitacharoen, Benjie Chen, and David Mazieres. 2001. A Low-Bandwidth Network File System. Proceedings of the 18th ACM Symposium on Operating Systems Principles, pages 174-187. doi:10.1145/502034.502052."),
+        ("ref_versioning", "[12] Souvik Bhattacherjee, Amit Chavan, Silu Huang, Amol Deshpande, and Aditya Parameswaran. 2015. Principles of Dataset Versioning: Exploring the Recreation/Storage Tradeoff. Proceedings of the VLDB Endowment, 8(12):1346-1357. doi:10.14778/2824032.2824035."),
+        ("ref_delta", "[13] Michael Armbrust et al. 2020. Delta Lake: High-Performance ACID Table Storage over Cloud Object Stores. Proceedings of the VLDB Endowment, 13(12):3411-3424. doi:10.14778/3415478.3415560."),
+        ("ref_noms", "[14] Attic Labs. n.d. Noms technical overview. GitHub. https://github.com/attic-labs/noms/blob/master/doc/intro.md."),
         ("ref_forkbase", "[15] Sheng Wang et al. 2018. ForkBase: An Efficient Storage Engine for Blockchain and Forkable Applications. Proceedings of the VLDB Endowment, 11(10):1137-1150. doi:10.14778/3231751.3231762."),
     ]
     for bookmark_id, (bookmark, reference) in enumerate(references, start=1):
@@ -1500,7 +1500,7 @@ def build():
     appendix = add_body(
         doc,
         "The repository contains the benchmark harness, evidence audit, trie-sensitivity harness, "
-        "and paper generator. Source code, artifacts, and reproduction instructions are available at ",
+        "and manuscript-formatting and validation tools. Source code, artifacts, and reproduction instructions are available at ",
         indent=False,
     )
     add_external_hyperlink(
@@ -1513,8 +1513,8 @@ def build():
     )
     appendix.add_run(
         ". The final evidence bundle is evidence/paper-final-20260824; "
-        "the sensitivity bundle is evidence/trie-sensitivity-20260824. Results in this "
-        "paper are generated programmatically from their summary CSV files and verified against "
+        "the sensitivity bundle is evidence/trie-sensitivity-20260824. Tables and figures are "
+        "produced from the audited summary CSV files and verified against "
         "raw results and manifests; no table or graph uses an earlier validation export."
     )
 
@@ -1541,20 +1541,20 @@ def build():
     link_citations(
         doc,
         {
-            "[1]": "ref_delta",
-            "[2]": "ref_noms",
-            "[3]": "ref_mst",
-            "[4]": "ref_ipfs",
-            "[5]": "ref_datahub",
-            "[6]": "ref_versioning",
-            "[7]": "ref_git",
-            "[8]": "ref_dolt_block",
-            "[9]": "ref_dolt_prolly",
-            "[10]": "ref_persistent",
+            "[1]": "ref_git",
+            "[2]": "ref_dolt_block",
+            "[3]": "ref_dolt_prolly",
+            "[4]": "ref_merkle",
+            "[5]": "ref_persistent",
+            "[6]": "ref_ipfs",
+            "[7]": "ref_mst",
+            "[8]": "ref_lbfs",
+            "[9]": "ref_datahub",
+            "[10]": "ref_decibel",
             "[11]": "ref_orpheus",
-            "[12]": "ref_decibel",
-            "[13]": "ref_merkle",
-            "[14]": "ref_lbfs",
+            "[12]": "ref_versioning",
+            "[13]": "ref_delta",
+            "[14]": "ref_noms",
             "[15]": "ref_forkbase",
         },
     )

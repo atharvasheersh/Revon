@@ -19,7 +19,7 @@ from reportlab.platypus import (
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "docs" / "architecture"
-AUTHOR = "Adhyan Jain; Poornima Nedunchezhian; Atharva Sheersh Pandey"
+AUTHOR = "Atharva Sheersh Pandey; Adhyan Jain; Poornima Nedunchezhian"
 BUILD_DATE = "9 September 2026"
 PAGE_WIDTH, PAGE_HEIGHT = A4
 LEFT_MARGIN = 17 * mm

@@ -55,7 +55,7 @@ def run_demo(database_path: Path, rows: int, reset: bool) -> dict[str, Any]:
     if journal_path.exists():
         journal_path.unlink()
 
-    sample_dir = Path(__file__).parent / "test_data" / "sqlite-demo"
+    sample_dir = Path(__file__).parent / "tests" / "test_data" / "sqlite-demo"
     before, after, sql = generate_sample_files(sample_dir, rows=rows)
 
     with SQLiteRevonRepository.create(database_path) as repository:

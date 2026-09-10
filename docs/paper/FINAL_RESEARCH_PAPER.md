@@ -6,7 +6,6 @@ Date: 2026-08-24
 
 - `paper/Revon_Final_Research_Paper.docx`
 - `paper/Revon_Final_Research_Paper.pdf`
-- Generator: `tools/build_final_research_paper.py`
 - Canonical repository: <https://github.com/atharvasheersh/Revon>
 
 Only the final paper artifacts are versioned in the repository. Earlier working
@@ -15,7 +14,7 @@ files contain no draft-status banners or preliminary smoke tables.
 
 ## Publication format
 
-- Authors: Adhyan Jain, Poornima Nedunchezhian, and Atharva Sheersh Pandey,
+- Authors: Atharva Sheersh Pandey, Adhyan Jain, and Poornima Nedunchezhian,
   School of Computer Science and Engineering, VIT Vellore
 - School of Computer Science and Engineering
 - VIT Vellore
@@ -97,7 +96,7 @@ Dolt 2.3.1 and the audited paper run ID
 - `b=8, d=4` is described as a storage-conscious balanced default, while
   `b=8, d=3` is reported as a latency-oriented alternative.
 
-## Rebuild
+## Artifact maintenance
 
 From the repository root:
 
@@ -105,10 +104,11 @@ From the repository root:
 python tools/build_final_research_paper.py
 ```
 
-The generator depends only on `python-docx` and Pillow beyond the Python
-standard library. It validates the final manifests, audit result, row counts,
-correctness flags, Dolt version, and sensitivity summaries before writing the
-DOCX. Export the resulting DOCX to PDF using Microsoft Word or LibreOffice.
+The maintenance utility depends only on `python-docx` and Pillow beyond the
+Python standard library. It validates the final manifests, audit result, row
+counts, correctness flags, Dolt version, and sensitivity summaries while
+maintaining the editable DOCX. Export the author-approved DOCX to PDF using
+Microsoft Word or LibreOffice.
 
 ## Verification completed
 

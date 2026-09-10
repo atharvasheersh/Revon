@@ -41,6 +41,6 @@ also extracted to verify page counts and detect encoding failures.
 
 ## Verification
 
-- `python -m unittest discover -v`: 40 tests passed.
+- `python -m unittest discover -s tests -v`: 40 tests passed.
 - `npm run lint`: passed with zero errors.
 - `npm test`: production build passed; 2 rendered-page tests passed.

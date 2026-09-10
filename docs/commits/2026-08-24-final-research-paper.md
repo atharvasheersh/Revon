@@ -9,7 +9,7 @@ benchmark and completed the camera-ready research narrative.
 
 ## Changes
 
-- Added a portable final-paper generator at
+- Added portable manuscript-formatting and validation tooling at
   `tools/build_final_research_paper.py`.
 - Created separate final DOCX and PDF deliverables while preserving the earlier
   working draft.
@@ -44,7 +44,7 @@ benchmark and completed the camera-ready research narrative.
 
 ## Verification
 
-- `python -m unittest discover -v` - 44 tests passed
+- `python -m unittest discover -s tests -v` - 44 tests passed
 - `python -m experiments.evidence_audit output/benchmarks/paper-final-20260824`
   - passed with no issues
 - 333 paper rows successful and correct

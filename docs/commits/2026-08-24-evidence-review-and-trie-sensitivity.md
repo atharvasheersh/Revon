@@ -31,14 +31,14 @@ design point rather than assuming it is universally optimal.
 
 ## Verification
 
-- `python -m unittest -v test_evidence_audit.py test_trie_sensitivity.py`
+- `python -m unittest discover -s tests -v`
 - `python -m experiments.evidence_audit output/benchmarks/paper-final-20260824`
 - Full sensitivity run: 2 warmups and 7 measured trials for five geometries
-- `python -m unittest discover -v` — 44 tests passed
+- `python -m unittest discover -s tests -v` — 44 tests passed
 
 ## Result
 
 The final benchmark evidence is internally consistent and suitable for paper
 analysis. The sensitivity study shows that `b8-d4` is a storage-conscious
 balanced default, while `b8-d3` is faster on the controlled workload at the
-cost of 61.2% more storage and three times as many examined leaf entries.
+cost of 61.9% more storage and three times as many examined leaf entries.
