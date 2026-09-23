@@ -22,7 +22,7 @@ not compare Revon with Dolt and does not change the final comparison bundle.
 - Diff strategy: forced Merkle
 - Durability: `SQLiteRevonRepository`
 - Correctness: exact initial checkout, final checkout, and changed-key oracle
-- Workload identity: one SHA-256 digest reused by all 45 trials
+- Workload identity: one SHA-256 digest reused by all 45 executions
 - Reporting: median, p25, and p75; warmups excluded
 
 Run it again with:
@@ -43,7 +43,7 @@ The study contains two complementary comparisons:
 
 ## Validation
 
-- Raw rows: 45 as expected (`5 configurations x 9 repetitions`)
+- Raw rows: 45 as expected (`5 configurations x (2 warm-ups + 7 measured)`)
 - Successful rows: 45
 - Correct rows: 45
 - Workload digests: one

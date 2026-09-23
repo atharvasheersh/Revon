@@ -1,0 +1,8 @@
+{
+  "interval_unit": "paired repeated-trial ratios within each fixed scenario",
+  "generalization": "does not cover workload-population or cross-machine uncertainty",
+  "paired_rows": 48,
+  "inconclusive_rows": 7,
+  "bootstrap_resamples": 20000,
+  "file": "paired_ratio_uncertainty.csv"
+}

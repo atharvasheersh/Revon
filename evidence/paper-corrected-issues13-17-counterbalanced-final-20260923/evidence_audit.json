@@ -1,0 +1,55 @@
+{
+  "directory": "evidence\\paper-corrected-issues13-17-counterbalanced-final-20260923",
+  "dolt_diff_semantically_validated_by_harness": true,
+  "dolt_versions": [
+    "dolt version 2.3.1 Warning: you are on an old version of Dolt. The newest version is 2.3.5."
+  ],
+  "execution_counts": {
+    "dolt_bulk_evaluation_measured": 56,
+    "dolt_evaluation_measured": 56,
+    "measured": 420,
+    "primary_evaluation_measured": 280,
+    "warmups": 120
+  },
+  "hybrid_threshold_operations": 4096,
+  "issues": [],
+  "legacy_dolt_diff_unverified_rows": 0,
+  "outlier_candidates": 127,
+  "outlier_method": "Tukey 1.5*IQR fences within each measured scenario/model/metric group",
+  "outlier_rows_retained": true,
+  "passed": true,
+  "profile": "paper",
+  "raw_rows": 540,
+  "recorded_correctness_true_rows": 540,
+  "revon_h_evaluation_strategies": {
+    "large-application-key-local": [
+      "log"
+    ],
+    "large-hash-route-local": [
+      "log"
+    ],
+    "large-range-local": [
+      "log"
+    ],
+    "large-repeated-key": [
+      "log"
+    ],
+    "large-sparse": [
+      "log"
+    ],
+    "medium-dense": [
+      "merkle"
+    ],
+    "medium-sparse": [
+      "log"
+    ],
+    "small-sparse": [
+      "log"
+    ]
+  },
+  "run_id": "b7a4ec7b610742d9b827f43fd5092fe2",
+  "status_counts": {
+    "ok": 540
+  },
+  "summary_rows": 60
+}

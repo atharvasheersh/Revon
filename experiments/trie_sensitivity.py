@@ -15,7 +15,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from .adapters import RevonAdapter
+from .adapters import (
+    RevonAdapter,
+    decode_diff_bytes,
+    decode_state_bytes,
+    value_digest,
+)
 from .final_benchmark import _measure, _percentile
 from .workloads import Workload, WorkloadSpec, build_workload
 
@@ -178,7 +183,7 @@ def run_sensitivity_trial(
             commit_times.append(commit_ms)
             memory_peaks.append(commit_memory)
 
-        diff_ms, diff_memory, diff_keys = _measure(
+        diff_ms, diff_memory, diff_output = _measure(
             lambda: adapter.diff(1, adapter.version)
         )
         memory_peaks.append(diff_memory)
@@ -188,11 +193,19 @@ def run_sensitivity_trial(
         )
         memory_peaks.append(checkout_memory)
 
-        initial_state = adapter.checkout(1)
+        initial_state = decode_state_bytes(adapter.checkout(1))
+        parsed_diff = decode_diff_bytes(diff_output)
+        first, last = workload.states[0], workload.states[-1]
+        expected_diff = {
+            key: (value_digest(first.get(key)), value_digest(last.get(key)))
+            for key in first.keys() | last.keys()
+            if first.get(key) != last.get(key)
+        }
         correct = (
             initial_state == workload.states[0]
-            and final_state == workload.states[-1]
-            and sorted(diff_keys) == workload.expected_diff_keys
+            and decode_state_bytes(final_state) == workload.states[-1]
+            and parsed_diff == expected_diff
+            and sorted(parsed_diff) == workload.expected_diff_keys
         )
         if not correct:
             raise AssertionError("checkout or diff disagrees with the shared workload oracle")

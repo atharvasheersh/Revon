@@ -1,0 +1,40 @@
+{
+  "base_seed": 20260822,
+  "created_utc": "2026-09-23T08:04:30.526422+00:00",
+  "dolt_available": true,
+  "hybrid_threshold_operations": 4096,
+  "measured_trials": 7,
+  "metric_contract": {
+    "audit_scope": "internal evidence-integrity check; does not independently reproduce raw timings",
+    "checkout": "full target-version state, sorted and materialized as canonical UTF-8 JSON inside the timed region for every system",
+    "comparison_scope": "in-process Revon API versus Dolt CLI workflow; not an engine-only algorithm comparison",
+    "correctness": "initial/final checkout and observed common diff contract; old/new value hashes checked against the workload oracle",
+    "diff": "sorted changed keys and old/new SHA-256 value hashes, fully materialized as canonical JSON inside the timed region for every system",
+    "dolt_commit": "SQL mutation, add, and commit; no per-version tag command",
+    "dolt_initial_import": "Dolt uses the SQL INSERT workflow; Dolt (bulk import) uses dolt table import -r. These import workflows are reported separately",
+    "incremental_commit": "median durable commit within one trial",
+    "initial_import": "first durable state and version",
+    "model_order": "models are deterministically randomized within scenario/trial blocks; raw execution_order records each model's position",
+    "post_compaction_storage": "measured on the first measured trial per evaluation scenario after offline dolt gc for both Dolt import modes and SQLite VACUUM for Revon-M and Revon-H; compaction timing is outside benchmark operation timing and RSS sampling; not applicable to Snapshot and Log-only file baselines",
+    "process_tree_peak_rss": "sampled externally by the parent every 10 ms for isolated per-trial processes, including Dolt child processes; sampling is outside the timed worker operations",
+    "setup": "excluded",
+    "storage": "bytes in the adapter repository directory",
+    "storage_normalization": "total repository bytes divided by UTF-8 key/value state bytes at the final version; a workflow ratio, not an isolated index efficiency score",
+    "storage_residual": "repository bytes minus raw UTF-8 key/value bytes; includes encoding, indexing, metadata, and compression effects and is not pure metadata overhead"
+  },
+  "models": [
+    "snapshot",
+    "log",
+    "revon-m",
+    "revon-h",
+    "dolt",
+    "dolt-bulk"
+  ],
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "profile": "paper",
+  "python_version": "3.14.3",
+  "run_id": "b7a4ec7b610742d9b827f43fd5092fe2",
+  "schema_version": 4,
+  "warmups": 2
+}
