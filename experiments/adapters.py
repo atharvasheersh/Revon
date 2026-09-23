@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-import csv
-import io
+import hashlib
 import json
 import os
 import shutil
 import subprocess
-import threading
-import time
+import re
+import csv
 from pathlib import Path
 from typing import Any, Optional
 
@@ -26,6 +25,85 @@ def canonical_bytes(value: Any) -> bytes:
         ensure_ascii=False,
         allow_nan=False,
     ).encode("utf-8")
+
+
+def value_digest(value: Optional[str]) -> Optional[str]:
+    return hashlib.sha256(value.encode("utf-8")).hexdigest() if value is not None else None
+
+
+def canonical_state_bytes(state: dict[str, str]) -> bytes:
+    """The common checkout result is sorted UTF-8 JSON key/value pairs."""
+    return canonical_bytes({"records": [[key, state[key]] for key in sorted(state)]})
+
+
+def decode_state_bytes(output: bytes) -> dict[str, str]:
+    try:
+        document = json.loads(output)
+        records = document["records"]
+        if not isinstance(records, list):
+            raise TypeError
+        result: dict[str, str] = {}
+        for row in records:
+            if not isinstance(row, list) or len(row) != 2:
+                raise TypeError
+            key, value = row
+            if not isinstance(key, str) or not isinstance(value, str) or key in result:
+                raise TypeError
+            result[key] = value
+        return result
+    except (ValueError, KeyError, TypeError) as exc:
+        raise ValueError("checkout did not materialize the canonical state contract") from exc
+
+
+def canonical_diff_bytes(changes: dict[str, tuple[Optional[str], Optional[str]]]) -> bytes:
+    """Normalize every implementation to sorted changed keys and value hashes."""
+    records = [
+        {
+            "key": key,
+            "old_value_sha256": value_digest(old),
+            "new_value_sha256": value_digest(new),
+        }
+        for key, (old, new) in sorted(changes.items())
+        if old != new
+    ]
+    return canonical_bytes({"changes": records})
+
+
+def decode_diff_bytes(output: bytes) -> dict[str, tuple[Optional[str], Optional[str]]]:
+    """Decode the public key/hash contract for correctness checks."""
+    try:
+        document = json.loads(output)
+        records = document["changes"]
+        if not isinstance(records, list):
+            raise TypeError
+        decoded: dict[str, tuple[Optional[str], Optional[str]]] = {}
+        previous = None
+        for record in records:
+            key = record["key"]
+            old = record["old_value_sha256"]
+            new = record["new_value_sha256"]
+            if (
+                not isinstance(key, str)
+                or key in decoded
+                or (previous is not None and key <= previous)
+                or (old is not None and not isinstance(old, str))
+                or (new is not None and not isinstance(new, str))
+                or old == new
+                or not any(value is not None for value in (old, new))
+                or any(
+                    value is not None
+                    and (len(value) != 64 or any(ch not in "0123456789abcdef" for ch in value))
+                    for value in (old, new)
+                )
+            ):
+                raise TypeError
+            decoded[key] = (old, new)
+            previous = key
+        if canonical_bytes(document) != output:
+            raise TypeError
+        return decoded
+    except (ValueError, KeyError, TypeError) as exc:
+        raise ValueError("diff did not materialize the canonical key/hash contract") from exc
 
 
 def durable_write(path: Path, value: Any) -> None:
@@ -65,20 +143,22 @@ class SnapshotAdapter:
         self.version += 1
         durable_write(self._version_path(self.version), self.state)
 
-    def checkout(self, version: int) -> dict[str, str]:
+    def checkout(self, version: int) -> bytes:
         with self._version_path(version).open("r", encoding="utf-8") as stream:
-            return json.load(stream)
+            return canonical_state_bytes(json.load(stream))
 
-    def diff(self, left: int, right: int) -> list[str]:
-        left_state, right_state = self.checkout(left), self.checkout(right)
+    def diff(self, left: int, right: int) -> bytes:
+        left_state = decode_state_bytes(self.checkout(left))
+        right_state = decode_state_bytes(self.checkout(right))
         keys = set(left_state) | set(right_state)
         self.work_examined = len(keys)
         missing = object()
-        return sorted(
-            key
+        changes = {
+            key: (left_state.get(key), right_state.get(key))
             for key in keys
             if left_state.get(key, missing) != right_state.get(key, missing)
-        )
+        }
+        return canonical_diff_bytes(changes)
 
     def storage_bytes(self) -> int:
         return directory_size(self.path)
@@ -128,7 +208,7 @@ class LogOnlyAdapter:
         with self.log_path.open("r", encoding="utf-8") as stream:
             return [json.loads(line) for line in stream if line.strip()]
 
-    def checkout(self, version: int) -> dict[str, str]:
+    def checkout(self, version: int) -> bytes:
         if not 1 <= version <= self.version:
             raise KeyError(f"unknown version: {version}")
         with self.base_path.open("r", encoding="utf-8") as stream:
@@ -141,9 +221,9 @@ class LogOnlyAdapter:
                     state[change["key"]] = change["new"]
                 else:
                     del state[change["key"]]
-        return state
+        return canonical_state_bytes(state)
 
-    def diff(self, left: int, right: int) -> list[str]:
+    def diff(self, left: int, right: int) -> bytes:
         if not 1 <= left <= right <= self.version:
             raise KeyError("versions must satisfy 1 <= left <= right <= HEAD")
         first: dict[str, dict[str, Any]] = {}
@@ -156,12 +236,16 @@ class LogOnlyAdapter:
                     first.setdefault(change["key"], change)
                     final[change["key"]] = change
         self.work_examined = examined
-        return sorted(
-            key
+        changes = {
+            key: (
+                first[key]["old"] if first[key]["old_exists"] else None,
+                latest["new"] if latest["new_exists"] else None,
+            )
             for key, latest in final.items()
             if first[key]["old_exists"] != latest["new_exists"]
             or first[key]["old"] != latest["new"]
-        )
+        }
+        return canonical_diff_bytes(changes)
 
     def storage_bytes(self) -> int:
         return directory_size(self.path)
@@ -225,10 +309,10 @@ class RevonAdapter:
         )
         self.version += 1
 
-    def checkout(self, version: int) -> dict[str, str]:
-        return self.repository.checkout(version)
+    def checkout(self, version: int) -> bytes:
+        return canonical_state_bytes(self.repository.checkout(version))
 
-    def diff(self, left: int, right: int) -> list[str]:
+    def diff(self, left: int, right: int) -> bytes:
         entries = self.repository.diff_versions(left, right, self.strategy_requested)
         stats = self.repository.last_diff_stats
         self.strategy_selected = stats.strategy
@@ -238,7 +322,9 @@ class RevonAdapter:
         else:
             self.work_examined = stats.nodes_compared
             self.work_unit = "tree node pairs"
-        return [entry.key for entry in entries]
+        return canonical_diff_bytes(
+            {entry.key: (entry.old_value, entry.new_value) for entry in entries}
+        )
 
     def storage_bytes(self) -> int:
         return directory_size(self.path)
@@ -268,16 +354,16 @@ class DoltAdapter:
     def executable() -> Optional[str]:
         return shutil.which("dolt")
 
-    def __init__(self, path: Path, **_: Any) -> None:
+    def __init__(self, path: Path, *, bulk_import: bool = False, **_: Any) -> None:
         executable = self.executable()
         if executable is None:
             raise DoltUnavailableError("dolt executable is not on PATH")
         self.executable_path = executable
         self.path = path
+        self.bulk_import = bulk_import
         self.path.mkdir(parents=True, exist_ok=True)
         self.version = 0
-        self.external_peak_memory: Optional[int] = None
-        self._operation_peaks: list[int] = []
+        self.version_hashes: list[str] = []
         self._run(
             ["init", "--name", "Revon Benchmark", "--email", "benchmark@revon.local"]
         )
@@ -291,11 +377,9 @@ class DoltAdapter:
 
     @property
     def version_text(self) -> str:
-        return self._run(["version"]).stdout.strip().replace("\n", " ")
-
-    def _begin_operation(self) -> None:
-        self._operation_peaks = []
-        self.external_peak_memory = None
+        text = self._run(["version"]).stdout.strip().replace("\n", " ")
+        match = re.search(r"\bdolt\s+version\s+([0-9]+(?:\.[0-9]+){1,3})\b", text, re.IGNORECASE)
+        return f"Dolt {match.group(1)}" if match else text
 
     def _run(
         self, arguments: list[str], *, input_text: Optional[str] = None
@@ -309,35 +393,7 @@ class DoltAdapter:
             stderr=subprocess.PIPE,
             text=True,
         )
-        peak: list[int] = []
-        stop = threading.Event()
-
-        def sample() -> None:
-            try:
-                import psutil  # type: ignore[import-not-found]
-
-                tracked = psutil.Process(process.pid)
-                while not stop.is_set():
-                    processes = [tracked, *tracked.children(recursive=True)]
-                    peak.append(
-                        sum(
-                            child.memory_info().rss
-                            for child in processes
-                            if child.is_running()
-                        )
-                    )
-                    time.sleep(0.002)
-            except (ImportError, OSError):
-                return
-
-        monitor = threading.Thread(target=sample, daemon=True)
-        monitor.start()
         stdout, stderr = process.communicate(input=input_text)
-        stop.set()
-        monitor.join(timeout=0.1)
-        if peak:
-            self._operation_peaks.append(max(peak))
-            self.external_peak_memory = max(self._operation_peaks)
         result = subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
         if result.returncode != 0:
             raise DoltCommandError(
@@ -349,29 +405,42 @@ class DoltAdapter:
     def _literal(value: str) -> str:
         return "'" + value.replace("'", "''") + "'"
 
-    def _commit_and_tag(self) -> None:
+    def _commit_and_remember_hash(self) -> None:
         self._run(["add", "."])
-        self._run(["commit", "-m", f"benchmark version {self.version}"])
-        self._run(["tag", f"revon-v{self.version}"])
+        result = self._run(["commit", "-m", f"benchmark version {self.version}"])
+        match = re.search(r"\b[a-z0-9]{20,64}\b", result.stdout, re.IGNORECASE)
+        if match is None:
+            raise DoltCommandError("Dolt commit did not return a commit hash")
+        commit_hash = match.group(0)
+        self.version_hashes.append(commit_hash)
 
     def initial_import(self, state: dict[str, str]) -> None:
-        self._begin_operation()
-        ordered = sorted(state.items())
-        statements: list[str] = []
-        for start in range(0, len(ordered), 1_000):
-            rows = ",".join(
-                f"({self._literal(key)},{self._literal(value)})"
-                for key, value in ordered[start : start + 1_000]
-            )
-            statements.append(
-                f"INSERT INTO records (id,payload) VALUES {rows};"
-            )
-        self._run(["sql"], input_text="\n".join(statements))
+        if self.bulk_import:
+            import_file = self.path.parent.resolve() / "dolt-initial-import.csv"
+            try:
+                with import_file.open("w", newline="", encoding="utf-8") as stream:
+                    writer = csv.writer(stream, lineterminator="\n")
+                    writer.writerow(("id", "payload"))
+                    writer.writerows(sorted(state.items()))
+                self._run(["table", "import", "-r", "records", str(import_file)])
+            finally:
+                import_file.unlink(missing_ok=True)
+        else:
+            ordered = sorted(state.items())
+            statements: list[str] = []
+            for start in range(0, len(ordered), 1_000):
+                rows = ",".join(
+                    f"({self._literal(key)},{self._literal(value)})"
+                    for key, value in ordered[start : start + 1_000]
+                )
+                statements.append(
+                    f"INSERT INTO records (id,payload) VALUES {rows};"
+                )
+            self._run(["sql"], input_text="\n".join(statements))
         self.version = 1
-        self._commit_and_tag()
+        self._commit_and_remember_hash()
 
     def commit(self, mutations: tuple[Mutation, ...]) -> None:
-        self._begin_operation()
         statements: list[str] = []
         puts = [mutation for mutation in mutations if mutation.new_exists]
         deletes = [mutation for mutation in mutations if not mutation.new_exists]
@@ -390,27 +459,82 @@ class DoltAdapter:
             statements.append(f"DELETE FROM records WHERE id IN ({keys});")
         self._run(["sql"], input_text="\n".join(statements))
         self.version += 1
-        self._commit_and_tag()
+        self._commit_and_remember_hash()
 
-    def checkout(self, version: int) -> dict[str, str]:
-        self._begin_operation()
+    def checkout(self, version: int) -> bytes:
+        if not 1 <= version <= len(self.version_hashes):
+            raise KeyError(f"unknown version: {version}")
         query = (
             "SELECT id,payload FROM records AS OF "
-            + self._literal(f"revon-v{version}")
+            + self._literal(self.version_hashes[version - 1])
             + " ORDER BY id"
         )
-        output = self._run(["sql", "-r", "csv", "-q", query]).stdout
-        header = output.find("id,payload")
-        if header < 0:
-            raise DoltCommandError("Dolt CSV query did not return the expected header")
-        return {row["id"]: row["payload"] for row in csv.DictReader(io.StringIO(output[header:]))}
+        output = self._run(["sql", "-r", "json", "-q", query]).stdout
+        try:
+            rows = json.loads(output)["rows"]
+            state = {row["id"]: row["payload"] for row in rows}
+            if any(not isinstance(k, str) or not isinstance(v, str) for k, v in state.items()):
+                raise TypeError
+            if len(state) != len(rows):
+                raise TypeError
+        except (ValueError, KeyError, TypeError) as exc:
+            raise DoltCommandError("Dolt checkout did not return the expected JSON rows") from exc
+        return canonical_state_bytes(state)
 
-    def diff(self, left: int, right: int) -> None:
-        self._begin_operation()
-        self._run(
-            ["diff", f"revon-v{left}", f"revon-v{right}", "records"]
-        )
-        return None
+    @staticmethod
+    def _parse_diff_json(output: str) -> dict[str, tuple[Optional[str], Optional[str]]]:
+        try:
+            document = json.loads(output)
+            tables = document["tables"]
+        except (ValueError, KeyError, TypeError) as exc:
+            raise DoltCommandError("Dolt did not return a structured JSON diff") from exc
+        if tables == []:
+            return {}
+        if not isinstance(tables, list) or len(tables) != 1:
+            raise DoltCommandError("Dolt JSON diff did not contain exactly one table")
+        table = tables[0]
+        if (
+            not isinstance(table, dict)
+            or table.get("name") != "records"
+            or table.get("schema_diff") != []
+        ):
+            raise DoltCommandError("Dolt diff changed the table schema or table identity")
+        rows = table.get("data_diff")
+        if not isinstance(rows, list):
+            raise DoltCommandError("Dolt JSON diff has no data_diff list")
+        changed: dict[str, tuple[Optional[str], Optional[str]]] = {}
+        for row in rows:
+            if not isinstance(row, dict):
+                raise DoltCommandError("Dolt JSON diff contains a malformed row")
+            old, new = row.get("from_row"), row.get("to_row")
+            if not isinstance(old, dict) or not isinstance(new, dict) or not (old or new):
+                raise DoltCommandError("Dolt JSON diff contains an empty or malformed change")
+            for state in (old, new):
+                if state and (set(state) != {"id", "payload"} or not all(
+                    isinstance(value, str) for value in state.values()
+                )):
+                    raise DoltCommandError("Dolt JSON diff contains incomplete row values")
+            key = old.get("id") or new.get("id")
+            if not key:
+                raise DoltCommandError("Dolt JSON diff contains an empty primary key")
+            if old and new and old["id"] != new["id"]:
+                raise DoltCommandError("Dolt JSON diff changed a primary key in one row")
+            if key in changed:
+                raise DoltCommandError(f"Dolt JSON diff repeats key {key!r}")
+            before = old.get("payload")
+            after = new.get("payload")
+            if before == after:
+                raise DoltCommandError(f"Dolt JSON diff reports an unchanged key {key!r}")
+            changed[key] = (before, after)
+        return changed
+
+    def diff(self, left: int, right: int) -> bytes:
+        if not 1 <= left <= right <= len(self.version_hashes):
+            raise KeyError("versions must satisfy 1 <= left <= right <= HEAD")
+        output = self._run(
+            ["diff", "-r", "json", self.version_hashes[left - 1], self.version_hashes[right - 1], "records"]
+        ).stdout
+        return canonical_diff_bytes(self._parse_diff_json(output))
 
     def storage_bytes(self) -> int:
         return directory_size(self.path)

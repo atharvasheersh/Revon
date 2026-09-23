@@ -48,8 +48,15 @@ class WorkloadSpec:
             raise ValueError("changes_per_commit must be between 1 and rows")
         if self.payload_bytes < 8:
             raise ValueError("payload_bytes must be at least 8")
-        if self.locality not in {"spread", "hot"}:
-            raise ValueError("locality must be 'spread' or 'hot'")
+        if self.locality not in {
+            "spread",
+            "hot",  # legacy alias retained so schema-1-3 evidence can be rechecked
+            "application-key-local",
+            "range-local",
+            "repeated-key",
+            "hash-route-local",
+        }:
+            raise ValueError("unknown workload locality")
 
 
 @dataclass(frozen=True)
@@ -103,6 +110,17 @@ def build_workload(spec: WorkloadSpec) -> Workload:
     states: list[dict[str, str]] = [dict(state)]
     batches: list[tuple[Mutation, ...]] = []
     next_key = spec.rows
+    route_prefix_bits = 9
+    initial_route_buckets: dict[int, list[str]] = {}
+    if spec.locality == "hash-route-local":
+        for key in initial:
+            route = int.from_bytes(hashlib.sha256(key.encode("utf-8")).digest(), "big") >> (256 - route_prefix_bits)
+            initial_route_buckets.setdefault(route, []).append(key)
+    route_bucket = (
+        max(initial_route_buckets, key=lambda bucket: (len(initial_route_buckets[bucket]), -bucket))
+        if initial_route_buckets
+        else None
+    )
 
     for revision in range(1, spec.commits + 1):
         change_count = spec.changes_per_commit
@@ -111,12 +129,28 @@ def build_workload(spec: WorkloadSpec) -> Workload:
         updates = change_count - inserts - deletes
 
         existing = sorted(state)
-        if spec.locality == "hot":
+        if spec.locality in {"hot", "application-key-local"}:
             hot_size = max(change_count, min(len(existing), max(16, spec.rows // 100)))
             candidates = existing[:hot_size]
+        elif spec.locality == "repeated-key":
+            hot_size = min(len(existing), max(2 * change_count, 32))
+            candidates = existing[:hot_size]
+        elif spec.locality == "hash-route-local":
+            candidates = [
+                key
+                for key in existing
+                if int.from_bytes(hashlib.sha256(key.encode("utf-8")).digest(), "big")
+                >> (256 - route_prefix_bits)
+                == route_bucket
+            ]
         else:
             candidates = existing
-        selected = rng.sample(candidates, updates + deletes)
+        selection_count = updates + deletes
+        if spec.locality == "range-local":
+            start = rng.randrange(len(candidates) - selection_count + 1)
+            selected = candidates[start : start + selection_count]
+        else:
+            selected = rng.sample(candidates, selection_count)
 
         batch: list[Mutation] = []
         for key in selected[:updates]:
@@ -181,5 +215,26 @@ def profile_specs(profile: str, seed: int, *, phase: str) -> list[WorkloadSpec]:
         WorkloadSpec("medium-sparse", 10_000, 10, 10, seed + 1),
         WorkloadSpec("medium-dense", 10_000, 10, 1_000, seed + 2),
         WorkloadSpec("large-sparse", 100_000, 10, 100, seed + 3),
-        WorkloadSpec("large-hot", 100_000, 10, 100, seed + 4, locality="hot"),
+        WorkloadSpec(
+            "large-application-key-local",
+            100_000,
+            10,
+            100,
+            seed + 4,
+            locality="application-key-local",
+        ),
+        WorkloadSpec(
+            "large-range-local", 100_000, 10, 100, seed + 5, locality="range-local"
+        ),
+        WorkloadSpec(
+            "large-repeated-key", 100_000, 10, 100, seed + 6, locality="repeated-key"
+        ),
+        WorkloadSpec(
+            "large-hash-route-local",
+            100_000,
+            10,
+            100,
+            seed + 7,
+            locality="hash-route-local",
+        ),
     ]

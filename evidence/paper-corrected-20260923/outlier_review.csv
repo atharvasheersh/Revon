@@ -1,0 +1,73 @@
+phase,scenario,model,trial,metric,value,median,p25,p75,lower_fence,upper_fence,ratio_to_median,classification
+calibration,calibration-c1,Revon-M (forced Merkle),2,storage_bytes,2617344.0,2621440.0,2621440.0,2623488.0,2618368.0,2626560.0,0.9984375,non-timing variability candidate; retained and reviewed
+calibration,calibration-c1,Revon-M (forced Merkle),5,storage_bytes,2633728.0,2621440.0,2621440.0,2623488.0,2618368.0,2626560.0,1.0046875,non-timing variability candidate; retained and reviewed
+calibration,calibration-c1,Revon-log calibration,7,initial_import_ms,2264.6844,1477.6647,1444.08565,1677.2757000000001,1094.3005749999998,2027.0607750000004,1.53261047651744,timing variability candidate; retained in summary
+calibration,calibration-c1,Revon-log calibration,7,checkout_ms,13.7611,7.7716,7.40845,8.63485,5.56885,10.474450000000001,1.7706907200576458,timing variability candidate; retained in summary
+calibration,calibration-c1024,Revon-M (forced Merkle),1,incremental_commit_ms,496.86585,655.8045999999999,623.5763999999999,699.164075,510.19488749999977,812.5455875000002,0.757643130286064,timing variability candidate; retained in summary
+calibration,calibration-c1024,Revon-log calibration,1,incremental_commit_ms,798.5343,586.682,544.5763999999999,616.4247,436.80394999999976,724.1971500000002,1.3611024370953941,timing variability candidate; retained in summary
+calibration,calibration-c1024,Revon-log calibration,4,incremental_commit_ms,427.84245,586.682,544.5763999999999,616.4247,436.80394999999976,724.1971500000002,0.7292578432609147,timing variability candidate; retained in summary
+calibration,calibration-c1024,Revon-log calibration,3,storage_bytes,6074368.0,6041600.0,6041600.0,6047744.0,6032384.0,6056960.0,1.0054237288135592,non-timing variability candidate; retained and reviewed
+calibration,calibration-c16,Revon-M (forced Merkle),4,incremental_commit_ms,62.5294,42.14485,40.017025000000004,43.06905,35.43898750000001,47.647087499999984,1.483678314194973,timing variability candidate; retained in summary
+calibration,calibration-c16,Revon-M (forced Merkle),4,diff_ms,7.3014,5.3173,4.9418,5.654450000000001,3.8728249999999984,6.723425000000002,1.373140503639065,timing variability candidate; retained in summary
+calibration,calibration-c16,Revon-log calibration,5,initial_import_ms,2629.6859,1625.5438,1528.2627,1916.5750000000003,945.7942499999996,2499.0434500000006,1.6177268800754554,timing variability candidate; retained in summary
+calibration,calibration-c16,Revon-log calibration,5,incremental_commit_ms,76.2993,43.86635,41.066075,53.41455,22.543362499999997,71.9372625,1.739358300838798,timing variability candidate; retained in summary
+calibration,calibration-c256,Revon-M (forced Merkle),7,initial_import_ms,3056.6055,2448.9289,2412.75895,2538.2728,2224.4881749999995,2726.5435750000006,1.2481397479526664,timing variability candidate; retained in summary
+calibration,calibration-c256,Revon-M (forced Merkle),7,checkout_ms,33.8036,16.4042,11.71925,17.26335,3.403100000000004,25.579499999999996,2.0606673900586436,timing variability candidate; retained in summary
+calibration,calibration-c256,Revon-log calibration,6,incremental_commit_ms,405.7446,269.43835,260.724025,315.71355,178.23973749999996,398.1978375,1.5058903084880084,timing variability candidate; retained in summary
+calibration,calibration-c256,Revon-log calibration,7,diff_ms,15.6085,8.0646,7.38855,10.032900000000001,3.4220249999999988,13.999425000000002,1.9354338714877364,timing variability candidate; retained in summary
+calibration,calibration-c4,Revon-M (forced Merkle),4,initial_import_ms,2381.6557,1708.8692,1658.6712,1901.3399,1294.66815,2265.3429499999997,1.393702747992649,timing variability candidate; retained in summary
+calibration,calibration-c4,Revon-M (forced Merkle),4,incremental_commit_ms,41.489900000000006,27.82685,25.127675,29.885749999999998,17.990562500000003,37.022862499999995,1.4910023951686953,timing variability candidate; retained in summary
+calibration,calibration-c4,Revon-log calibration,7,incremental_commit_ms,35.6913,22.3401,21.684475,25.258125,16.323999999999998,30.6186,1.597633851236118,timing variability candidate; retained in summary
+calibration,calibration-c4,Revon-log calibration,7,checkout_ms,15.5653,7.7887,7.6702,8.91075,5.809375000000001,10.771575,1.9984464673180375,timing variability candidate; retained in summary
+calibration,calibration-c64,Revon-M (forced Merkle),7,initial_import_ms,3226.8534,2121.1943,2068.8507,2248.92215,1798.743525,2519.0293249999995,1.5212436691914548,timing variability candidate; retained in summary
+calibration,calibration-c64,Revon-log calibration,5,incremental_commit_ms,200.13465000000002,120.25445,113.92455000000001,124.3253,98.32342500000003,139.926425,1.664259825727863,timing variability candidate; retained in summary
+evaluation,large-hot,Dolt,2,diff_ms,509.4533,333.872,293.86365,376.35635,170.1246,500.09540000000004,1.525894055206786,timing variability candidate; retained in summary
+evaluation,large-hot,Revon-H,6,initial_import_ms,13426.5277,9124.7638,9088.89545,9512.4195,8453.609375,10147.705575,1.4714383839721965,timing variability candidate; retained in summary
+evaluation,large-hot,Revon-H,6,incremental_commit_ms,228.5924,199.77089999999998,196.588575,203.885175,185.64367499999997,214.83007500000002,1.1442727644516795,timing variability candidate; retained in summary
+evaluation,large-hot,Revon-H,2,diff_ms,5.6913,4.5439,4.38195,4.90205,3.6017999999999994,5.6822,1.2525143599110897,timing variability candidate; retained in summary
+evaluation,large-hot,Revon-H,3,storage_bytes,36036608.0,36098048.0,36093952.0,36126720.0,36044800.0,36175872.0,0.9982979689095655,non-timing variability candidate; retained and reviewed
+evaluation,large-hot,Revon-M (forced Merkle),7,initial_import_ms,10796.8219,9410.9166,9345.4467,9882.056799999998,8540.531550000003,10686.971949999996,1.147265708422068,timing variability candidate; retained in summary
+evaluation,large-hot,Revon-M (forced Merkle),2,diff_ms,44.4259,49.9753,49.20635,50.80985,46.801100000000005,53.21509999999999,0.8889571448295458,timing variability candidate; retained in summary
+evaluation,large-hot,Revon-M (forced Merkle),6,diff_ms,58.0876,49.9753,49.20635,50.80985,46.801100000000005,53.21509999999999,1.162326189137434,timing variability candidate; retained in summary
+evaluation,large-hot,Snapshot,2,incremental_commit_ms,580.8364,505.30425,491.18795,514.6166,456.0449750000001,549.7595749999998,1.14947855673092,timing variability candidate; retained in summary
+evaluation,large-sparse,Snapshot,4,diff_ms,1407.2733,513.8489,496.88599999999997,633.7316000000001,291.6175999999998,839.0000000000002,2.738690887535227,timing variability candidate; retained in summary
+evaluation,large-sparse,Snapshot,4,checkout_ms,432.5988,189.1966,150.16675,259.1941,-13.374274999999983,422.735125,2.286504091511158,timing variability candidate; retained in summary
+evaluation,medium-dense,Dolt,3,initial_import_ms,1868.5501,1568.8057,1468.52455,1601.1064999999999,1269.6516250000004,1799.9794249999995,1.19106534352852,timing variability candidate; retained in summary
+evaluation,medium-dense,Dolt,7,initial_import_ms,1131.5559,1568.8057,1468.52455,1601.1064999999999,1269.6516250000004,1799.9794249999995,0.7212849239392745,timing variability candidate; retained in summary
+evaluation,medium-dense,Dolt,2,checkout_ms,847.9516,539.6847,438.4561,600.1449,195.92289999999997,842.6781000000001,1.571198145880363,timing variability candidate; retained in summary
+evaluation,medium-dense,Log-only,7,incremental_commit_ms,31.08375,26.5306,25.34165,27.511475,22.086912500000004,30.7662125,1.1716188099779123,timing variability candidate; retained in summary
+evaluation,medium-dense,Log-only,6,diff_ms,271.3375,123.4722,119.84445,149.38625000000002,75.53174999999996,193.69895000000005,2.197559450629372,timing variability candidate; retained in summary
+evaluation,medium-dense,Revon-H,5,diff_ms,193.7507,123.3688,110.90385,127.13669999999999,86.55457500000003,151.48597499999997,1.5704999967576891,timing variability candidate; retained in summary
+evaluation,medium-dense,Revon-H,1,checkout_ms,8.9261,11.2827,11.22905,11.6984,10.525025000000003,12.402424999999997,0.7911315553901105,timing variability candidate; retained in summary
+evaluation,medium-dense,Revon-M (forced Merkle),3,diff_ms,100.4959,113.6685,111.15325,114.7766,105.71822499999999,120.211625,0.8841138925911753,timing variability candidate; retained in summary
+evaluation,medium-dense,Revon-M (forced Merkle),5,checkout_ms,12.9475,9.7479,9.33445,10.5124,7.567525000000002,12.279324999999998,1.3282347992901036,timing variability candidate; retained in summary
+evaluation,medium-dense,Snapshot,6,initial_import_ms,88.8139,59.1938,55.62765,66.85745,38.78295000000001,83.70214999999999,1.5003919329389226,timing variability candidate; retained in summary
+evaluation,medium-sparse,Dolt,4,initial_import_ms,3008.5985,1779.7472,1671.5462,2203.013,874.3460000000001,3000.2131999999997,1.6904639602748075,timing variability candidate; retained in summary
+evaluation,medium-sparse,Dolt,3,incremental_commit_ms,2786.5518,1694.5729999999999,1583.36655,1788.4314,1275.769275,2096.028675,1.6443976152104396,timing variability candidate; retained in summary
+evaluation,medium-sparse,Dolt,7,incremental_commit_ms,1160.17345,1694.5729999999999,1583.36655,1788.4314,1275.769275,2096.028675,0.6846405849733237,timing variability candidate; retained in summary
+evaluation,medium-sparse,Dolt,3,diff_ms,560.1544,350.4729,341.2596,358.89689999999996,314.80365,385.35284999999993,1.5982816360409038,timing variability candidate; retained in summary
+evaluation,medium-sparse,Dolt,7,diff_ms,274.7354,350.4729,341.2596,358.89689999999996,314.80365,385.35284999999993,0.7838991260094577,timing variability candidate; retained in summary
+evaluation,medium-sparse,Dolt,3,checkout_ms,1187.8425,585.5938,572.2382,647.2697000000001,459.69094999999993,759.8169500000001,2.0284410456531474,timing variability candidate; retained in summary
+evaluation,medium-sparse,Log-only,6,checkout_ms,92.3953,44.5184,40.45455,59.7711,11.479724999999998,88.745925,2.0754407166474986,timing variability candidate; retained in summary
+evaluation,medium-sparse,Revon-H,3,incremental_commit_ms,52.86105,36.27395,34.36035,38.4005,28.30012499999999,44.46072500000001,1.4572730568355527,timing variability candidate; retained in summary
+evaluation,medium-sparse,Revon-H,3,diff_ms,4.4932,0.6754,0.6194500000000001,0.8018000000000001,0.34592500000000004,1.075325,6.652650281314776,timing variability candidate; retained in summary
+evaluation,medium-sparse,Revon-M (forced Merkle),5,diff_ms,16.456,9.4511,8.3458,11.37845,3.796825,15.927425000000001,1.741172985155167,timing variability candidate; retained in summary
+evaluation,medium-sparse,Revon-M (forced Merkle),6,checkout_ms,18.7543,11.8726,11.07855,12.331900000000001,9.198524999999998,14.211925000000003,1.579628724963361,timing variability candidate; retained in summary
+evaluation,medium-sparse,Revon-M (forced Merkle),2,storage_bytes,3035136.0,3055616.0,3053568.0,3057664.0,3047424.0,3063808.0,0.9932975871313673,non-timing variability candidate; retained and reviewed
+evaluation,medium-sparse,Revon-M (forced Merkle),7,storage_bytes,3072000.0,3055616.0,3053568.0,3057664.0,3047424.0,3063808.0,1.0053619302949062,non-timing variability candidate; retained and reviewed
+evaluation,medium-sparse,Snapshot,2,diff_ms,120.2313,72.2561,60.68935,83.2216,26.890975000000005,117.01997499999999,1.663960551427492,timing variability candidate; retained in summary
+evaluation,small-sparse,Dolt,4,incremental_commit_ms,2097.32965,1214.76685,1182.20175,1467.7957,753.810825,1896.1866249999998,1.7265285515488014,timing variability candidate; retained in summary
+evaluation,small-sparse,Dolt,4,diff_ms,815.0638,362.8532,319.404,443.5329,133.21065000000002,629.7262499999999,2.2462632271122316,timing variability candidate; retained in summary
+evaluation,small-sparse,Dolt,4,checkout_ms,639.3383,349.9176,308.7732,405.80695000000003,163.2225749999999,551.3575750000001,1.8271110112780837,timing variability candidate; retained in summary
+evaluation,small-sparse,Dolt,4,storage_bytes,405449.0,404303.0,404233.5,404610.0,403668.75,405174.75,1.0028345077825294,non-timing variability candidate; retained and reviewed
+evaluation,small-sparse,Log-only,3,initial_import_ms,13.5789,9.8468,9.81255,10.1776,9.264975,10.725175,1.3790165332900028,timing variability candidate; retained in summary
+evaluation,small-sparse,Log-only,4,initial_import_ms,7.9054,9.8468,9.81255,10.1776,9.264975,10.725175,0.8028395011577365,timing variability candidate; retained in summary
+evaluation,small-sparse,Log-only,3,incremental_commit_ms,3.9003,3.53195,3.455375,3.6239749999999997,3.2024750000000006,3.876874999999999,1.1042908308441512,timing variability candidate; retained in summary
+evaluation,small-sparse,Log-only,4,diff_ms,13.1737,10.6542,10.08615,11.207899999999999,8.403525000000002,12.890524999999997,1.2364795104278126,timing variability candidate; retained in summary
+evaluation,small-sparse,Log-only,1,checkout_ms,12.2578,13.5292,13.26275,13.8818,12.334175000000002,14.810375,0.9060254856162966,timing variability candidate; retained in summary
+evaluation,small-sparse,Revon-H,1,checkout_ms,4.4269,2.0804,2.0511999999999997,2.96835,0.6754749999999992,4.344075,2.127908094597193,timing variability candidate; retained in summary
+evaluation,small-sparse,Revon-M (forced Merkle),5,initial_import_ms,857.5063,303.2579,295.5648,331.0133,242.39204999999995,384.18605,2.8276470291458193,timing variability candidate; retained in summary
+evaluation,small-sparse,Revon-M (forced Merkle),5,diff_ms,7.4243,5.3176,5.0808,5.4272,4.5611999999999995,5.9468,1.396174966150143,timing variability candidate; retained in summary
+evaluation,small-sparse,Revon-M (forced Merkle),3,checkout_ms,3.1938,2.2264,2.1283000000000003,2.46295,1.6263250000000005,2.964925,1.434513115343155,timing variability candidate; retained in summary
+evaluation,small-sparse,Snapshot,4,initial_import_ms,11.7266,9.2115,9.09935,9.669450000000001,8.244199999999996,10.524600000000003,1.2730391358627804,timing variability candidate; retained in summary
+evaluation,small-sparse,Snapshot,5,checkout_ms,3.766,2.0231,2.00555,2.16125,1.772,2.3948,1.8614996787108893,timing variability candidate; retained in summary

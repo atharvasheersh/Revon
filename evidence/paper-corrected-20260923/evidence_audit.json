@@ -1,10 +1,11 @@
 {
-  "directory": "evidence\\paper-final-20260824",
-  "dolt_diff_semantically_validated_by_harness": false,
+  "directory": "evidence\\paper-corrected-20260923",
+  "dolt_diff_semantically_validated_by_harness": true,
   "dolt_versions": [
-    "dolt version 2.3.1"
+    "dolt version 2.3.1 Warning: unable to query latest released Dolt version"
   ],
   "execution_counts": {
+    "dolt_bulk_evaluation_measured": 0,
     "dolt_evaluation_measured": 35,
     "measured": 259,
     "primary_evaluation_measured": 175,
@@ -12,8 +13,8 @@
   },
   "hybrid_threshold_operations": 4096,
   "issues": [],
-  "legacy_dolt_diff_unverified_rows": 45,
-  "outlier_candidates": 83,
+  "legacy_dolt_diff_unverified_rows": 0,
+  "outlier_candidates": 72,
   "outlier_method": "Tukey 1.5*IQR fences within each measured scenario/model/metric group",
   "outlier_rows_retained": true,
   "passed": true,
@@ -37,7 +38,7 @@
       "log"
     ]
   },
-  "run_id": "7048cc1674dc4038a8e42c87818b9088",
+  "run_id": "7b7f117bed93430da1e1060d0727f7dc",
   "status_counts": {
     "ok": 333
   },

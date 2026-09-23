@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .final_benchmark import MODEL_KEYS, _percentile
-from .workloads import build_workload, profile_specs
+from .workloads import WorkloadSpec, build_workload, profile_specs
 
 
 METRICS = (
@@ -21,8 +21,20 @@ METRICS = (
     "diff_ms",
     "checkout_ms",
     "storage_bytes",
-    "peak_memory_bytes",
+    "logical_payload_bytes",
+    "storage_bytes_per_logical_payload_byte",
+    "storage_bytes_minus_logical_payload_bytes",
+    "storage_bytes_after_compaction",
+    "compaction_ms",
+    "process_tree_peak_rss_bytes",
     "work_examined",
+)
+
+EXTRA_TELEMETRY_METRICS = (
+    "process_tree_cpu_seconds",
+    "process_tree_read_bytes",
+    "process_tree_write_bytes",
+    "commit_operations_per_second",
 )
 
 DISPLAY_MODELS = {
@@ -32,7 +44,41 @@ DISPLAY_MODELS = {
     "revon-h": "Revon-H",
     "revon-log": "Revon-log calibration",
     "dolt": "Dolt",
+    "dolt-bulk": "Dolt (bulk import)",
 }
+
+LEGACY_MODEL_KEYS = ("snapshot", "log", "revon-m", "revon-h", "dolt")
+
+
+def _manifest_specs(manifest: dict[str, Any], seed: int, phase: str) -> list[WorkloadSpec]:
+    specs = profile_specs(manifest["profile"], seed, phase=phase)
+    # Schema versions 1-3 used the label large-hot for the same application-key
+    # locality later renamed in schema 4. Preserve those runs' recorded identity.
+    if int(manifest.get("schema_version", 1)) < 4 and phase == "evaluation":
+        legacy_scenarios = {
+            "small-sparse",
+            "medium-sparse",
+            "medium-dense",
+            "large-sparse",
+            "large-hot",
+            "large-application-key-local",
+        }
+        specs = [
+            WorkloadSpec(
+                name="large-hot",
+                rows=spec.rows,
+                commits=spec.commits,
+                changes_per_commit=spec.changes_per_commit,
+                seed=spec.seed,
+                payload_bytes=spec.payload_bytes,
+                locality="hot",
+            )
+            if spec.name == "large-application-key-local"
+            else spec
+            for spec in specs
+            if spec.name in legacy_scenarios
+        ]
+    return specs
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as stream:
@@ -62,28 +108,26 @@ def tukey_outliers(values: Iterable[float]) -> tuple[float, float, list[int]]:
 
 
 def _expected_workloads(manifest: dict[str, Any]) -> dict[tuple[str, str], Any]:
-    profile = manifest["profile"]
     seed = int(manifest["base_seed"])
     expected: dict[tuple[str, str], Any] = {}
-    for spec in profile_specs(profile, seed, phase="calibration"):
+    for spec in _manifest_specs(manifest, seed, phase="calibration"):
         expected[("calibration", spec.name)] = build_workload(spec)
-    for spec in profile_specs(profile, seed + 10_000, phase="evaluation"):
+    for spec in _manifest_specs(manifest, seed + 10_000, phase="evaluation"):
         expected[("evaluation", spec.name)] = build_workload(spec)
     return expected
 
 
 def _expected_record_keys(manifest: dict[str, Any]) -> set[tuple[str, str, str, str, int]]:
-    profile = manifest["profile"]
     seed = int(manifest["base_seed"])
     warmups = int(manifest["warmups"])
     trials = int(manifest["measured_trials"])
     expected: set[tuple[str, str, str, str, int]] = set()
-    for spec in profile_specs(profile, seed, phase="calibration"):
+    for spec in _manifest_specs(manifest, seed, phase="calibration"):
         for model in ("revon-log", "revon-m"):
             for kind, count in (("warmup", warmups), ("measured", trials)):
                 for trial in range(1, count + 1):
                     expected.add(("calibration", spec.name, DISPLAY_MODELS[model], kind, trial))
-    for spec in profile_specs(profile, seed + 10_000, phase="evaluation"):
+    for spec in _manifest_specs(manifest, seed + 10_000, phase="evaluation"):
         for model in manifest["models"]:
             for kind, count in (("warmup", warmups), ("measured", trials)):
                 for trial in range(1, count + 1):
@@ -92,7 +136,10 @@ def _expected_record_keys(manifest: dict[str, Any]) -> set[tuple[str, str, str, 
 
 
 def _check_summary(
-    raw: list[dict[str, str]], summary: list[dict[str, str]], issues: list[str]
+    raw: list[dict[str, str]],
+    summary: list[dict[str, str]],
+    issues: list[str],
+    metrics: tuple[str, ...],
 ) -> None:
     groups: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
     for row in raw:
@@ -115,7 +162,7 @@ def _check_summary(
         expected_units = ";".join(sorted({item["work_unit"] for item in group}))
         if row["work_unit"] != expected_units:
             issues.append(f"{key}: summary work unit does not match raw rows")
-        for metric in METRICS:
+        for metric in metrics:
             values = [value for item in group if (value := _numeric(item[metric])) is not None]
             expected_values = {
                 "median": statistics.median(values) if values else None,
@@ -132,14 +179,14 @@ def _check_summary(
                     issues.append(f"{key}: {metric}_{suffix} disagrees with raw rows")
 
 
-def _outlier_rows(raw: list[dict[str, str]]) -> list[dict[str, Any]]:
+def _outlier_rows(raw: list[dict[str, str]], metrics: tuple[str, ...]) -> list[dict[str, Any]]:
     groups: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
     for row in raw:
         if row["trial_kind"] == "measured" and row["status"] == "ok":
             groups[(row["phase"], row["scenario"], row["model"])].append(row)
     candidates: list[dict[str, Any]] = []
     for (phase, scenario, model), group in sorted(groups.items()):
-        for metric in METRICS:
+        for metric in metrics:
             pairs = [(row, _numeric(row[metric])) for row in group]
             pairs = [(row, value) for row, value in pairs if value is not None]
             values = [value for _, value in pairs]
@@ -187,11 +234,13 @@ def audit(directory: Path) -> dict[str, Any]:
     summary = _read_csv(summary_path)
     issues: list[str] = []
 
-    if manifest.get("schema_version") != 1:
+    schema_version = manifest.get("schema_version")
+    if schema_version not in (1, 2, 3, 4, 5):
         issues.append("unsupported manifest schema version")
     if manifest.get("profile") not in {"smoke", "paper"}:
         issues.append("manifest profile is invalid")
-    if tuple(manifest.get("models", ())) != MODEL_KEYS:
+    expected_models = MODEL_KEYS if int(schema_version or 0) >= 4 else LEGACY_MODEL_KEYS
+    if tuple(manifest.get("models", ())) != expected_models:
         issues.append("manifest model order differs from the benchmark contract")
     if not raw:
         issues.append("raw CSV is empty")
@@ -212,6 +261,16 @@ def audit(directory: Path) -> dict[str, Any]:
         issues.append(f"raw CSV contains {len(duplicate_keys)} duplicate trial identities")
     if set(actual_keys) != expected_keys:
         issues.append("raw CSV trial matrix is incomplete or contains unexpected rows")
+
+    if schema_version >= 4:
+        order_groups: dict[tuple[str, str, str, int], list[int]] = defaultdict(list)
+        for row in raw:
+            order_groups[
+                (row["phase"], row["scenario"], row["trial_kind"], int(row["trial"]))
+            ].append(int(row.get("execution_order", "0")))
+        for block, orders in order_groups.items():
+            if sorted(orders) != list(range(1, len(orders) + 1)):
+                issues.append(f"{block}: execution_order is not a unique contiguous block order")
 
     if {row["run_id"] for row in raw} != {manifest["run_id"]}:
         issues.append("raw run IDs do not agree with the manifest")
@@ -242,8 +301,16 @@ def audit(directory: Path) -> dict[str, Any]:
             "locality": spec.locality,
             "payload_bytes": spec.payload_bytes,
             "workload_sha256": workload.digest,
-            "changed_keys": len(workload.expected_diff_keys),
         }
+        if schema_version >= 4:
+            expected_fields["logical_payload_bytes"] = sum(
+                len(key.encode("utf-8")) + len(value.encode("utf-8"))
+                for key, value in workload.states[-1].items()
+            )
+        # Version 1 copied the oracle count into Dolt rows. It cannot be
+        # checked as an observation, even when its number is correct.
+        if row["model"] != "Dolt" or schema_version >= 2:
+            expected_fields["changed_keys"] = len(workload.expected_diff_keys)
         for field, expected in expected_fields.items():
             actual: Any = row[field]
             if isinstance(expected, int):
@@ -262,6 +329,7 @@ def audit(directory: Path) -> dict[str, Any]:
             "Revon-M (forced Merkle)": "merkle",
             "Revon-log calibration": "log",
             "Dolt": "dolt-native",
+            "Dolt (bulk import)": "dolt-native",
         }.get(row["model"])
         if row["model"] == "Revon-H":
             operations = int(row["commits"]) * int(row["changes_per_commit"])
@@ -272,7 +340,7 @@ def audit(directory: Path) -> dict[str, Any]:
                 f"selected {row['strategy_selected']!r}, expected {expected_strategy!r}"
             )
 
-    dolt_rows = [row for row in raw if row["model"] == "Dolt"]
+    dolt_rows = [row for row in raw if row["model"].startswith("Dolt")]
     dolt_versions = sorted({row["dolt_version"] for row in dolt_rows if row["dolt_version"]})
     if manifest["dolt_available"] is not True:
         issues.append("manifest does not record Dolt as available")
@@ -290,14 +358,83 @@ def audit(directory: Path) -> dict[str, Any]:
             "storage_bytes",
             "changed_keys",
         ]
-        if row["model"] != "Dolt":
+        if schema_version >= 3:
+            required_metrics.append("process_tree_peak_rss_bytes")
+            if not row["model"].startswith("Dolt"):
+                required_metrics.append("work_examined")
+        if schema_version >= 4:
+            required_metrics.append("execution_order")
+        elif schema_version < 3 and row["model"] != "Dolt":
             required_metrics.extend(("peak_memory_bytes", "work_examined"))
+        if schema_version >= 5:
+            required_metrics.extend(("process_tree_cpu_seconds", "commit_operations_per_second"))
         missing = [metric for metric in required_metrics if row[metric] == ""]
         if missing:
             issues.append(f"{row['scenario']} / {row['model']} trial {row['trial']}: missing {missing}")
+        if schema_version >= 4:
+            storage = _numeric(row["storage_bytes"])
+            payload = _numeric(row["logical_payload_bytes"])
+            ratio = _numeric(row["storage_bytes_per_logical_payload_byte"])
+            if storage is None or payload is None or ratio is None or not math.isclose(
+                ratio, storage / payload, rel_tol=1e-12, abs_tol=1e-12
+            ):
+                issues.append(f"{row['scenario']} / {row['model']}: storage normalization is invalid")
+            residual = _numeric(row["storage_bytes_minus_logical_payload_bytes"])
+            if storage is None or payload is None or residual != storage - payload:
+                issues.append(f"{row['scenario']} / {row['model']}: storage residual is invalid")
+            compact_applicable = row["model"] in {
+                "Revon-M (forced Merkle)", "Revon-H", "Dolt", "Dolt (bulk import)"
+            }
+            compaction_sample = (
+                row["phase"] == "evaluation"
+                and row["trial_kind"] == "measured"
+                and int(row["trial"]) == 1
+                and compact_applicable
+            )
+            if compaction_sample and (
+                row["storage_bytes_after_compaction"] == ""
+                or row["compaction_ms"] == ""
+                or row["compaction_method"] in ("", "not sampled", "not applicable")
+            ):
+                issues.append(f"{row['scenario']} / {row['model']}: compaction measurement is missing")
+            if not compaction_sample:
+                expected_compaction_label = "not sampled" if compact_applicable else "not applicable"
+                if (
+                    row["storage_bytes_after_compaction"] != ""
+                    or row["compaction_ms"] != ""
+                    or row["compaction_method"] != expected_compaction_label
+                ):
+                    issues.append(f"{row['scenario']} / {row['model']}: compaction applicability label is wrong")
+        if schema_version >= 5:
+            for metric in EXTRA_TELEMETRY_METRICS:
+                value = _numeric(row[metric])
+                if value is not None and value < 0:
+                    issues.append(f"{row['scenario']} / {row['model']}: {metric} is negative")
+            throughput = _numeric(row["commit_operations_per_second"])
+            if throughput is None or throughput <= 0:
+                issues.append(f"{row['scenario']} / {row['model']}: commit throughput is missing or invalid")
 
-    _check_summary(raw, summary, issues)
-    outliers = _outlier_rows(raw)
+    metrics = (
+        "initial_import_ms",
+        "incremental_commit_ms",
+        "diff_ms",
+        "checkout_ms",
+        "storage_bytes",
+        "process_tree_peak_rss_bytes" if schema_version >= 3 else "peak_memory_bytes",
+        "work_examined",
+    ) + (
+        (
+            "logical_payload_bytes",
+            "storage_bytes_per_logical_payload_byte",
+            "storage_bytes_minus_logical_payload_bytes",
+            "storage_bytes_after_compaction",
+            "compaction_ms",
+        )
+        if schema_version >= 4
+        else ()
+    ) + (EXTRA_TELEMETRY_METRICS if schema_version >= 5 else ())
+    _check_summary(raw, summary, issues, metrics)
+    outliers = _outlier_rows(raw, metrics)
     outlier_path = directory / "outlier_review.csv"
     outlier_columns = [
         "phase",
@@ -327,7 +464,28 @@ def audit(directory: Path) -> dict[str, Any]:
         "raw_rows": len(raw),
         "summary_rows": len(summary),
         "status_counts": dict(status_counts),
-        "correct_rows": sum(row["correctness"] == "True" for row in raw),
+        "recorded_correctness_true_rows": sum(row["correctness"] == "True" for row in raw),
+        "execution_counts": {
+            "warmups": sum(row["trial_kind"] == "warmup" for row in raw),
+            "measured": sum(row["trial_kind"] == "measured" for row in raw),
+            "primary_evaluation_measured": sum(
+                row["phase"] == "evaluation" and row["trial_kind"] == "measured"
+                and row["model"] != "Dolt (bulk import)"
+                for row in raw
+            ),
+            "dolt_evaluation_measured": sum(
+                row["phase"] == "evaluation" and row["trial_kind"] == "measured"
+                and row["model"] == "Dolt" for row in raw
+            ),
+            "dolt_bulk_evaluation_measured": sum(
+                row["phase"] == "evaluation" and row["trial_kind"] == "measured"
+                and row["model"] == "Dolt (bulk import)" for row in raw
+            ),
+        },
+        "dolt_diff_semantically_validated_by_harness": schema_version >= 2,
+        "legacy_dolt_diff_unverified_rows": sum(
+            row["model"] == "Dolt" for row in raw
+        ) if schema_version == 1 else 0,
         "dolt_versions": dolt_versions,
         "hybrid_threshold_operations": threshold,
         "revon_h_evaluation_strategies": {

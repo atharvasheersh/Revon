@@ -1,0 +1,34 @@
+{
+  "base_seed": 20260822,
+  "created_utc": "2026-09-23T05:49:59.240361+00:00",
+  "dolt_available": true,
+  "hybrid_threshold_operations": 4096,
+  "measured_trials": 7,
+  "metric_contract": {
+    "audit_scope": "internal evidence-integrity check; does not independently reproduce raw timings",
+    "checkout": "full target-version state, sorted and materialized as canonical UTF-8 JSON inside the timed region for every system",
+    "comparison_scope": "in-process Revon API versus Dolt CLI workflow; not an engine-only algorithm comparison",
+    "correctness": "initial/final checkout and observed common diff contract; old/new value hashes checked against the workload oracle",
+    "diff": "sorted changed keys and old/new SHA-256 value hashes, fully materialized as canonical JSON inside the timed region for every system",
+    "dolt_commit": "SQL mutation, add, and commit; no per-version tag command",
+    "incremental_commit": "median durable commit within one trial",
+    "initial_import": "first durable state and version",
+    "process_tree_peak_rss": "sampled externally by the parent every 10 ms for isolated per-trial processes, including Dolt child processes; sampling is outside the timed worker operations",
+    "setup": "excluded",
+    "storage": "bytes in the adapter repository directory"
+  },
+  "models": [
+    "snapshot",
+    "log",
+    "revon-m",
+    "revon-h",
+    "dolt"
+  ],
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+  "profile": "paper",
+  "python_version": "3.14.3",
+  "run_id": "7090860464db41bbb96f5e3ef384c270",
+  "schema_version": 3,
+  "warmups": 2
+}
