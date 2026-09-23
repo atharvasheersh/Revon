@@ -1,0 +1,6 @@
+workload_factor,seeds,paired_trials,median_paired_ratio_rev_m_over_rev_h,ci95_low,ci95_high,interpretation,interval_method,scope
+baseline,3,9,1.47742,1.36672,1.59144,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43"
+history-50,3,9,0.990853,0.963961,1.0616,inconclusive across sampled seeds,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43"
+payload-128,3,9,1.70958,1.48606,1.79758,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43"
+range-local,3,9,1.5922,1.38464,1.81012,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43"
+repeated-key,3,9,2.40169,1.56802,2.79559,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43"

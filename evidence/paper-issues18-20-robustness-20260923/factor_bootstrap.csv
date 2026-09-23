@@ -1,0 +1,6 @@
+workload_factor,seeds,paired_trials,median_paired_ratio_rev_m_over_rev_h,ci95_low,ci95_high,interpretation,interval_method,scope
+baseline,3,21,1.57803,1.2319,1.86923,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Windows-11-10.0.26200-SP0"
+history-50,3,21,0.992334,0.89966,1.17199,inconclusive across sampled seeds,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Windows-11-10.0.26200-SP0"
+payload-128,3,21,1.6181,1.3787,1.71603,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Windows-11-10.0.26200-SP0"
+range-local,3,21,1.64348,1.37541,1.77292,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Windows-11-10.0.26200-SP0"
+repeated-key,3,21,2.24297,2.01614,2.38349,Revon-M slower,hierarchical bootstrap by seed then paired trial; 20000 resamples,"10,000-row synthetic flat key-value workloads on Windows-11-10.0.26200-SP0"
