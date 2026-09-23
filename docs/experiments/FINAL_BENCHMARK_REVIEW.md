@@ -1,15 +1,25 @@
 # Final benchmark evidence review
 
+> Historical review of the August 2026 bundle. The current audited paper-profile
+> results are in `evidence/paper-corrected-issues13-17-counterbalanced-final-20260923/`;
+> use `docs/experiments/ISSUES_13_TO_17_CORRECTION.md` for the current metric
+> definitions and `docs/paper/FINAL_RESEARCH_PAPER.md` for the current claims.
+
 Date: 2026-08-24
 
 Evidence bundle: `evidence/paper-final-20260824/`
 
-## Verdict
+## Historical verdict and correction
 
-The paper-profile bundle passes the independent evidence audit. All 333 raw
-rows are present, successful, and correct. The 37 summary groups reproduce the
-raw measured trials exactly. Dolt 2.3.1 is recorded consistently, and no row
-was failed, unavailable, removed, or edited.
+The original paper-profile bundle passes an internal arithmetic and trial-matrix
+audit. All 333 executions succeeded, but 74 were warm-ups. Of the 259 measured
+executions, 175 were in the primary five-system evaluation, including 35 Dolt
+executions. The 37 summary groups reproduce measured trial values. This audit
+does **not** establish semantic correctness of Dolt's diff: the adapter did not
+parse its output, and the Dolt `changed_keys` field was copied from the oracle.
+Those original CSV fields are retained as historical records and must not be
+cited as observed Dolt results. A schema-version-2 rerun supersedes this bundle
+for manuscript claims.
 
 The machine-readable audit outputs are:
 
@@ -26,10 +36,10 @@ python -m experiments.evidence_audit evidence/paper-final-20260824
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| All variants report correctness | Pass | `333/333` raw rows have `correctness=True`. |
+| Historical state checks | Limited | `333/333` raw rows recorded `correctness=True`, but the 45 Dolt flags cover successful diff commands and historical checkout states, not diff contents. |
 | Dolt version is recorded | Pass | Every Dolt row records `dolt version 2.3.1`. |
 | No unavailable or failed trials | Pass | Status distribution is exactly `ok: 333`. |
-| Raw CSV, summary CSV, and manifest agree | Pass | Trial matrix, run ID, platform, workload metadata, digests, summary medians, p25, and p75 were independently recomputed. |
+| Raw CSV, summary CSV, and manifest agree | Pass | The internal audit recomputes the trial matrix, metadata, and summary medians and quartiles. It does not reproduce timings or inspect Dolt diff output. |
 | Revon-H selection behaves correctly | Pass | The selector follows the inclusive 4,096-operation threshold in every raw row. |
 | Outliers investigated, not deleted | Pass | All candidates remain in `raw_results.csv` and therefore in the seven-trial medians and quartiles. |
 
@@ -39,12 +49,15 @@ python -m experiments.evidence_audit evidence/paper-final-20260824
 - Run ID: `7048cc1674dc4038a8e42c87818b9088`
 - Warmups: 2 per configuration
 - Measured trials: 7 per configuration
-- Raw rows: 333
+- Raw executions: 333 = 74 warm-ups + 259 measured
+- Primary evaluation: 175 measured = 5 scenarios x 5 systems x 7 trials
+- Dolt primary evaluation: 35 measured = 5 scenarios x 7 trials
 - Summary rows: 37
 - Models: Snapshot, Log-only, Revon-M, Revon-H, and Dolt
 - Calibration models: Revon log and forced Merkle
 - Workload integrity: every scenario was regenerated from its manifest seed;
-  all workload SHA-256 values and expected changed-key counts matched.
+  workload SHA-256 values matched. The original Dolt changed-key counts were
+  oracle values, not observations.
 - Environment integrity: raw Python version and platform fields agree with the
   manifest.
 
@@ -100,8 +113,9 @@ Four timing values were at least twice their group median:
 
 These candidates affect the smallest and shortest operations, where scheduler,
 filesystem, process-startup, and cache noise have the largest relative effect.
-They do not coincide with incorrect output, altered workload hashes, changed
-work counts, missing data, or failed trials. They were retained. The paper must
+They do not coincide with altered workload hashes, changed work counts,
+missing data, or failed trials. Dolt diff contents were not checked in this
+bundle. The candidates were retained. The paper must
 report medians and interquartile ranges rather than selecting faster trials.
 
 ## Interpretation boundary
@@ -109,6 +123,9 @@ report medians and interquartile ranges rather than selecting faster trials.
 This audit establishes evidence integrity, not that Revon wins every metric.
 The paper should report where Revon-H wins, loses, or trades latency for
 storage. Dolt's broader SQL and production feature set also remains part of
-the comparison context. Dolt peak memory is blank in this bundle because a
-directly comparable memory method was not available; it must not be fabricated
-or combined with Python `tracemalloc` values in one comparative chart.
+the comparison context. Dolt peak memory is blank in this August bundle because
+a directly comparable memory method was not available. That historical value
+must not be fabricated or combined with Python `tracemalloc` values. The
+separate schema-3 bundle for review issues 5–12 uses an external parent
+process-tree RSS sampler at 10 ms for isolated workers; it does not reuse these
+historical allocations.

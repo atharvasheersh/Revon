@@ -1,3 +1,10 @@
+"""Legacy August 2026 two-column paper builder.
+
+This embeds superseded run counts and Dolt claims. Do not use it to rebuild
+the current submission manuscript. Use revise_paper_first_four_issues.py on
+the preserved submission DOCX with the corrected evidence bundle instead.
+"""
+
 from __future__ import annotations
 
 import csv
@@ -287,18 +294,22 @@ def draw_log_axis(draw, left, right, top, bottom, ticks, minimum, maximum, label
 
 
 def make_diff_chart(path: Path, evaluation):
-    scenarios = ["small-sparse", "medium-sparse", "medium-dense", "large-sparse", "large-hot"]
+    scenarios = [
+        "small-sparse", "medium-sparse", "medium-dense", "large-sparse",
+        "large-application-key-local", "large-range-local", "large-repeated-key",
+        "large-hash-route-local",
+    ]
     models = ["Snapshot", "Log-only", "Revon-M (forced Merkle)", "Revon-H", "Dolt"]
     image = Image.new("RGB", (1900, 1080), "white")
     draw = ImageDraw.Draw(image)
     draw.text((65, 20), "End-to-end version diff latency", font=pil_font(72, bold=True), fill=hex_color(INK))
-    draw.text((65, 102), "Median and interquartile range; seven trials", font=pil_font(56), fill=hex_color(MUTED))
+    draw.text((65, 102), "Median and interquartile range; seven measured runs per model/scenario", font=pil_font(56), fill=hex_color(MUTED))
     left, right, top, bottom = 165, 1840, 225, 850
-    minimum, maximum = 0.1, 1000
-    draw_log_axis(draw, left, right, top, bottom, [0.1, 1, 10, 100, 1000], minimum, maximum, "milliseconds (log scale)")
+    minimum, maximum = 0.1, 2000
+    draw_log_axis(draw, left, right, top, bottom, [0.1, 1, 10, 100, 1000, 2000], minimum, maximum, "milliseconds (log scale)")
     group_width = (right - left) / len(scenarios)
-    bar_width = 42
-    gap = 10
+    bar_width = 28
+    gap = 6
     for group_index, scenario in enumerate(scenarios):
         center = left + group_width * (group_index + 0.5)
         total = len(models) * bar_width + (len(models) - 1) * gap
@@ -318,8 +329,13 @@ def make_diff_chart(path: Path, evaluation):
             draw.line((mid_x, y_low, mid_x, y_high), fill=hex_color(INK), width=3)
             draw.line((mid_x - 9, y_low, mid_x + 9, y_low), fill=hex_color(INK), width=3)
             draw.line((mid_x - 9, y_high, mid_x + 9, y_high), fill=hex_color(INK), width=3)
-        label = scenario.replace("-", "\n")
-        text_center(draw, (center - 150, 855, center + 150, 970), label, pil_font(60))
+        label = {
+            "small-sparse": "S-S", "medium-sparse": "M-S", "medium-dense": "M-D",
+            "large-sparse": "L-S", "large-application-key-local": "A-K",
+            "large-range-local": "R-L", "large-repeated-key": "Rep",
+            "large-hash-route-local": "H-R",
+        }[scenario]
+        text_center(draw, (center - 75, 855, center + 75, 970), label, pil_font(58))
 
     legend_y = 1000
     legend_x = 175
@@ -332,25 +348,29 @@ def make_diff_chart(path: Path, evaluation):
 
 
 def make_operational_chart(path: Path, evaluation):
-    scenarios = ["small-sparse", "medium-sparse", "medium-dense", "large-sparse", "large-hot"]
+    scenarios = [
+        "small-sparse", "medium-sparse", "medium-dense", "large-sparse",
+        "large-application-key-local", "large-range-local", "large-repeated-key",
+        "large-hash-route-local",
+    ]
     metrics = [
         ("incremental_commit", "Incremental commit", 10, 2000, [10, 100, 1000]),
-        ("checkout", "Historical checkout", 1, 1000, [1, 10, 100, 1000]),
+        ("checkout", "Historical checkout", 1, 3000, [1, 10, 100, 1000, 3000]),
     ]
     image = Image.new("RGB", (1900, 980), "white")
     draw = ImageDraw.Draw(image)
     draw.text((65, 20), "Revon-H and Dolt operational latency", font=pil_font(72, bold=True), fill=hex_color(INK))
-    draw.text((65, 102), "Median and interquartile range; CLI-facing protocol", font=pil_font(54), fill=hex_color(MUTED))
+    draw.text((65, 102), "Median and interquartile range; Revon API vs Dolt CLI", font=pil_font(54), fill=hex_color(MUTED))
     panel_width = 790
     panel_gap = 110
     panel_lefts = [155, 155 + panel_width + panel_gap]
-    top, bottom = 205, 750
+    top, bottom = 260, 750
     for panel_index, (metric, title, minimum, maximum, ticks) in enumerate(metrics):
         left = panel_lefts[panel_index]
         right = left + panel_width
         draw_log_axis(draw, left, right, top, bottom, ticks, minimum, maximum, "")
-        draw.text((left, 172), "ms (log)", font=pil_font(54, bold=True), fill=hex_color(INK))
-        draw.text((left + 215, 138), title, font=pil_font(60, bold=True), fill=hex_color(INK))
+        draw.text((left, 225), "ms (log)", font=pil_font(48, bold=True), fill=hex_color(INK))
+        draw.text((left + 225, 168), title, font=pil_font(52, bold=True), fill=hex_color(INK))
         group_width = panel_width / len(scenarios)
         for group_index, scenario in enumerate(scenarios):
             center = left + group_width * (group_index + 0.5)
@@ -367,7 +387,12 @@ def make_operational_chart(path: Path, evaluation):
                 draw.line((center + offset, y_low, center + offset, y_high), fill=hex_color(INK), width=3)
                 draw.line((center + offset - 7, y_low, center + offset + 7, y_low), fill=hex_color(INK), width=3)
                 draw.line((center + offset - 7, y_high, center + offset + 7, y_high), fill=hex_color(INK), width=3)
-            label = {"small-sparse": "S-S", "medium-sparse": "M-S", "medium-dense": "M-D", "large-sparse": "L-S", "large-hot": "L-H"}[scenario]
+            label = {
+                "small-sparse": "S-S", "medium-sparse": "M-S", "medium-dense": "M-D",
+                "large-sparse": "L-S", "large-application-key-local": "A-K",
+                "large-range-local": "R-L", "large-repeated-key": "Rep",
+                "large-hash-route-local": "H-R",
+            }[scenario]
             bounds = draw.textbbox((0, 0), label, font=pil_font(58))
             draw.text((center - (bounds[2] - bounds[0]) / 2, bottom + 20), label, font=pil_font(58), fill=hex_color(INK))
     draw.rectangle((700, 875, 740, 900), fill=hex_color(COLORS["Revon-H"]))
@@ -428,22 +453,27 @@ def make_sensitivity_chart(path: Path, sensitivity):
     image = Image.new("RGB", (1600, 900), "white")
     draw = ImageDraw.Draw(image)
     draw.text((60, 22), "Fixed-trie geometry sensitivity", font=pil_font(60, bold=True), fill=hex_color(INK))
-    draw.text((60, 92), "10,000 rows; forced-Merkle diff; seven trials", font=pil_font(48), fill=hex_color(MUTED))
+    draw.text((60, 92), "10,000 rows; forced-Merkle diff; 10 warm-ups and 35 measured runs", font=pil_font(48), fill=hex_color(MUTED))
     left, right, top, bottom = 175, 1500, 225, 700
     min_x, max_x = 4.0, 8.7
-    min_y, max_y = 15.0, 65.0
+    min_y = 15.0
+    max_observed = max(float(row["diff_ms_p75"]) for row in sensitivity)
+    max_y = max(75.0, math.ceil((max_observed * 1.10) / 5.0) * 5.0)
     draw.line((left, top, left, bottom), fill=hex_color(INK), width=3)
     draw.line((left, bottom, right, bottom), fill=hex_color(INK), width=3)
     for value in [4, 5, 6, 7, 8]:
         x = left + (value - min_x) / (max_x - min_x) * (right - left)
         draw.line((x, top, x, bottom), fill="#E2E2E2", width=1)
         draw.text((x - 18, bottom + 14), str(value), font=pil_font(54), fill=hex_color(MUTED))
-    for value in [20, 30, 40, 50, 60]:
+    for value in range(20, int(max_y) + 1, 10):
         y = bottom - (value - min_y) / (max_y - min_y) * (bottom - top)
         draw.line((left, y, right, y), fill="#E2E2E2", width=1)
-        draw.text((70, y - 24), str(value), font=pil_font(54), fill=hex_color(MUTED))
+        draw.text((95, y - 24), str(value), font=pil_font(54), fill=hex_color(MUTED))
     draw.text((520, 790), "repository storage (MiB)", font=pil_font(60, bold=True), fill=hex_color(INK))
-    draw.text((48, 168), "diff ms", font=pil_font(54, bold=True), fill=hex_color(INK))
+    axis_label = Image.new("RGBA", (240, 76), (255, 255, 255, 0))
+    ImageDraw.Draw(axis_label).text((0, 0), "diff (ms)", font=pil_font(48, bold=True), fill=hex_color(INK))
+    axis_label = axis_label.rotate(90, expand=True)
+    image.paste(axis_label, (10, (top + bottom - axis_label.height) // 2), axis_label)
     offsets = {"b4-d6": (-110, -48), "b8-d3": (20, -42), "b8-d4": (20, 12), "b8-d5": (20, 12), "b16-d3": (-150, -38)}
     for row in sensitivity:
         storage = float(row["storage_bytes_median"]) / (1024 * 1024)
@@ -1565,4 +1595,7 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    raise SystemExit(
+        "Legacy builder is disabled: it would restore incorrect August 2026 "
+        "Dolt claims. Use tools/revise_paper_first_four_issues.py."
+    )

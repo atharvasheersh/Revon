@@ -21,6 +21,7 @@ venv/
 # deliberately versioned for reproducibility.
 *.csv
 !evidence/**/*.csv
+evidence/**/.work/
 
 # Local durable Revon repositories
 *.db
@@ -55,6 +56,9 @@ tmp*/
 /tools/build_revon_viva_questions.py
 /tools/build_daily_summary_pdf.py
 /tools/build_research_paper.py
+
+# Local-only reviewer issue recheck requested by the author
+/docs/experiments/ALL_21_ISSUES_RECHECK.md
 
 # Editor and operating-system files
 .vscode/

@@ -39,7 +39,8 @@ so the published metrics can be audited from a fresh clone.
 | Log-only | Canonical base JSON plus fsynced JSONL changesets | Log replay/aggregation |
 | Revon-M | SQLite-backed fixed-depth Merkle hash trie | Forced hash-pruned tree diff |
 | Revon-H | Same trie plus changesets | Calibrated adaptive log/Merkle choice |
-| Dolt | Native Dolt repository and table | Native `dolt diff` |
+| Dolt | Native Dolt repository and table | Batched SQL `INSERT`; native `dolt diff` |
+| Dolt (bulk import) | Same Dolt repository and table | CSV input via `dolt table import -r`; same later operations |
 
 Revon-M exists only to answer the ablation question: does adaptive selection
 improve the Merkle-only design? The paper's main system is Revon-H.
@@ -54,14 +55,29 @@ improve the Merkle-only design? The paper's main system is Revon-H.
   are reused unchanged by every adapter and every repetition.
 - Warmups are recorded but excluded from summaries. Measured trials use fresh
   repositories and report medians with interquartile ranges.
+- The current paper profile has 540 executions: 120 warm-ups and 420 measured
+  runs. Calibration contributes 84 measured runs; eight evaluation scenarios
+  contribute 280 primary five-system runs, 56 SQL-path Dolt runs, and 56
+  additional Dolt bulk-import runs.
+- Within a scenario and trial kind, the model order is seeded and shuffled once,
+  then rotated by trial. The six evaluation variants occupy every position once
+  in the first six measured trials. `execution_order` is stored in raw results
+  and checked by the evidence audit.
+- Evaluation includes spread workloads plus application-key-local, range-local,
+  repeated-key, and hash-route-local updates. The former `large-hot` workload
+  was lexical adjacency and is now labeled `large-application-key-local`.
 - Repository setup is excluded. Initial import includes the first durable
   state/version. Incremental commit is the median durable commit in a trial.
   Diff and checkout consume their complete results.
 - Correctness requires exact initial and final checkout equality and exact
-  changed-key equality where the adapter exposes structured keys. Dolt's
-  native diff must succeed and its historical checkouts must match the same
-  oracle.
-- Storage is the total regular-file size in the fresh repository directory.
+  changed-key equality for every adapter. Dolt's JSON diff is parsed into
+  observed keys and old/new values, which must match the workload oracle.
+  `changed_keys` is the length of the observed diff, never the oracle count.
+- Storage reports total fresh repository-directory size, bytes per final UTF-8
+  key/value payload byte, and their residual. The residual includes encoding,
+  indexes, metadata, and compression; it is not pure metadata overhead. A
+  representative trial per scenario is also measured after `dolt gc` or SQLite
+  `VACUUM`, outside operation timing and RSS sampling.
   Work examined uses natural units (keys, log operations, or trie-node pairs).
   Dolt's CLI does not expose a directly comparable internal counter, so that
   cell is blank rather than estimated.
@@ -70,9 +86,20 @@ improve the Merkle-only design? The paper's main system is Revon-H.
 
 Install Dolt and make `dolt` available on `PATH` before the final run. The
 adapter records `dolt version`, creates a fresh repository, uses a keyed SQL
-table, commits/tags every version, performs historical `AS OF` checkout, and
-times native `dolt diff`. If Dolt is absent, its rows are marked `unavailable`
+table, commits every version, performs historical `AS OF` checkout, and times
+native `dolt diff -r json`, including JSON parsing. Both Dolt import variants
+run the same later-operation protocol. The SQL path uses batched `INSERT`; the
+bulk path writes CSV and times CSV serialization, `dolt table import -r`, and
+the initial commit as one workflow. The import timings are reported separately.
+If Dolt is absent,
+its rows are marked `unavailable`
 and all result cells remain blank.
+
+Schema-version-2 runs use this structured Dolt diff protocol. The older
+`paper-final-20260824` bundle used tabular output, did not parse Dolt's diff,
+and copied its expected changed-key count into the Dolt rows. Its timings
+are historical workflow measurements; its Dolt diff correctness and changed-key
+field must not be cited as observed results.
 
 Dolt documents Windows installation and its Git-style commands in the
 [official repository](https://github.com/dolthub/dolt). Its official import
@@ -86,24 +113,75 @@ The exact commands and flags are grounded in Dolt's
 validation uses the documented
 [`AS OF` query syntax](https://www.dolthub.com/docs/sql-reference/version-control/querying-history/).
 
-The adapter can optionally use `psutil` to sample the Dolt process tree's RSS.
-Without it, Dolt peak memory is blank. Python variants use `tracemalloc` and
-the CSV records the measurement method. Do not put these two memory numbers on
-one comparative chart until all variants are run under the same external RSS
-monitor; retain them as diagnostic evidence meanwhile.
+Every paper-profile model now runs in an isolated worker process. The parent
+uses one external `psutil` sampler to record process-tree RSS for Python and
+Dolt during each trial, including Dolt child processes. This is workflow-level
+peak RSS sampled every 10 ms, not allocation volume; peaks shorter than the
+sampling interval may be missed. The
+sampler runs outside the worker's timed operations, though it can still create
+small system-level scheduling pressure.
+
+Timed operations do not use `tracemalloc`. The external sampler provides a
+common RSS measurement method; it does not make short-process timings immune to
+OS scheduling or background load.
+
+Schema-5 runs also record external process-tree CPU seconds and read/write
+bytes when the platform exposes those counters. On Windows the sampler uses
+`psutil`; on Linux it can read `/proc`. These totals cover worker setup and
+correctness validation as well as timed operations, so they are not per-
+operation resource measurements. Serial commit-operation throughput is the
+number of commits divided by the sum of their measured intervals; it is not
+concurrent throughput. Missing I/O counters mean unavailable, not zero.
+
+Diff timing includes materializing sorted changed keys plus old/new SHA-256
+value hashes into canonical JSON for every system. Checkout timing includes
+materializing the complete sorted key/value state into canonical UTF-8 JSON
+for every system. Dolt's CLI output is parsed and normalized inside its timed
+region. The comparison remains an in-process Revon API versus a Dolt CLI
+workflow comparison; the common output contract does not remove process-startup
+or SQL-layer costs.
+
+Dolt commit timing includes SQL mutation, `dolt add`, and commit. It no longer
+creates per-version tags in the timed path; commit hashes returned by commit
+are retained for historical checkout.
 
 ## Interpretation rules
 
 Do not claim that Revon is “faster than Dolt” from one workload or from the
 smoke profile. Report the dataset size, mutation density, history distance,
 locality, payload size, machine, versions, warmups, trial count, distribution,
-and Dolt version. Discuss where Revon-H wins, ties, or loses. Dolt is a mature
+paired ratio interval, and Dolt version. Discuss where Revon-H wins, ties, or
+loses. A ratio interval from repeated trials on one fixed workload does not
+capture variation across datasets or machines. Dolt is a mature
 SQL database; Revon is a Python research prototype testing whether adaptive
 log/Merkle differencing and fixed-depth copy-on-write indexing are useful.
 
+## Paired ratio uncertainty and robustness
+
+For the issues 13–17 primary bundle, calculate same-trial ratio intervals with:
+
+```powershell
+python -m experiments.paired_uncertainty evidence/paper-corrected-issues13-17-counterbalanced-final-20260923
+```
+
+The separate seed/payload/history/locality sensitivity runner is:
+
+```powershell
+python -m experiments.robustness_study --output-dir evidence/paper-issues18-20-robustness-20260923 --warmups 2 --trials 7
+python -m experiments.robustness_study --output-dir evidence/paper-issues18-20-robustness-20260923 --audit
+python -m experiments.robustness_summary evidence/paper-issues18-20-robustness-20260923
+```
+
+The Windows run has three seeds and five 10,000-row variants. The Linux
+replication recorded in `evidence/paper-issues18-20-linux-wsl-20260923/` ran
+under WSL2 on the same physical host, with one warm-up and three measured
+trials per model and variant. Neither bundle includes public multi-table data
+or one-million-row workloads. Neither is evidence about concurrent operations
+or ordered range scans.
+
 ## Audit a completed evidence bundle
 
-The audit regenerates workloads from the manifest, verifies the exact trial
+The internal evidence-integrity audit regenerates workloads from the manifest, verifies the exact trial
 matrix, recomputes every summary statistic, checks Revon-H strategy
 selection, confirms Dolt metadata, and writes a non-destructive Tukey outlier
 review:

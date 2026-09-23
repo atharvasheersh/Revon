@@ -13,17 +13,23 @@ Revon is licensed under the [Apache License 2.0](LICENSE).
 - The final manuscript is available as
   [PDF](paper/Revon_Final_Research_Paper.pdf) and
   [DOCX](paper/Revon_Final_Research_Paper.docx).
-- The audited 333-trial comparison is stored in
-  [`evidence/paper-final-20260824/`](evidence/paper-final-20260824/).
-- The 45-trial trie-parameter sensitivity study is stored in
-  [`evidence/trie-sensitivity-20260824/`](evidence/trie-sensitivity-20260824/).
+- The current audited comparison (540 executions = 120 warm-ups + 420 measured
+  runs) is stored in
+  [`evidence/paper-corrected-issues13-17-counterbalanced-final-20260923/`](evidence/paper-corrected-issues13-17-counterbalanced-final-20260923/).
+  It separates Dolt's batched SQL and CSV bulk-import workflows, balances model
+  order across trials, and includes three additional locality patterns.
+  The [original run](evidence/paper-final-20260824/ERRATA.md) is retained with
+  an erratum for its unvalidated Dolt diff fields.
+- The corrected trie-parameter sensitivity study (10 warm-ups and 35 measured
+  runs) is stored in
+  [`evidence/trie-sensitivity-issues8-20260923/`](evidence/trie-sensitivity-issues8-20260923/).
 - Architecture documentation and its visual companions are under
   [`docs/architecture/`](docs/architecture/).
 
 The `output/` directory is reserved for generated local runs and is ignored by
 Git. Personal presentation and review material is not part of the repository.
 
-## Rebuild publication artifacts
+## Maintain publication artifacts
 
 Install the pinned document-generation dependencies:
 
@@ -31,16 +37,21 @@ Install the pinned document-generation dependencies:
 python -m pip install -r requirements.txt
 ```
 
-Then rebuild the editable paper and the three architecture PDFs:
+After auditing the corrected evidence, update the existing submission DOCX
+without discarding its later layout edits. The older full builder targets the
+superseded August bundle and must not be used to regenerate the current paper.
+The architecture PDFs can be rebuilt separately:
 
 ```powershell
-python tools/build_final_research_paper.py
+python -m experiments.evidence_audit evidence/paper-corrected-issues13-17-counterbalanced-final-20260923
+python tools/revise_paper_issues13_to17.py
 python tools/build_architecture_pdfs.py
 ```
 
 Export `paper/Revon_Final_Research_Paper.docx` to PDF with Microsoft Word or
-LibreOffice. The core Revon runtime and test suite use only the Python standard
-library; the pinned packages are required only for publication artifacts.
+LibreOffice. The application core uses only the Python standard library. The
+benchmark and publication workflows use the pinned dependencies in
+`requirements.txt`.
 
 ## Run the demo
 
