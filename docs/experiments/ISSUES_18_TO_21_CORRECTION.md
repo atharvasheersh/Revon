@@ -39,4 +39,4 @@ python -m experiments.robustness_summary evidence/paper-issues18-20-robustness-2
 python -m experiments.robustness_summary evidence/paper-issues18-20-linux-wsl-20260923
 ```
 
-The reports audit workload digests, status, correctness, matrix size, telemetry availability, and summary statistics. They do not independently reproduce wall-clock timings.
+The reports audit workload digests, status, correctness, matrix size, telemetry availability, and summary statistics. They do not independently reproduce wall-clock timings; no external researcher or clean-clone timing reproduction has been completed, so issue 7 remains open.
