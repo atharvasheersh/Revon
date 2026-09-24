@@ -1,6 +1,6 @@
 # Revon final research paper
 
-Date: 2026-09-23
+Date: 2026-09-24
 
 ## Deliverables
 
@@ -16,31 +16,24 @@ files contain no draft-status banners or preliminary smoke tables.
 
 - Authors: Atharva Sheersh Pandey, Adhyan Jain, and Poornima Nedunchezhian,
   School of Computer Science and Engineering, VIT Vellore
-- School of Computer Science and Engineering
-- VIT Vellore
-- [poornima.n@vit.ac.in](mailto:poornima.n@vit.ac.in)
-- A4 paper matching the supplied BERT manuscript's visual format
-- Compact two-column body with a full-width title and author block
-- Times New Roman typography: 11-point body, 12-point headings, and a
-  14.5-point title
-- Exactly 13.6-point body leading with a 0.15-inch first-line indent
-- One-inch margins and a 0.24-inch gap between equal-width columns
-- Abstract begins at the top of the first text column
-- Arabic-numbered sections and decimal subsections
-- Blue clickable numbered citations and a black numbered bibliography
-- Eleven rendered pages
-- Six figures and three tables
-- Colored charts and architecture/workflow diagrams with a consistent,
-  print-readable palette
-- Fifteen bibliography entries
+- IEEE-style conference layout on US Letter paper: full-width title, author
+  block, abstract, and Index Terms, followed by a two-column body
+- Times New Roman: 24-point title, 10-point body and headings, 9-point abstract
+  and Index Terms, and 8-point references
+- Roman-numeral primary sections, lettered subsections, IEEE-style figure and
+  table captions, and full-width tables
+- Numeric IEEE references with author initials and conference/journal details
+- Seven rendered pages, six figures, three tables, and fifteen references
+- No target IEEE conference or journal was specified; venue-specific templates,
+  page limits, and submission requirements have not been checked
 
-Only the publication layout was reproduced. The reference paper's content,
-branding, and arXiv margin stamp were not copied.
+The manuscript preserves the reviewed claims and experiment scope. This is a
+standard IEEE conference-style layout, not a venue-specific submission check.
 
 The final structure is:
 
 1. Introduction
-2. Literature Review and Related Work
+2. Related Work
 3. Revon Design
 4. Experimental Methodology
 5. Results
@@ -48,8 +41,9 @@ The final structure is:
 7. Limitations and Threats to Validity
 8. Future Work
 9. Conclusion
-10. References
-11. Reproducibility and Data Availability
+10. Acknowledgment
+11. References
+12. Reproducibility and Data Availability
 
 ## Evidence sources
 
@@ -160,12 +154,12 @@ Microsoft Word or LibreOffice.
   `evidence/trie-sensitivity-issues8-20260923`; 45 executions, 10 warm-ups, 35
   measured runs, and all five configuration groups correct. Figure 6 is based
   on this run; it shows medians without error bars.
-- Unit tests: all 56 passed. This included the corrected sensitivity-harness
+- Unit tests: all 57 passed in the issue recheck. This included the corrected sensitivity-harness
   check, which decodes canonical state and verifies old/new hashes against the
   oracle.
 - The DOCX and PDF were regenerated from the audited bundle. Microsoft Word
-  exported the PDF, and all 11 pages were rendered at 100 dpi and visually
-  checked. LibreOffice was unavailable.
+  exported the PDF; the final seven-page IEEE-style PDF was rendered at 120 dpi
+  and every page was visually checked. LibreOffice was unavailable.
 - Dolt SQL and bulk import timings are separate. Storage reports total
   repository footprint, normalized bytes per final logical payload, the
   explicitly non-metadata-only residual, and sampled post-compaction size.
@@ -186,5 +180,6 @@ Microsoft Word or LibreOffice.
 - Citation audit: 15 numbered bibliography entries and internal links from
   bracketed in-text citations to bookmarked reference entries
 
-The resulting manuscript follows the supplied BERT paper's publication format
-rather than the earlier IEEE-style institutional formatting.
+The final manuscript uses the IEEE-style conference layout described above.
+Venue-specific compliance remains unverified because no target publication was
+provided.
