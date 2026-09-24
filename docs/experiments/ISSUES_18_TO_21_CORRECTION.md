@@ -16,7 +16,7 @@ Cross-seed intervals use a hierarchical bootstrap over three seed clusters and p
 
 ## CPU, I/O, and throughput
 
-The WSL2 sensitivity run adds an external 10 ms process-tree sampler for CPU time and read/write byte counters when the OS exposes them. CPU samples were recorded for all 180 trials, but read-byte counters were present for 22 and write-byte counters for 60; missing counters are unavailable, not zero. These process totals include setup and correctness checking, so they are not operation-specific resource costs. Serial commit throughput is commits divided by the sum of the measured commit intervals. It does not represent concurrent or end-to-end throughput.
+The WSL2 sensitivity run adds an external 10 ms process-tree sampler for CPU time and read/write byte counters when the OS exposes them. CPU samples were recorded for all 180 trials, but read-byte counters were present for 22 and write-byte counters for 60; missing counters are unavailable, not zero. A separate Windows telemetry rerun, `evidence/paper-issues14-windows-telemetry-20260924/`, contains 405 successful rows (90 warm-ups and 315 measured) and records process-tree peak RSS, CPU seconds, read bytes, write bytes, and serial commit-operation throughput on every row. Its schema-2 audit passed and all rows were correct. This closes issue 14's telemetry-availability gap for this Windows robustness matrix; it does not establish complete cross-platform I/O measurement or general resource efficiency. These process totals include setup and correctness checking, so they are not operation-specific resource costs. Serial commit throughput is commits divided by the sum of the measured commit intervals. It does not represent concurrent or end-to-end throughput.
 
 No concurrent reader/writer experiment or ordered range-scan experiment was run. The primary paper makes no range-query, concurrency, production-throughput, CPU, or I/O superiority claim. Issue 21 is partly addressed and remains open for those workloads.
 
@@ -26,6 +26,7 @@ The primary paired intervals are in `evidence/paper-corrected-issues13-17-counte
 
 - `evidence/paper-issues18-20-robustness-20260923/`
 - `evidence/paper-issues18-20-linux-wsl-20260923/`
+- `evidence/paper-issues14-windows-telemetry-20260924/`
 
 Run the analysis from the repository root:
 
@@ -33,6 +34,7 @@ Run the analysis from the repository root:
 python -m experiments.paired_uncertainty evidence/paper-corrected-issues13-17-counterbalanced-final-20260923
 python -m experiments.robustness_study --output-dir evidence/paper-issues18-20-robustness-20260923 --audit
 python -m experiments.robustness_study --output-dir evidence/paper-issues18-20-linux-wsl-20260923 --audit
+python -m experiments.robustness_study --output-dir evidence/paper-issues14-windows-telemetry-20260924 --audit
 python -m experiments.robustness_summary evidence/paper-issues18-20-robustness-20260923
 python -m experiments.robustness_summary evidence/paper-issues18-20-linux-wsl-20260923
 ```

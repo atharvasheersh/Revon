@@ -31,6 +31,11 @@ fresh clone.
   sensitivity run (405 rows, three seeds, seven measured repetitions) across
   payload, history, and update-pattern variants. Its seed-cluster bootstrap
   found the 50-commit comparison inconclusive.
+- `paper-issues14-windows-telemetry-20260924/` is a separate Windows telemetry
+  rerun of that 405-row robustness matrix. All rows have process-tree RSS, CPU,
+  read/write bytes, and serial commit throughput; all 405 rows were correct and
+  the schema-2 audit passed. Counters include setup and correctness work, not
+  just timed database operations.
 - `paper-issues18-20-linux-wsl-20260923/` contains a smaller WSL2 Ubuntu
   replication (180 rows, three measured repetitions) of the same 10,000-row
   variants, plus process-tree CPU/I/O counters and serial commit throughput

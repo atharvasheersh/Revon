@@ -1,0 +1,167 @@
+{
+  "schema_version": 2,
+  "run_id": "006db74792484b3a90a6254558c50300",
+  "created_utc": "2026-09-24T00:07:57.027335+00:00",
+  "study": "robustness",
+  "warmups": 2,
+  "measured_trials": 7,
+  "seeds": [
+    20260923,
+    20261017,
+    20261111
+  ],
+  "models": [
+    "revon-m",
+    "revon-h",
+    "dolt"
+  ],
+  "frozen_hybrid_threshold_operations": 4096,
+  "workloads": [
+    {
+      "name": "robust-s1-baseline",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20260923,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s1-payload-128",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20260923,
+      "payload_bytes": 128,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s1-history-50",
+      "rows": 10000,
+      "commits": 50,
+      "changes_per_commit": 100,
+      "seed": 20260923,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s1-range-local",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20260923,
+      "payload_bytes": 32,
+      "locality": "range-local"
+    },
+    {
+      "name": "robust-s1-repeated-key",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20260923,
+      "payload_bytes": 32,
+      "locality": "repeated-key"
+    },
+    {
+      "name": "robust-s2-baseline",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261017,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s2-payload-128",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261017,
+      "payload_bytes": 128,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s2-history-50",
+      "rows": 10000,
+      "commits": 50,
+      "changes_per_commit": 100,
+      "seed": 20261017,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s2-range-local",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261017,
+      "payload_bytes": 32,
+      "locality": "range-local"
+    },
+    {
+      "name": "robust-s2-repeated-key",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261017,
+      "payload_bytes": 32,
+      "locality": "repeated-key"
+    },
+    {
+      "name": "robust-s3-baseline",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261111,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s3-payload-128",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261111,
+      "payload_bytes": 128,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s3-history-50",
+      "rows": 10000,
+      "commits": 50,
+      "changes_per_commit": 100,
+      "seed": 20261111,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    {
+      "name": "robust-s3-range-local",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261111,
+      "payload_bytes": 32,
+      "locality": "range-local"
+    },
+    {
+      "name": "robust-s3-repeated-key",
+      "rows": 10000,
+      "commits": 10,
+      "changes_per_commit": 100,
+      "seed": 20261111,
+      "payload_bytes": 32,
+      "locality": "repeated-key"
+    }
+  ],
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python_version": "3.14.3",
+  "dolt_executable_available": true,
+  "limitations": [
+    "single Windows host",
+    "synthetic flat key-value table only",
+    "10,000 rows only; not a one-million-row scale test",
+    "no public multi-table dataset"
+  ],
+  "scope": "sensitivity evidence only; do not pool with the paper's eight primary scenarios",
+  "operational_telemetry": "external parent process-tree CPU seconds and read/write bytes sampled every 10 ms, when supported; commit-operation throughput is commits divided by summed timed commit intervals"
+}

@@ -172,7 +172,12 @@ python -m experiments.robustness_study --output-dir evidence/paper-issues18-20-r
 python -m experiments.robustness_summary evidence/paper-issues18-20-robustness-20260923
 ```
 
-The Windows run has three seeds and five 10,000-row variants. The Linux
+The Windows run has three seeds and five 10,000-row variants. A separate
+Windows telemetry rerun is in
+`evidence/paper-issues14-windows-telemetry-20260924/`; its 405 rows all include
+process-tree RSS, CPU, read/write bytes, and serial commit throughput, with all
+rows correct and its audit passing. These counters cover setup and correctness
+work as well as timed operations. The Linux
 replication recorded in `evidence/paper-issues18-20-linux-wsl-20260923/` ran
 under WSL2 on the same physical host, with one warm-up and three measured
 trials per model and variant. Neither bundle includes public multi-table data
