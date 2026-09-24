@@ -370,8 +370,8 @@ def architecture_explanation_story() -> list:
         matrix(
             ["Evidence", "Result"],
             [
-                ["Final comparison", "333 measured rows passed the shared correctness oracle; all 83 Tukey outlier candidates were retained."],
-                ["Sensitivity", "45 measured trials across five trie geometries were correct; b=8, d=4 minimized storage in the tested set."],
+                ["Final comparison", "333 executions passed the shared correctness oracle (74 warm-ups, 259 measured); all 83 Tukey outlier candidates were retained."],
+                ["Sensitivity", "45 executions across five trie geometries were correct (10 warm-ups, 35 measured); b=8, d=4 minimized storage in the tested set."],
                 ["Durability", "Tests reopen SQLite repositories and reproduce history, checkout, diffs, metrics, and HEAD."],
                 ["Failure handling", "Injected transaction failure rolls back SQLite and restores the last durable in-memory HEAD."],
             ],
@@ -437,7 +437,7 @@ def incremental_brief_story() -> list:
             ["Policy", "Boundary", "Purpose"],
             [
                 ["Runtime default", "128 operations", "Practical default for demos, the API, and repositories without an override."],
-                ["Audited paper profile", "4,096 operations", "Frozen from separate calibration before the 333-row evaluation."],
+                ["Audited paper profile", "4,096 operations", "Frozen from separate calibration before the evaluation's 333 executions (74 warm-ups, 259 measured runs)."],
             ],
             [0.27, 0.22, 0.51],
         ),
@@ -582,12 +582,12 @@ def system_architecture_story() -> list:
                 ("Fixed seeds", "deterministic workloads"),
                 ("Shared oracle", "same expected changes"),
                 ("Raw trials", "status, correctness, metrics"),
-                ("Independent audit", "rebuild summaries and retain outliers"),
+                ("Internal audit", "rebuild summaries and retain outliers"),
             ]
         ),
         Spacer(1, 10),
         p(
-            "The versioned final evidence bundle contains 333 successful and correct measured rows. The separate sensitivity bundle contains 45 correct trials across five geometries. Paper tables and figures are generated from reviewed summary CSV files and checked against raw results and manifests."
+            "The corrected run contains 333 executions: 74 warm-ups and 259 measured runs. Of those, 175 are in the primary five-system evaluation. The separate sensitivity bundle contains 10 warm-ups and 35 measured runs across five geometries. Paper tables and figures are generated from reviewed summary CSV files and checked against raw results and manifests."
         ),
         h1("Local run sequence"),
         p(
