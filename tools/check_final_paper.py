@@ -21,11 +21,11 @@ COUNTERS = (
     "commit_operations_per_second",
 )
 REQUIRED_DISCLOSURES = (
-    "A separate Windows sensitivity telemetry run has 405 rows (315 measured)",
-    "These counters include setup and correctness work, not only timed operations",
-    "No external researcher or clean clone has independently reproduced the timings",
-    "internal audit checks evidence consistency but does not reproduce wall-clock results",
-    "None of these experiments measures ordered range queries, concurrent reads or writes, or production throughput",
+    "A separate Windows telemetry run records RSS, CPU, read/write bytes, and serial commit throughput in 405 rows (315 measured).",
+    "These counters include setup and correctness work, not just timed operations.",
+    "No external researcher or clean clone has reproduced the timings.",
+    "The internal audit checks evidence consistency; it does not reproduce wall-clock performance.",
+    "We did not test ordered range queries, concurrent readers or writers, or production throughput.",
 )
 
 
@@ -53,11 +53,15 @@ def main() -> None:
         for cell in row.cells
     )
     manuscript_text = "\n".join(content)
-    assert document.paragraphs[0].text == (
-        "Revon: Evaluating Hybrid Diffing in a Versioned Key-Value Prototype"
-    ), "paper title does not match the bounded prototype contribution"
-    assert "These are workflow-level results" in manuscript_text, (
-        "abstract must identify the cross-system ratios as workflow-level"
+    title = " ".join(document.paragraphs[0].text.split())
+    assert title == "Revon: Git-Inspired Merkle Hash Trie Versioning for Structured Data", (
+        f"paper title does not match the bounded prototype contribution: {title!r}"
+    )
+    assert (
+        "Those are interface-level results: the comparison includes different APIs "
+        "and does not isolate tree or index performance."
+    ) in manuscript_text, (
+        "abstract must bound the cross-system ratios to interface-level results"
     )
     assert len(document.tables) >= 3, "missing a paper comparison table"
     literature_widths = [
@@ -72,7 +76,7 @@ def main() -> None:
         int(column.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}w"))
         for column in workload_table._tbl.tblGrid.gridCol_lst
     ]
-    assert grid_widths == [2100, 1100, 800, 900, 4120], grid_widths
+    assert grid_widths == [1950, 1100, 1300, 1450, 3220], grid_widths
     assert sum(grid_widths) == 9020, grid_widths
     assert all(
         cell.paragraphs[0]._p.pPr is not None
@@ -86,7 +90,7 @@ def main() -> None:
         int(column.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}w"))
         for column in results_table._tbl.tblGrid.gridCol_lst
     ]
-    assert results_widths == [2050, 750, 900, 1250, 4070], results_widths
+    assert results_widths == [1950, 1050, 1200, 1500, 3320], results_widths
     assert all(
         cell.paragraphs[0]._p.pPr is not None
         and cell.paragraphs[0].runs
@@ -106,8 +110,8 @@ def main() -> None:
     assert hyperlink_anchors <= bookmark_names, (
         f"citation links point to missing bibliography bookmarks: {hyperlink_anchors - bookmark_names}"
     )
-    assert len([name for name in bookmark_names if name and name.startswith("ref_")]) == 15, (
-        "expected bookmarks for all 15 bibliography entries"
+    assert len([name for name in bookmark_names if name and name.startswith("ref_")]) == 30, (
+        "expected bookmarks for all 30 bibliography entries"
     )
     for disclosure in REQUIRED_DISCLOSURES:
         assert disclosure in manuscript_text, f"missing manuscript disclosure: {disclosure}"
@@ -118,7 +122,8 @@ def main() -> None:
 
     print(
         "Final paper validated: DOCX disclosures present; PDF structure present; "
-        "Windows telemetry audit passed (405 rows, 315 measured, all counters available)."
+        "Windows telemetry audit passed (405 rows, 315 measured, all counters available); "
+        "final manuscript checks passed (30 linked references)."
     )
 
 

@@ -6,11 +6,15 @@ Date: 2026-09-24
 
 - `paper/Revon_Final_Research_Paper.docx`
 - `paper/Revon_Final_Research_Paper.pdf`
+- `paper/Revon_Research_Paper_IEEE_Pagination_Fixed.docx` and `.pdf`
+- `paper/Revon_Research_Paper_Single_Column.docx` and `.pdf`
+- `output/docs/Revon_Research_Paper_BERT.docx` and `.pdf`
+- `paper/Changes_After_First_Review.docx` and `.pdf`
 - Canonical repository: <https://github.com/atharvasheersh/Revon>
 
-Only the final paper artifacts are versioned in the repository. Earlier working
-drafts remain local preparation material and are excluded from Git. The final
-files contain no draft-status banners or preliminary smoke tables.
+The final paper and selected submission variants and review summary are versioned.
+Intermediate drafts and temporary renders remain local preparation material.
+The final files contain no draft-status banners or preliminary smoke tables.
 
 ## Publication format
 
@@ -23,7 +27,7 @@ files contain no draft-status banners or preliminary smoke tables.
 - Roman-numeral primary sections, lettered subsections, IEEE-style figure and
   table captions, and full-width tables
 - Numeric IEEE references with author initials and conference/journal details
-- Seven rendered pages, six figures, three tables, and fifteen references
+- Eight rendered pages, six figures, three tables, and thirty references
 - No target IEEE conference or journal was specified; venue-specific templates,
   page limits, and submission requirements have not been checked
 
@@ -157,9 +161,9 @@ Microsoft Word or LibreOffice.
 - Unit tests: all 57 passed in the issue recheck. This included the corrected sensitivity-harness
   check, which decodes canonical state and verifies old/new hashes against the
   oracle.
-- The DOCX and PDF were regenerated from the audited bundle. Microsoft Word
-  exported the PDF; the final seven-page IEEE-style PDF was rendered at 120 dpi
-  and every page was visually checked. LibreOffice was unavailable.
+- The latest DOCX and PDF were rendered with LibreOffice. The current final PDF
+  is eight pages; table and figure pagination was visually checked across the
+  paper variants.
 - Dolt SQL and bulk import timings are separate. Storage reports total
   repository footprint, normalized bytes per final logical payload, the
   explicitly non-metadata-only residual, and sampled post-compaction size.
@@ -177,9 +181,10 @@ Microsoft Word or LibreOffice.
   for the dataset-versioning and OrpheusDB papers, upgraded DataHub to its CIDR
   publication, and added verified DOIs for dataset versioning, OrpheusDB, and
   LBFS
-- Citation audit: 15 numbered bibliography entries and internal links from
+- Citation audit: 30 numbered bibliography entries and internal links from
   bracketed in-text citations to bookmarked reference entries
 
-The final manuscript uses the IEEE-style conference layout described above.
-Venue-specific compliance remains unverified because no target publication was
-provided.
+LibreOffice was used to render the repaired DOCX variants. Table and figure
+pagination was visually checked in the rendered papers. The final manuscript
+uses the IEEE-style conference layout described above. Venue-specific compliance
+remains unverified because no target publication was provided.
