@@ -22,8 +22,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m unittest discover -s tests -v
 
-  publication-builders:
-    name: Publication builders
+  publication-artifacts:
+    name: Publication artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -32,7 +32,8 @@ jobs:
           python-version: "3.14"
           cache: pip
       - run: python -m pip install -r requirements.txt
-      - run: python tools/build_final_research_paper.py
+      - run: python tools/check_final_paper.py
+        name: Validate checked-in final manuscript
       - run: python tools/build_architecture_pdfs.py
 
   frontend:
