@@ -16,6 +16,18 @@ Revon is licensed under the [Apache License 2.0](LICENSE).
   The earlier Discover Computing and IEEE exports are retained in
   [`paper/previous versions/`](paper/previous%20versions/).
   See [`paper/README.md`](paper/README.md) for the publication files and their scope.
+- The review revision is titled **Log and Merkle Differencing for Durable
+  Structured Data Versioning**. Its separate author-run Windows campaign completed
+  93 workers and 3,402 checked queries (2,646 measured), with disjoint calibration
+  and validation seeds, two further public source families and repeated local
+  scale observations. See the [response matrix](docs/paper/REVIEW_RESPONSE_MATRIX.md),
+  [experiment report](docs/experiments/REVIEW_REVISION_RESULTS.md),
+  [claim register](docs/paper/CLAIM_EVIDENCE_REGISTER.md) and
+  [revision archive](paper/Revon_Review_Revision_Reproducibility_20261016.zip).
+  The calibrated T=65,536 policy selects log throughout the tested primary
+  operation range; this does not establish optimal adaptive switching.
+  A separate warm decision-prefix diagnostic is under
+  [`evidence/selector-cost-20261016/`](evidence/selector-cost-20261016/).
 - The current Linux evidence contains 516 executions, with a separate
   72-execution geometry/telemetry supplement. The exact protocols, executed
   source, semantic checks, limitations and raw results are retained in
@@ -62,6 +74,15 @@ hashes, frozen execution order, historical correctness proofs, raw summaries,
 paired intervals and the adverse frozen-threshold finding. It needs neither
 ignored `output/` files nor private cloud download archives. Visual review and
 corresponding-author approval remain separate from this automated gate.
+The expanded gate also imports the frozen review source on a disposable copy,
+regenerates semantic histories, rederives the numerical summaries and checks the
+new archive. It does not rerun timing. The [verification report](docs/paper/REVISION_VERIFICATION_REPORT.md)
+records local commands, layout checks and remaining limits.
+Calibration is additionally recalculated from raw calibration records, including
+the winner, tie-break and freeze chronology. The selector diagnostic checks its
+archived production source and extracted function AST. Required new figures
+are versioned under `paper/review-assets/figures/`; package construction fails
+when any is missing. Neither check needs ignored local output.
 
 The architecture PDFs can be rebuilt separately:
 
