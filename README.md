@@ -1,54 +1,85 @@
 # Revon
 
-Revon is a content-addressed versioned data store for structured key-value
-data. Its state index is a persistent fixed-depth Merkle hash trie. Atomic
-batch commits copy and re-hash only the affected paths; unchanged subtrees are
-shared by their existing hashes. Revon-H adaptively chooses operation-log or
-hash-pruned Merkle differencing for version comparisons.
+[![CI](https://github.com/atharvasheersh/Revon/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/atharvasheersh/Revon/actions/workflows/ci.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
+Revon is a Python research prototype for durable structured key/value
+versioning. It stores content-addressed versions in a fixed-depth Merkle hash
+trie backed by SQLite, and compares versions through operation-log aggregation
+or hash-pruned Merkle traversal. Revon-H selects a diff path using an
+operation-count threshold over the requested history interval.
+
+- **Version and recover data:** atomic batch commits, retained history and
+  historical checkout in memory or a durable SQLite repository.
+- **Compare the diff paths:** forced log, forced Merkle and threshold selection
+  over the same stored representation.
+- **Inspect correctness and costs:** semantic oracles, recorded environments,
+  frozen protocols, raw observations and reproducibility tools.
+- **Explore the implementation:** dependency-free Python demos and a local
+  REST API, with [architecture documentation](docs/architecture/).
+
+The scope is single-writer, linear-history versioning. Branch references,
+merging, concurrent writers and a general SQL query engine are outside the
+implemented scope. The experiments compare bounded versioning workflows;
+they do not establish a generally faster storage engine or an optimal
+adaptive switching policy.
 
 Revon is licensed under the [Apache License 2.0](LICENSE).
 
+[Run the demo](#run-the-demo) · [Open the paper](#paper-and-reproducibility) ·
+[Run the tests](#run-the-tests) · [Use the API](#run-the-backend-api)
+
 ## Paper and reproducibility
 
-- The current Springer manuscript is available as
-  [PDF](paper/Revon%20Research%20Paper%20Springer.pdf) and
-  [editable DOCX](paper/Revon%20Research%20Paper%20Springer.docx).
-  The earlier Discover Computing and IEEE exports are retained in
-  [`paper/previous versions/`](paper/previous%20versions/).
-  See [`paper/README.md`](paper/README.md) for the publication files and their scope.
-- The review revision is titled **Revon: Log and Merkle Differencing for Durable
-  Structured Data Versioning**. Its separate author-run Windows campaign completed
-  93 workers and 3,402 checked queries (2,646 measured), with disjoint calibration
-  and validation seeds, two further public source families and repeated local
-  scale observations. See the [response matrix](docs/paper/REVIEW_RESPONSE_MATRIX.md),
-  [experiment report](docs/experiments/REVIEW_REVISION_RESULTS.md),
-  [claim register](docs/paper/CLAIM_EVIDENCE_REGISTER.md) and
-  [revision archive](paper/Revon_Review_Revision_Reproducibility_20261016.zip).
-  The calibrated T=65,536 policy selects log throughout the tested primary
-  operation range; this does not establish optimal adaptive switching.
-  A separate warm decision-prefix diagnostic is under
-  [`evidence/selector-cost-20261016/`](evidence/selector-cost-20261016/).
-- The current Linux evidence contains 516 executions, with a separate
-  72-execution geometry/telemetry supplement. The exact protocols, executed
-  source, semantic checks, limitations and raw results are retained in
-  [`evidence/linux-validation-20261008/`](evidence/linux-validation-20261008/)
-  and [`evidence/linux-final-supplement-20261008/`](evidence/linux-final-supplement-20261008/).
-  The [GitHub reproducibility archive](paper/Revon_Linux_Reproducibility_Supplement.zip) includes
-  the manuscript model and figure assets. Integrity checks do not constitute
-  independent timing reproduction; timings from different campaigns must not
-  be pooled.
-- The historical Windows comparison (540 executions = 120 warm-ups + 420 measured
-  runs) is stored in
-  [`evidence/paper-corrected-issues13-17-counterbalanced-final-20260923/`](evidence/paper-corrected-issues13-17-counterbalanced-final-20260923/).
-  It separates Dolt's batched SQL and CSV bulk-import workflows, balances model
-  order across trials, and includes three additional locality patterns.
-  The [original run](evidence/paper-final-20260824/ERRATA.md) is retained with
-  an erratum for its unvalidated Dolt diff fields.
-- The corrected trie-parameter sensitivity study (10 warm-ups and 35 measured
-  runs) is stored in
-  [`evidence/trie-sensitivity-issues8-20260923/`](evidence/trie-sensitivity-issues8-20260923/).
-- Architecture documentation and its visual companions are under
-  [`docs/architecture/`](docs/architecture/).
+**Revon: Log and Merkle Differencing for Durable Structured Data Versioning**
+
+Read the current manuscript as a
+[PDF](paper/Revon%20Research%20Paper%20Springer.pdf) or
+[editable DOCX](paper/Revon%20Research%20Paper%20Springer.docx).
+It is an unpublished manuscript prepared in the retained Springer reference
+layout. See the [paper guide](paper/README.md) for formats, rebuilding and
+verification; earlier Discover Computing and IEEE exports remain under
+[`paper/previous versions/`](paper/previous%20versions/).
+
+### Evaluation evidence
+
+The Linux and Windows campaigns were conducted by the authors and are analysed
+separately. Their execution counts, experimental units and environments differ.
+
+| Campaign | Recorded scope | Evidence |
+|---|---|---|
+| Linux primary | 516 executions, including warm-ups, measured trials and scale diagnostics | [Protocol, sources and results](evidence/linux-validation-20261008/) |
+| Linux supplement | 72 geometry/telemetry executions | [Supplement records](evidence/linux-final-supplement-20261008/) |
+| Windows evaluation | 93 cases, each in a fresh worker process; 3,402 checked queries, including 756 warm-ups and 2,646 measured queries | [Frozen campaign](evidence/review-revision-20261016/) and [experiment report](docs/experiments/REVIEW_REVISION_RESULTS.md) |
+| Windows decision-prefix diagnostic | 18 reconstructed histories; 252,000 measured warm-prefix calls, distinct from full-workflow trials | [Diagnostic records](evidence/selector-cost-20261016/) |
+
+The Windows evaluation uses disjoint calibration and validation histories,
+controlled sensitivity experiments, Wine Quality and CO2 public sources, and
+repeated runs at 100,000 and 1,000,000 records. Wine corrections are generated;
+CO2 uses one observed publication sequence repeated across repositories.
+The calibration-frozen threshold T=65,536 selects log throughout the tested
+primary operation range. It does not demonstrate a useful adaptive crossover.
+Revon's in-process API and Dolt's CLI also have different cost boundaries.
+
+Download the [Windows reproducibility archive](paper/Revon_Review_Revision_Reproducibility_20261016.zip)
+and the [Linux reproducibility archive](paper/Revon_Linux_Reproducibility_Supplement.zip)
+for executed sources, protocols, semantic checks and raw results. Internal
+integrity checks do not reproduce elapsed times or constitute reproduction by
+an independent team. Timing rows from different campaigns must not be pooled.
+The [claim register](docs/paper/CLAIM_EVIDENCE_REGISTER.md),
+[response matrix](docs/paper/REVIEW_RESPONSE_MATRIX.md) and
+[verification report](docs/paper/REVISION_VERIFICATION_REPORT.md) document the
+supporting evidence and remaining limitations.
+
+Earlier evidence is retained with its original scope:
+
+- The [corrected Windows workflow comparison](evidence/paper-corrected-issues13-17-counterbalanced-final-20260923/)
+  contains 540 executions: 120 warm-ups and 420 measured runs. It separates
+  Dolt SQL and CSV import workflows and balances model order across trials.
+- The [corrected trie sensitivity study](evidence/trie-sensitivity-issues8-20260923/)
+  contains 10 warm-ups and 35 measured runs.
+- The [original run erratum](evidence/paper-final-20260824/ERRATA.md) identifies
+  Dolt diff fields that did not establish observed semantic correctness.
 
 The `output/` directory is reserved for generated local runs and is ignored by
 Git. Personal presentation and review material is not part of the repository.
@@ -74,13 +105,13 @@ hashes, frozen execution order, historical correctness proofs, raw summaries,
 paired intervals and the adverse frozen-threshold finding. It needs neither
 ignored `output/` files nor private cloud download archives. Visual review and
 corresponding-author approval remain separate from this automated gate.
-The expanded gate also imports the frozen review source on a disposable copy,
+The gate also imports the frozen Windows campaign source on a disposable copy,
 regenerates semantic histories, rederives the numerical summaries and checks the
-new archive. It does not rerun timing. The [verification report](docs/paper/REVISION_VERIFICATION_REPORT.md)
+Windows archive. It does not rerun timing. The [verification report](docs/paper/REVISION_VERIFICATION_REPORT.md)
 records local commands, layout checks and remaining limits.
 Calibration is additionally recalculated from raw calibration records, including
 the winner, tie-break and freeze chronology. The selector diagnostic checks its
-archived production source and extracted function AST. Required new figures
+archived production source and extracted function AST. Required figure assets
 are versioned under `paper/review-assets/figures/`; package construction fails
 when any is missing. Neither check needs ignored local output.
 

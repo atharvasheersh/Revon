@@ -3,25 +3,26 @@
 The current manuscript is **Revon Research Paper Springer**:
 
 Title: **Revon: Log and Merkle Differencing for Durable Structured Data Versioning**.
-This revision narrows the contribution to an auditable prototype and bounded
+The unpublished manuscript presents an auditable prototype and a bounded
 workflow/selection study; the fixed trie is not a new adaptive index.
 
 - [PDF](Revon%20Research%20Paper%20Springer.pdf) — the reference layout for submission.
 - [DOCX](Revon%20Research%20Paper%20Springer.docx) — the editable companion. Word pagination differs from the PDF.
-- [Review revision archive](Revon_Review_Revision_Reproducibility_20261016.zip) — the separate Windows campaign, exact sources, public acquisition metadata, raw observations, derived figures, response documents and audit tools.
+- [Windows reproducibility archive](Revon_Review_Revision_Reproducibility_20261016.zip) — the Windows campaign, exact sources, public acquisition metadata, raw observations, derived figures, response documents and audit tools.
 - [Original Linux archive](Revon_Linux_Reproducibility_Supplement.zip) — unchanged source snapshots, protocols, manifests, raw observations, semantic verification and internal audits for the historical Linux campaigns.
 
 The manuscript links to the current [GitHub repository](https://github.com/atharvasheersh/Revon)
 and the archive on `main`. It does not identify a fixed repository commit.
 The executed source snapshots and collection manifests remain inside each evidence
 bundle; updates to the repository do not replace those experiment records.
-Both archives accompany the revision in this repository on `main`. Neither
+Both archives accompany the manuscript in this repository on `main`. Neither
 archive's presence establishes journal upload or independent timing reproduction.
 Git publication is authorised separately from author approval for journal
 submission. Current publication and CI records are in the verification report.
 
-The new study completed 93 cases, 3,402 queries (2,646 measured), 18 public-source
-cases and 18 scale cases. A separate warm decision-prefix diagnostic adds 18
+The Windows evaluation comprises 93 cases, each run in a fresh worker process,
+and 3,402 queries (2,646 measured). The 93 cases include 18 public-source cases
+and 18 scale cases. A separate warm decision-prefix diagnostic covers 18
 histories and 252,000 measured prefix calls, not additional full-workflow trials.
 The PDF has 27 pages, 17 tables, 10 figures and 33 references. The Word rendering
 has 28 pages. Existing eleven tables and seven figure assets are preserved;

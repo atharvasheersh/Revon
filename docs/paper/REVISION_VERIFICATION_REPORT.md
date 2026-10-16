@@ -141,7 +141,7 @@ Word rendering is an optional separate QA step, not required for artifact checks
 ## Final artifact identities
 
 The final ZIP contains **1,477 manifested files**, plus its manifest,
-and is **18,406,551 bytes**. This report is excluded from the ZIP
+and is **18,407,287 bytes**. This report is excluded from the ZIP
 to avoid a circular ZIP/hash dependency. Final status documentation is written
 after successful gates; it does not alter verified code, artifacts or evidence.
 
@@ -149,7 +149,7 @@ after successful gates; it does not alter verified code, artifacts or evidence.
 |---|---|
 | Revon Research Paper Springer.pdf | `f24ec27d2447fff6b391e534975916738729b12eb6620e6a150bf8c0c965368f` |
 | Revon Research Paper Springer.docx | `0979e361c6676ed82714d891ad0566c8a470faebb4f0abd3643c16e46b9c8c37` |
-| Revon_Review_Revision_Reproducibility_20261016.zip | `d1320839e07c5dd24507f88976177a1a8707d7828a1f8bcff27ff36b6521d7d5` |
+| Revon_Review_Revision_Reproducibility_20261016.zip | `b72c280076a90cbb3a665d70e59aac68af73876aed7127030f2008e43f69192c` |
 
 ## Publication and remaining research limits
 
@@ -286,3 +286,23 @@ The complete read-only final-publication gate passed after rebuilding the ZIP,
 including manuscript agreement, evidence audits, numerical derivation and exact
 package correspondence. Hosted results for this editorial commit are available
 in the main-branch Actions history linked above.
+
+
+## README and repository summary refresh
+
+Updated the repository README and paper guide to present the current unpublished
+manuscript and its Linux/Windows evaluation directly. The landing page now
+introduces the prototype, implemented features and scope, links to demos and
+the API, separates the experimental units in an evidence table, and describes
+the calibration result and API/CLI interpretation limits. Draft-stage wording
+was removed from both guides. Earlier evidence and errata remain linked.
+
+All 38 local Markdown links and navigation targets resolve. The reproducibility
+archive was rebuilt because it includes both README files; its exact membership,
+checksums and agreement with repository files passed the package checker.
+The manuscript PDF/DOCX, reviewed model, figures and collected evidence are
+unchanged by this documentation update.
+GitHub About now describes the Python/SQLite research prototype and its log/
+Merkle workflow evaluation. Its seven topics identify Python, SQLite, data
+versioning, Merkle tries, content addressing, reproducible research and
+benchmarking; the live repository metadata was read back after the update.
