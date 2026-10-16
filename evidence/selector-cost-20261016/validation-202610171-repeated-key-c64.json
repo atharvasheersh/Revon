@@ -1,0 +1,184 @@
+{
+  "case": {
+    "name": "validation-202610171-repeated-key-c64",
+    "suite": "validation",
+    "spec": {
+      "name": "validation-202610171-repeated-key-c64",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 64,
+      "seed": 202610171,
+      "payload_bytes": 32,
+      "locality": "repeated-key"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  },
+  "workload_sha256": "6e80cebae895637e42961f01a9c3b404c1e1c9710bde351356486f0a4de66f94",
+  "records": [
+    {
+      "threshold": 4096,
+      "trial_kind": "warmup",
+      "batch": 1,
+      "calls": 1000,
+      "elapsed_ns": 4686200,
+      "ns_per_call": 4686.2,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "warmup",
+      "batch": 2,
+      "calls": 1000,
+      "elapsed_ns": 3185200,
+      "ns_per_call": 3185.2,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "measured",
+      "batch": 1,
+      "calls": 1000,
+      "elapsed_ns": 2592800,
+      "ns_per_call": 2592.8,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "measured",
+      "batch": 2,
+      "calls": 1000,
+      "elapsed_ns": 2577500,
+      "ns_per_call": 2577.5,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "measured",
+      "batch": 3,
+      "calls": 1000,
+      "elapsed_ns": 2584300,
+      "ns_per_call": 2584.3,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "measured",
+      "batch": 4,
+      "calls": 1000,
+      "elapsed_ns": 2579000,
+      "ns_per_call": 2579.0,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "measured",
+      "batch": 5,
+      "calls": 1000,
+      "elapsed_ns": 2733300,
+      "ns_per_call": 2733.3,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "measured",
+      "batch": 6,
+      "calls": 1000,
+      "elapsed_ns": 3092500,
+      "ns_per_call": 3092.5,
+      "selected": "log"
+    },
+    {
+      "threshold": 4096,
+      "trial_kind": "measured",
+      "batch": 7,
+      "calls": 1000,
+      "elapsed_ns": 2720000,
+      "ns_per_call": 2720.0,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "warmup",
+      "batch": 1,
+      "calls": 1000,
+      "elapsed_ns": 2700300,
+      "ns_per_call": 2700.3,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "warmup",
+      "batch": 2,
+      "calls": 1000,
+      "elapsed_ns": 2591000,
+      "ns_per_call": 2591.0,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "measured",
+      "batch": 1,
+      "calls": 1000,
+      "elapsed_ns": 2575200,
+      "ns_per_call": 2575.2,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "measured",
+      "batch": 2,
+      "calls": 1000,
+      "elapsed_ns": 2644300,
+      "ns_per_call": 2644.3,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "measured",
+      "batch": 3,
+      "calls": 1000,
+      "elapsed_ns": 2528400,
+      "ns_per_call": 2528.4,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "measured",
+      "batch": 4,
+      "calls": 1000,
+      "elapsed_ns": 2616400,
+      "ns_per_call": 2616.4,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "measured",
+      "batch": 5,
+      "calls": 1000,
+      "elapsed_ns": 3138400,
+      "ns_per_call": 3138.4,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "measured",
+      "batch": 6,
+      "calls": 1000,
+      "elapsed_ns": 1874800,
+      "ns_per_call": 1874.8,
+      "selected": "log"
+    },
+    {
+      "threshold": 65536,
+      "trial_kind": "measured",
+      "batch": 7,
+      "calls": 1000,
+      "elapsed_ns": 2403900,
+      "ns_per_call": 2403.9,
+      "selected": "log"
+    }
+  ],
+  "finished_utc": "2026-10-15T19:25:21.046829+00:00"
+}

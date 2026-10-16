@@ -1,0 +1,373 @@
+{
+  "audit": {
+    "passed": true,
+    "completed_cases": 93,
+    "planned_cases": 93,
+    "queries": 3402,
+    "measured_queries": 2646,
+    "pending": [],
+    "failures": [],
+    "scope": "internal accounting/hash checks, not independent timing reproduction",
+    "checked_utc": "2026-10-15T19:10:45.476296+00:00"
+  },
+  "threshold": 65536,
+  "calibration_scores": {
+    "512": 1.337194143248822,
+    "4096": 1.0488212834361634,
+    "16384": 1.1098500197840684,
+    "65536": 1.0135024734616886
+  },
+  "validation": {
+    "cases": 18,
+    "old_agreement": 12,
+    "calibrated_agreement": 18,
+    "old_normalized_mean": 1.100590418758528,
+    "calibrated_normalized_mean": 1.011536797077204,
+    "calibrated_slowest_normalized": 1.0904570379567855
+  },
+  "public_and_scale": [
+    {
+      "dataset": "co2-observed",
+      "model": "revon-m",
+      "repositories": 3,
+      "initial_rows": 812,
+      "history_unit": "same observed history",
+      "diff_median_ms": 0.6119,
+      "diff_min_ms": 0.5625,
+      "diff_max_ms": 0.6613,
+      "import_median_s": 0.0333172,
+      "commit_median_ms": 14.2339,
+      "checkout_median_s": 0.0011147,
+      "storage_median_mib": 1.19140625,
+      "rss_median_gib": 0.04186248779296875
+    },
+    {
+      "dataset": "co2-observed",
+      "model": "revon-h",
+      "repositories": 3,
+      "initial_rows": 812,
+      "history_unit": "same observed history",
+      "diff_median_ms": 0.3092,
+      "diff_min_ms": 0.3022,
+      "diff_max_ms": 0.3176,
+      "import_median_s": 0.0354628,
+      "commit_median_ms": 14.4925,
+      "checkout_median_s": 0.0010674999999999999,
+      "storage_median_mib": 1.18359375,
+      "rss_median_gib": 0.042453765869140625
+    },
+    {
+      "dataset": "co2-observed",
+      "model": "dolt",
+      "repositories": 3,
+      "initial_rows": 812,
+      "history_unit": "same observed history",
+      "diff_median_ms": 256.9769,
+      "diff_min_ms": 251.8654,
+      "diff_max_ms": 262.8907,
+      "import_median_s": 0.6337955,
+      "commit_median_ms": 747.4576,
+      "checkout_median_s": 0.2337009,
+      "storage_median_mib": 0.17836856842041016,
+      "rss_median_gib": 0.14876556396484375,
+      "command_ms": 256.0631,
+      "parse_ms": 0.5014,
+      "canonical_ms": 0.5035,
+      "command_fraction": 0.9964440383551986
+    },
+    {
+      "dataset": "wine-generated",
+      "model": "revon-m",
+      "repositories": 3,
+      "initial_rows": 6497,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 4.2811,
+      "diff_min_ms": 4.2599,
+      "diff_max_ms": 4.964,
+      "import_median_s": 0.1889661,
+      "commit_median_ms": 39.83825,
+      "checkout_median_s": 0.012919600000000002,
+      "storage_median_mib": 10.83203125,
+      "rss_median_gib": 0.07602691650390625
+    },
+    {
+      "dataset": "wine-generated",
+      "model": "revon-h",
+      "repositories": 3,
+      "initial_rows": 6497,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 2.2471,
+      "diff_min_ms": 1.9558,
+      "diff_max_ms": 2.3663,
+      "import_median_s": 0.19147,
+      "commit_median_ms": 40.9788,
+      "checkout_median_s": 0.015212,
+      "storage_median_mib": 10.8125,
+      "rss_median_gib": 0.07662200927734375
+    },
+    {
+      "dataset": "wine-generated",
+      "model": "dolt",
+      "repositories": 3,
+      "initial_rows": 6497,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 296.7642,
+      "diff_min_ms": 246.7498,
+      "diff_max_ms": 302.808,
+      "import_median_s": 0.8187517000000001,
+      "commit_median_ms": 771.37935,
+      "checkout_median_s": 0.3059917,
+      "storage_median_mib": 1.35980224609375,
+      "rss_median_gib": 0.16861343383789062,
+      "command_ms": 288.4645,
+      "parse_ms": 4.4452,
+      "canonical_ms": 3.2579,
+      "command_fraction": 0.9720326777960413
+    },
+    {
+      "dataset": "100000",
+      "model": "revon-m",
+      "repositories": 3,
+      "initial_rows": 100000,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 5.6493,
+      "diff_min_ms": 5.1488,
+      "diff_max_ms": 7.6039,
+      "import_median_s": 1.1162699,
+      "commit_median_ms": 54.309,
+      "checkout_median_s": 0.2092019,
+      "storage_median_mib": 30.234375,
+      "rss_median_gib": 0.24847412109375
+    },
+    {
+      "dataset": "100000",
+      "model": "revon-h",
+      "repositories": 3,
+      "initial_rows": 100000,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 1.0035,
+      "diff_min_ms": 0.9124,
+      "diff_max_ms": 1.091,
+      "import_median_s": 1.1085287000000001,
+      "commit_median_ms": 53.044200000000004,
+      "checkout_median_s": 0.17274199999999998,
+      "storage_median_mib": 30.23046875,
+      "rss_median_gib": 0.24175262451171875
+    },
+    {
+      "dataset": "100000",
+      "model": "dolt",
+      "repositories": 3,
+      "initial_rows": 100000,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 283.6535,
+      "diff_min_ms": 243.3587,
+      "diff_max_ms": 331.1855,
+      "import_median_s": 1.6619268999999999,
+      "commit_median_ms": 759.9855,
+      "checkout_median_s": 0.6618877999999999,
+      "storage_median_mib": 5.71657657623291,
+      "rss_median_gib": 0.22253036499023438,
+      "command_ms": 280.8145,
+      "parse_ms": 1.214,
+      "canonical_ms": 1.6383,
+      "command_fraction": 0.9899913098199035
+    },
+    {
+      "dataset": "1000000",
+      "model": "revon-m",
+      "repositories": 3,
+      "initial_rows": 1000000,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 33.6939,
+      "diff_min_ms": 30.628,
+      "diff_max_ms": 56.8855,
+      "import_median_s": 10.6140531,
+      "commit_median_ms": 88.23275,
+      "checkout_median_s": 1.8618158,
+      "storage_median_mib": 169.3828125,
+      "rss_median_gib": 1.9389266967773438
+    },
+    {
+      "dataset": "1000000",
+      "model": "revon-h",
+      "repositories": 3,
+      "initial_rows": 1000000,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 1.013,
+      "diff_min_ms": 0.9521,
+      "diff_max_ms": 1.0225,
+      "import_median_s": 10.737893,
+      "commit_median_ms": 85.3622,
+      "checkout_median_s": 1.5749471000000002,
+      "storage_median_mib": 169.375,
+      "rss_median_gib": 1.9253349304199219
+    },
+    {
+      "dataset": "1000000",
+      "model": "dolt",
+      "repositories": 3,
+      "initial_rows": 1000000,
+      "history_unit": "distinct generated seeds",
+      "diff_median_ms": 320.3003,
+      "diff_min_ms": 306.3636,
+      "diff_max_ms": 336.6454,
+      "import_median_s": 11.280834800000001,
+      "commit_median_ms": 890.9732,
+      "checkout_median_s": 3.7062719000000004,
+      "storage_median_mib": 50.453104972839355,
+      "rss_median_gib": 0.9761619567871094,
+      "command_ms": 317.5081,
+      "parse_ms": 1.0975,
+      "canonical_ms": 1.277,
+      "command_fraction": 0.9912825557765635
+    }
+  ],
+  "monitor_diagnostic": [
+    {
+      "replicate": 1,
+      "strategy": "hybrid",
+      "threshold": 65536,
+      "off_ms": 21.9418,
+      "on_ms": 24.3803,
+      "on_over_off": 1.1111349114475566
+    },
+    {
+      "replicate": 1,
+      "strategy": "hybrid",
+      "threshold": 512,
+      "off_ms": 37.59,
+      "on_ms": 36.444,
+      "on_over_off": 0.9695131683958499
+    },
+    {
+      "replicate": 1,
+      "strategy": "merkle",
+      "threshold": 0,
+      "off_ms": 33.4202,
+      "on_ms": 35.1526,
+      "on_over_off": 1.0518369130047096
+    },
+    {
+      "replicate": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "off_ms": 20.4746,
+      "on_ms": 24.6876,
+      "on_over_off": 1.2057671456341028
+    },
+    {
+      "replicate": 1,
+      "strategy": "hybrid",
+      "threshold": 16384,
+      "off_ms": 24.8544,
+      "on_ms": 24.7209,
+      "on_over_off": 0.994628717651603
+    },
+    {
+      "replicate": 1,
+      "strategy": "log",
+      "threshold": 0,
+      "off_ms": 26.8454,
+      "on_ms": 24.2184,
+      "on_over_off": 0.902143383968948
+    },
+    {
+      "replicate": 2,
+      "strategy": "hybrid",
+      "threshold": 65536,
+      "off_ms": 16.6892,
+      "on_ms": 23.3283,
+      "on_over_off": 1.397808163363133
+    },
+    {
+      "replicate": 2,
+      "strategy": "merkle",
+      "threshold": 0,
+      "off_ms": 33.841,
+      "on_ms": 38.545,
+      "on_over_off": 1.139002984545374
+    },
+    {
+      "replicate": 2,
+      "strategy": "log",
+      "threshold": 0,
+      "off_ms": 23.4804,
+      "on_ms": 23.6554,
+      "on_over_off": 1.0074530246503468
+    },
+    {
+      "replicate": 2,
+      "strategy": "hybrid",
+      "threshold": 16384,
+      "off_ms": 16.9838,
+      "on_ms": 24.7651,
+      "on_over_off": 1.4581601290641673
+    },
+    {
+      "replicate": 2,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "off_ms": 23.2322,
+      "on_ms": 24.8503,
+      "on_over_off": 1.0696490216165495
+    },
+    {
+      "replicate": 2,
+      "strategy": "hybrid",
+      "threshold": 512,
+      "off_ms": 24.5912,
+      "on_ms": 36.6919,
+      "on_over_off": 1.492074400598588
+    },
+    {
+      "replicate": 3,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "off_ms": 24.6402,
+      "on_ms": 23.4184,
+      "on_over_off": 0.9504143635197766
+    },
+    {
+      "replicate": 3,
+      "strategy": "hybrid",
+      "threshold": 65536,
+      "off_ms": 22.9259,
+      "on_ms": 24.4556,
+      "on_over_off": 1.0667236618845934
+    },
+    {
+      "replicate": 3,
+      "strategy": "hybrid",
+      "threshold": 16384,
+      "off_ms": 23.9466,
+      "on_ms": 24.4475,
+      "on_over_off": 1.0209173744915772
+    },
+    {
+      "replicate": 3,
+      "strategy": "merkle",
+      "threshold": 0,
+      "off_ms": 24.044,
+      "on_ms": 35.0731,
+      "on_over_off": 1.4587048743969389
+    },
+    {
+      "replicate": 3,
+      "strategy": "hybrid",
+      "threshold": 512,
+      "off_ms": 32.0204,
+      "on_ms": 24.6837,
+      "on_over_off": 0.7708741927021524
+    },
+    {
+      "replicate": 3,
+      "strategy": "log",
+      "threshold": 0,
+      "off_ms": 15.8102,
+      "on_ms": 24.3158,
+      "on_over_off": 1.5379818092117747
+    }
+  ],
+  "scope": "descriptive matched fixed-host histories; medians/ranges are not population confidence intervals; all cross-system comparisons include API/CLI costs"
+}

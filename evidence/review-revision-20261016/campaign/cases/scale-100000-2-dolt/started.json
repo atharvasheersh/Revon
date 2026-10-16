@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T19:00:00.077758+00:00",
+  "case": {
+    "name": "scale-100000-2-dolt",
+    "suite": "scale",
+    "spec": {
+      "name": "scale-n100000-seed202610222",
+      "rows": 100000,
+      "commits": 4,
+      "changes_per_commit": 64,
+      "seed": 202610222,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "model": "dolt",
+    "monitor": true,
+    "replicate": 2
+  }
+}

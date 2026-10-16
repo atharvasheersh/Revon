@@ -1,0 +1,12 @@
+{
+  "created_utc": "2026-10-15T18:49:58.466863+00:00",
+  "threshold": 65536,
+  "scores": {
+    "512": 1.337194143248822,
+    "4096": 1.0488212834361634,
+    "16384": 1.1098500197840684,
+    "65536": 1.0135024734616886
+  },
+  "validation_not_started": true,
+  "rule": "equal-weight calibration-case mean hybrid median / faster forced-path median; tie -> smaller threshold; freeze before validation"
+}

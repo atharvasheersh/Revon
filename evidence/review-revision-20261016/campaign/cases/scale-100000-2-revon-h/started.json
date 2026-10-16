@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:59:54.322148+00:00",
+  "case": {
+    "name": "scale-100000-2-revon-h",
+    "suite": "scale",
+    "spec": {
+      "name": "scale-n100000-seed202610222",
+      "rows": 100000,
+      "commits": 4,
+      "changes_per_commit": 64,
+      "seed": 202610222,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "model": "revon-h",
+    "monitor": true,
+    "replicate": 2
+  }
+}

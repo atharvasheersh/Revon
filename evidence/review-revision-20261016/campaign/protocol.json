@@ -1,0 +1,1393 @@
+{
+  "created_utc": "2026-10-15T18:47:31.115663+00:00",
+  "cases": [
+    {
+      "name": "calibration-202610161-spread-c64",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610161-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610161,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610161-spread-c512",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610161-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610161,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610161-spread-c4096",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610161-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610161,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610161-repeated-key-c64",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610161-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610161,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610161-repeated-key-c512",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610161-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610161,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610161-repeated-key-c4096",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610161-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610161,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610162-spread-c64",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610162-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610162,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610162-spread-c512",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610162-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610162,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610162-spread-c4096",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610162-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610162,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610162-repeated-key-c64",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610162-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610162,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610162-repeated-key-c512",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610162-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610162,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "calibration-202610162-repeated-key-c4096",
+      "suite": "calibration",
+      "spec": {
+        "name": "calibration-202610162-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610162,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-spread-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-spread-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-spread-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-repeated-key-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-repeated-key-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-repeated-key-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-spread-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-spread-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-spread-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-repeated-key-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-repeated-key-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-repeated-key-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-spread-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-spread-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-spread-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-repeated-key-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-repeated-key-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-repeated-key-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610171-rows24000",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610171-rows24000",
+        "rows": 24000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610171-history16",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610171-history16",
+        "rows": 12000,
+        "commits": 16,
+        "changes_per_commit": 256,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610171-payload256",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610171-payload256",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 256,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610171-geometry4x6",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610171-geometry4x6",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 4,
+      "d": 6,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610171-geometry16x3",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610171-geometry16x3",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 16,
+      "d": 3,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610171-route8",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610171-route8",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 8,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "hash-route-local"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610171-route-control8",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610171-route-control8",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 8,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610172-rows24000",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610172-rows24000",
+        "rows": 24000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610172-history16",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610172-history16",
+        "rows": 12000,
+        "commits": 16,
+        "changes_per_commit": 256,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610172-payload256",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610172-payload256",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 256,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610172-geometry4x6",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610172-geometry4x6",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 4,
+      "d": 6,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610172-geometry16x3",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610172-geometry16x3",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 16,
+      "d": 3,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610172-route8",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610172-route8",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 8,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "hash-route-local"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610172-route-control8",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610172-route-control8",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 8,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610173-rows24000",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610173-rows24000",
+        "rows": 24000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610173-history16",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610173-history16",
+        "rows": 12000,
+        "commits": 16,
+        "changes_per_commit": 256,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610173-payload256",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610173-payload256",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 256,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610173-geometry4x6",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610173-geometry4x6",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 4,
+      "d": 6,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610173-geometry16x3",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610173-geometry16x3",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 16,
+      "d": 3,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610173-route8",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610173-route8",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 8,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "hash-route-local"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "sensitivity-202610173-route-control8",
+      "suite": "sensitivity",
+      "spec": {
+        "name": "sensitivity-202610173-route-control8",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 8,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "monitor-1-0",
+      "suite": "monitor",
+      "spec": {
+        "name": "monitor-1-0",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610190,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false,
+      "replicate": 1
+    },
+    {
+      "name": "monitor-1-1",
+      "suite": "monitor",
+      "spec": {
+        "name": "monitor-1-1",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610190,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": true,
+      "replicate": 1
+    },
+    {
+      "name": "monitor-2-0",
+      "suite": "monitor",
+      "spec": {
+        "name": "monitor-2-0",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610190,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false,
+      "replicate": 2
+    },
+    {
+      "name": "monitor-2-1",
+      "suite": "monitor",
+      "spec": {
+        "name": "monitor-2-1",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610190,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": true,
+      "replicate": 2
+    },
+    {
+      "name": "monitor-3-0",
+      "suite": "monitor",
+      "spec": {
+        "name": "monitor-3-0",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610190,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false,
+      "replicate": 3
+    },
+    {
+      "name": "monitor-3-1",
+      "suite": "monitor",
+      "spec": {
+        "name": "monitor-3-1",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610190,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": true,
+      "replicate": 3
+    },
+    {
+      "name": "co2-observed-1-revon-m",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610201,
+      "replicate": 1,
+      "model": "revon-m",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-1-revon-h",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610201,
+      "replicate": 1,
+      "model": "revon-h",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-1-dolt",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610201,
+      "replicate": 1,
+      "model": "dolt",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-2-revon-h",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610202,
+      "replicate": 2,
+      "model": "revon-h",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-2-dolt",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610202,
+      "replicate": 2,
+      "model": "dolt",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-2-revon-m",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610202,
+      "replicate": 2,
+      "model": "revon-m",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-3-dolt",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610203,
+      "replicate": 3,
+      "model": "dolt",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-3-revon-m",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610203,
+      "replicate": 3,
+      "model": "revon-m",
+      "monitor": true
+    },
+    {
+      "name": "co2-observed-3-revon-h",
+      "suite": "public",
+      "dataset": "co2-observed",
+      "seed": 202610203,
+      "replicate": 3,
+      "model": "revon-h",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-1-revon-m",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610201,
+      "replicate": 1,
+      "model": "revon-m",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-1-revon-h",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610201,
+      "replicate": 1,
+      "model": "revon-h",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-1-dolt",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610201,
+      "replicate": 1,
+      "model": "dolt",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-2-revon-h",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610202,
+      "replicate": 2,
+      "model": "revon-h",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-2-dolt",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610202,
+      "replicate": 2,
+      "model": "dolt",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-2-revon-m",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610202,
+      "replicate": 2,
+      "model": "revon-m",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-3-dolt",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610203,
+      "replicate": 3,
+      "model": "dolt",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-3-revon-m",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610203,
+      "replicate": 3,
+      "model": "revon-m",
+      "monitor": true
+    },
+    {
+      "name": "wine-generated-3-revon-h",
+      "suite": "public",
+      "dataset": "wine-generated",
+      "seed": 202610203,
+      "replicate": 3,
+      "model": "revon-h",
+      "monitor": true
+    },
+    {
+      "name": "scale-100000-1-revon-m",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610221",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610221,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-m",
+      "monitor": true,
+      "replicate": 1
+    },
+    {
+      "name": "scale-100000-1-revon-h",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610221",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610221,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-h",
+      "monitor": true,
+      "replicate": 1
+    },
+    {
+      "name": "scale-100000-1-dolt",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610221",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610221,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "dolt",
+      "monitor": true,
+      "replicate": 1
+    },
+    {
+      "name": "scale-100000-2-revon-h",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610222",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610222,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-h",
+      "monitor": true,
+      "replicate": 2
+    },
+    {
+      "name": "scale-100000-2-dolt",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610222",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610222,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "dolt",
+      "monitor": true,
+      "replicate": 2
+    },
+    {
+      "name": "scale-100000-2-revon-m",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610222",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610222,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-m",
+      "monitor": true,
+      "replicate": 2
+    },
+    {
+      "name": "scale-100000-3-dolt",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610223",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610223,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "dolt",
+      "monitor": true,
+      "replicate": 3
+    },
+    {
+      "name": "scale-100000-3-revon-m",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610223",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610223,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-m",
+      "monitor": true,
+      "replicate": 3
+    },
+    {
+      "name": "scale-100000-3-revon-h",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n100000-seed202610223",
+        "rows": 100000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610223,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-h",
+      "monitor": true,
+      "replicate": 3
+    },
+    {
+      "name": "scale-1000000-1-revon-m",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610221",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610221,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-m",
+      "monitor": true,
+      "replicate": 1
+    },
+    {
+      "name": "scale-1000000-1-revon-h",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610221",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610221,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-h",
+      "monitor": true,
+      "replicate": 1
+    },
+    {
+      "name": "scale-1000000-1-dolt",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610221",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610221,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "dolt",
+      "monitor": true,
+      "replicate": 1
+    },
+    {
+      "name": "scale-1000000-2-revon-h",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610222",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610222,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-h",
+      "monitor": true,
+      "replicate": 2
+    },
+    {
+      "name": "scale-1000000-2-dolt",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610222",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610222,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "dolt",
+      "monitor": true,
+      "replicate": 2
+    },
+    {
+      "name": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610222",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610222,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-m",
+      "monitor": true,
+      "replicate": 2
+    },
+    {
+      "name": "scale-1000000-3-dolt",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610223",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610223,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "dolt",
+      "monitor": true,
+      "replicate": 3
+    },
+    {
+      "name": "scale-1000000-3-revon-m",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610223",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610223,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-m",
+      "monitor": true,
+      "replicate": 3
+    },
+    {
+      "name": "scale-1000000-3-revon-h",
+      "suite": "scale",
+      "spec": {
+        "name": "scale-n1000000-seed202610223",
+        "rows": 1000000,
+        "commits": 4,
+        "changes_per_commit": 64,
+        "seed": 202610223,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "model": "revon-h",
+      "monitor": true,
+      "replicate": 3
+    }
+  ],
+  "thresholds": [
+    512,
+    4096,
+    16384,
+    65536
+  ],
+  "warmups": 2,
+  "trials": 7,
+  "selection_rule": "equal-weight calibration-case mean hybrid median / faster forced-path median; tie -> smaller threshold; freeze before validation",
+  "units": "independent generated seed histories within fixed profiles; repeated cached queries within one durable repository; 3 CO2 fresh-repository repetitions share one observed sequence",
+  "scope": "author-run Windows local campaign; no cross-machine pooling or independent-party reproduction",
+  "failure_policy": "record failure and halt; no exclusion based on observed latency; changed source requires a new campaign",
+  "timing": "diff API plus canonical output; observed equality checks, decision probes and all-history/reopen verification outside timers",
+  "cache": "resident objects and filesystem cache retained; no cold-cache claim; fresh worker/repository per case",
+  "uncertainty": "per-case median/IQR and paired ratios; seed-level median/range (n=3), not population confidence intervals; no multiple-testing claim",
+  "scale": "3 separate generated histories/repositories per size/system; 2 warmup + 7 cached queries per repository; initial import/commit/checkout recorded once per repository",
+  "sensitivity": "staged matched design, not full factorial; N fixed for locality/density; H and changes/commit necessarily trade off at fixed operation count; hash-route C8 has matched spread C8",
+  "monitor": "paired worker-condition diagnostic at fixed history; no simultaneous workloads; not a causal exact correction",
+  "public_source_sha256": "bce9be994b8a28eed9f50dcb024cf39ff58c9f07b194ee0f3e34f81c5362bd91",
+  "public_sources": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\public_sources"
+}

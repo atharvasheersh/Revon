@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:56:55.778567+00:00",
+  "case": {
+    "name": "sensitivity-202610173-route8",
+    "suite": "sensitivity",
+    "spec": {
+      "name": "sensitivity-202610173-route8",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 8,
+      "seed": 202610173,
+      "payload_bytes": 32,
+      "locality": "hash-route-local"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  }
+}

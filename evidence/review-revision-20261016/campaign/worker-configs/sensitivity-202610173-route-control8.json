@@ -1,0 +1,20 @@
+{
+  "case": {
+    "name": "sensitivity-202610173-route-control8",
+    "suite": "sensitivity",
+    "spec": {
+      "name": "sensitivity-202610173-route-control8",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 8,
+      "seed": 202610173,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  },
+  "output": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\campaign",
+  "public_sources": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\public_sources"
+}

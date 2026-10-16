@@ -1,0 +1,12 @@
+{
+  "started_utc": "2026-10-15T18:59:10.742256+00:00",
+  "case": {
+    "name": "wine-generated-3-dolt",
+    "suite": "public",
+    "dataset": "wine-generated",
+    "seed": 202610203,
+    "replicate": 3,
+    "model": "dolt",
+    "monitor": true
+  }
+}

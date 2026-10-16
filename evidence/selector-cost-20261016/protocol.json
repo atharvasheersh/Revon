@@ -1,0 +1,309 @@
+{
+  "created_utc": "2026-10-15T19:25:16.060700+00:00",
+  "scope": "post-campaign warm extracted production-prefix microbenchmark; no policy tuning, diff work, detached-view copy, cold-cache or causal overhead subtraction",
+  "cases": [
+    {
+      "name": "validation-202610171-spread-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-spread-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-spread-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-repeated-key-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-repeated-key-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610171-repeated-key-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610171-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610171,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-spread-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-spread-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-spread-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-repeated-key-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-repeated-key-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610172-repeated-key-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610172-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610172,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-spread-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-spread-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-spread-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-spread-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-spread-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-spread-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "spread"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-repeated-key-c64",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-repeated-key-c64",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 64,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-repeated-key-c512",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-repeated-key-c512",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 512,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    },
+    {
+      "name": "validation-202610173-repeated-key-c4096",
+      "suite": "validation",
+      "spec": {
+        "name": "validation-202610173-repeated-key-c4096",
+        "rows": 12000,
+        "commits": 8,
+        "changes_per_commit": 4096,
+        "seed": 202610173,
+        "payload_bytes": 32,
+        "locality": "repeated-key"
+      },
+      "b": 8,
+      "d": 4,
+      "monitor": false
+    }
+  ],
+  "thresholds": [
+    4096,
+    65536
+  ],
+  "warmup_batches": 2,
+  "measured_batches": 7,
+  "calls_per_batch": 1000,
+  "versioned_db_sha256": "18134275153ad2d47537f1495cb405808d5cd7ae358f81b3da8fd5e7468995b0",
+  "prefix_sha256": "b35e308adc89c7138240e06094500d45c765dd9a58c1b033ec159ddc335a7343",
+  "source_hashes": {
+    "experiments/selector_cost.py": "86dfb66b0aed8b19e5b2614b371b0ae2598e09b1a1de3b95e818e7b51fcd1bec",
+    "experiments/workloads.py": "91287d76f1e7f1e842c079f9bdae0e0d9f67eb4d1d5d70e17a4f89f096b11563",
+    "experiments/adapters.py": "ae619430111dfe8b121fdff528b0bfb687db6d6a60ecf83ac3011ca98fdc74ff",
+    "sqlite_store.py": "7969db91158a33a2d3c67759012eec4677bb109de0011098a02fccd9c550d89e"
+  }
+}

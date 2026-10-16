@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:54:25.510767+00:00",
+  "case": {
+    "name": "sensitivity-202610171-rows24000",
+    "suite": "sensitivity",
+    "spec": {
+      "name": "sensitivity-202610171-rows24000",
+      "rows": 24000,
+      "commits": 8,
+      "changes_per_commit": 512,
+      "seed": 202610171,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  }
+}

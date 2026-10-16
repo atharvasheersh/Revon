@@ -1,0 +1,20 @@
+{
+  "case": {
+    "name": "validation-202610172-spread-c512",
+    "suite": "validation",
+    "spec": {
+      "name": "validation-202610172-spread-c512",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 512,
+      "seed": 202610172,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  },
+  "output": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\campaign",
+  "public_sources": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\public_sources"
+}

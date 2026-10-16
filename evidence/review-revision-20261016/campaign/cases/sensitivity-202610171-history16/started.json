@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:54:35.856810+00:00",
+  "case": {
+    "name": "sensitivity-202610171-history16",
+    "suite": "sensitivity",
+    "spec": {
+      "name": "sensitivity-202610171-history16",
+      "rows": 12000,
+      "commits": 16,
+      "changes_per_commit": 256,
+      "seed": 202610171,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  }
+}

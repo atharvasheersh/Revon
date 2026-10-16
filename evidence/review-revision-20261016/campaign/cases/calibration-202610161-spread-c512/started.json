@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:47:33.680317+00:00",
+  "case": {
+    "name": "calibration-202610161-spread-c512",
+    "suite": "calibration",
+    "spec": {
+      "name": "calibration-202610161-spread-c512",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 512,
+      "seed": 202610161,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  }
+}

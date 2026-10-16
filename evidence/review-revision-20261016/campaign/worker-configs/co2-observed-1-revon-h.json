@@ -1,0 +1,13 @@
+{
+  "case": {
+    "name": "co2-observed-1-revon-h",
+    "suite": "public",
+    "dataset": "co2-observed",
+    "seed": 202610201,
+    "replicate": 1,
+    "model": "revon-h",
+    "monitor": true
+  },
+  "output": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\campaign",
+  "public_sources": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\public_sources"
+}

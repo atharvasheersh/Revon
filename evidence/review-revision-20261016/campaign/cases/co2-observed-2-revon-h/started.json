@@ -1,0 +1,12 @@
+{
+  "started_utc": "2026-10-15T18:57:58.613750+00:00",
+  "case": {
+    "name": "co2-observed-2-revon-h",
+    "suite": "public",
+    "dataset": "co2-observed",
+    "seed": 202610202,
+    "replicate": 2,
+    "model": "revon-h",
+    "monitor": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "case": {
+    "name": "wine-generated-1-dolt",
+    "suite": "public",
+    "dataset": "wine-generated",
+    "seed": 202610201,
+    "replicate": 1,
+    "model": "dolt",
+    "monitor": true
+  },
+  "output": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\campaign",
+  "public_sources": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\public_sources"
+}

@@ -1,0 +1,112 @@
+test_all_models_produce_comparable_results (test_benchmarks.BenchmarkTests.test_all_models_produce_comparable_results) ... ok
+test_workload_records_correct_old_values (test_benchmarks.BenchmarkTests.test_workload_records_correct_old_values) ... ok
+test_duplicate_primary_key_is_rejected (test_csv_snapshot_demo.CSVSnapshotDemoTests.test_duplicate_primary_key_is_rejected) ... ok
+test_generated_sample_detects_all_four_change_types (test_csv_snapshot_demo.CSVSnapshotDemoTests.test_generated_sample_detects_all_four_change_types) ... ok
+test_missing_primary_key_column_is_rejected (test_csv_snapshot_demo.CSVSnapshotDemoTests.test_missing_primary_key_column_is_rejected) ... ok
+test_hybrid_threshold_is_inclusive (test_evidence_audit.EvidenceAuditTests.test_hybrid_threshold_is_inclusive) ... ok
+test_schema_three_keeps_the_recorded_large_hot_name (test_evidence_audit.EvidenceAuditTests.test_schema_three_keeps_the_recorded_large_hot_name) ... ok
+test_tukey_candidates_are_reported_without_removal (test_evidence_audit.EvidenceAuditTests.test_tukey_candidates_are_reported_without_removal) ... ok
+test_all_python_adapters_match_same_oracle (test_experiment_harness.HarnessTests.test_all_python_adapters_match_same_oracle) ... ok
+test_common_diff_contract_is_sorted_and_contains_value_hashes (test_experiment_harness.HarnessTests.test_common_diff_contract_is_sorted_and_contains_value_hashes) ... ok
+test_dolt_bulk_import_trial_matches_oracle (test_experiment_harness.HarnessTests.test_dolt_bulk_import_trial_matches_oracle) ... ok
+test_dolt_commit_uses_hashes_without_timed_tags (test_experiment_harness.HarnessTests.test_dolt_commit_uses_hashes_without_timed_tags) ... ok
+test_dolt_json_diff_parses_observed_old_and_new_values (test_experiment_harness.HarnessTests.test_dolt_json_diff_parses_observed_old_and_new_values) ... ok
+test_dolt_trial_rejects_wrong_diff_values (test_experiment_harness.HarnessTests.test_dolt_trial_rejects_wrong_diff_values) ... ok
+test_dolt_trial_validates_observed_diff (test_experiment_harness.HarnessTests.test_dolt_trial_validates_observed_diff) ... ok
+test_dolt_version_discards_volatile_update_warning (test_experiment_harness.HarnessTests.test_dolt_version_discards_volatile_update_warning) ... ok
+test_missing_dolt_is_recorded_not_fabricated (test_experiment_harness.HarnessTests.test_missing_dolt_is_recorded_not_fabricated) ... ok
+test_smoke_execution_writes_raw_summary_and_manifest (test_experiment_harness.HarnessTests.test_smoke_execution_writes_raw_summary_and_manifest) ... ok
+test_timeout_preserves_resource_error_when_worker_already_exited (test_experiment_harness.HarnessTests.test_timeout_preserves_resource_error_when_worker_already_exited) ... ok
+test_different_seed_changes_workload_digest (test_experiment_harness.WorkloadTests.test_different_seed_changes_workload_digest) ... ok
+test_locality_workloads_separate_key_range_and_hash_route_patterns (test_experiment_harness.WorkloadTests.test_locality_workloads_separate_key_range_and_hash_route_patterns) ... ok
+test_seed_produces_identical_workload_and_digest (test_experiment_harness.WorkloadTests.test_seed_produces_identical_workload_and_digest) ... ok
+test_clustered_bootstrap_resamples_seeds_and_trial_pairs (test_issue18_21_methods.ReviewIssueMethodTests.test_clustered_bootstrap_resamples_seeds_and_trial_pairs) ... ok
+test_paired_bootstrap_is_deterministic_and_reports_parity (test_issue18_21_methods.ReviewIssueMethodTests.test_paired_bootstrap_is_deterministic_and_reports_parity) ... ok
+test_practical_margin_avoids_calling_tiny_ratio_a_win (test_issue18_21_methods.ReviewIssueMethodTests.test_practical_margin_avoids_calling_tiny_ratio_a_win) ... ok
+test_robustness_matrix_covers_seed_payload_history_and_locality (test_issue18_21_methods.ReviewIssueMethodTests.test_robustness_matrix_covers_seed_payload_history_and_locality) ... ok
+test_inputs_and_all_exported_values_are_detached (test_json_contract.JsonContractTests.test_inputs_and_all_exported_values_are_detached) ... ok
+test_rejected_non_json_values_do_not_partially_write (test_json_contract.JsonContractTests.test_rejected_non_json_values_do_not_partially_write) ... ok
+test_sqlite_live_persisted_and_reopened_values_agree (test_json_contract.JsonContractTests.test_sqlite_live_persisted_and_reopened_values_agree) ... ok
+test_typed_transitions_and_cancellation_in_both_write_modes (test_json_contract.JsonContractTests.test_typed_transitions_and_cancellation_in_both_write_modes) ... ok
+test_million_row_feasibility_is_excluded_from_measured_comparisons (test_linux_validation.LinuxProtocolTests.test_million_row_feasibility_is_excluded_from_measured_comparisons) ... ok
+test_original_workflow_positions_are_balanced_and_threshold_is_frozen (test_linux_validation.LinuxProtocolTests.test_original_workflow_positions_are_balanced_and_threshold_is_frozen) ... ok
+test_threshold_supplement_uses_both_sides_of_frozen_candidate (test_linux_validation.LinuxProtocolTests.test_threshold_supplement_uses_both_sides_of_frozen_candidate) ... ok
+test_history_preserves_nulls_fields_and_exact_changes (test_public_dataset.PublicDatasetTests.test_history_preserves_nulls_fields_and_exact_changes) ... ok
+test_nested_samples_and_repeatable_history (test_public_dataset.PublicDatasetTests.test_nested_samples_and_repeatable_history) ... ok
+test_generator_mix_matches_documentation (test_review_revision.ReviewRevisionTests.test_generator_mix_matches_documentation) ... ok
+test_observed_deletion_and_history_order (test_review_revision.ReviewRevisionTests.test_observed_deletion_and_history_order) ... ok
+test_observed_diff_is_not_filled_from_oracle (test_review_revision.ReviewRevisionTests.test_observed_diff_is_not_filled_from_oracle) ... ok
+test_phased_dolt_matches_actual_native_adapter (test_review_revision.ReviewRevisionTests.test_phased_dolt_matches_actual_native_adapter) ... ok
+test_publication_outage_and_unnamed_fields_are_explicit (test_review_revision.ReviewRevisionTests.test_publication_outage_and_unnamed_fields_are_explicit) ... ok
+test_split_and_matched_controls (test_review_revision.ReviewRevisionTests.test_split_and_matched_controls) ... ok
+test_worker_proves_states_and_reopen (test_review_revision.ReviewRevisionTests.test_worker_proves_states_and_reopen) ... ok
+test_zero_is_not_missing (test_review_revision.ReviewRevisionTests.test_zero_is_not_missing) ... ok
+test_complete_frontend_workflow (test_revon_api.RevonHTTPTests.test_complete_frontend_workflow) ... 127.0.0.1 - - [16/Oct/2026 00:17:26] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "POST /api/repositories HTTP/1.1" 201 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "POST /api/repositories/demo/open HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "POST /api/repositories/demo/import HTTP/1.1" 201 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "POST /api/repositories/demo/commits HTTP/1.1" 201 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "GET /api/repositories/demo/history HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "GET /api/repositories/demo/versions/1?offset=0&limit=1 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "GET /api/repositories/demo/compare?from=1&to=2&strategy=hybrid HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "GET /api/repositories/demo/metrics?from=1&to=2 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 00:17:26] "GET /api/repositories HTTP/1.1" 200 -
+ok
+test_raw_csv_import_and_cors_preflight (test_revon_api.RevonHTTPTests.test_raw_csv_import_and_cors_preflight) ... 127.0.0.1 - - [16/Oct/2026 00:17:27] "POST /api/repositories HTTP/1.1" 201 -
+127.0.0.1 - - [16/Oct/2026 00:17:27] "POST /api/repositories/csv-demo/import?primary_key=id&message=csv HTTP/1.1" 201 -
+127.0.0.1 - - [16/Oct/2026 00:17:27] "GET /api/repositories/csv-demo/versions/1 HTTP/1.1" 200 -
+127.0.0.1 - - [16/Oct/2026 00:17:27] "OPTIONS /api/repositories HTTP/1.1" 204 -
+ok
+test_structured_errors_and_openapi (test_revon_api.RevonHTTPTests.test_structured_errors_and_openapi) ... 127.0.0.1 - - [16/Oct/2026 00:17:28] "POST /api/repositories HTTP/1.1" 201 -
+127.0.0.1 - - [16/Oct/2026 00:17:28] "POST /api/repositories HTTP/1.1" 409 -
+127.0.0.1 - - [16/Oct/2026 00:17:28] "GET /api/openapi.json HTTP/1.1" 200 -
+ok
+test_repository_names_cannot_escape_server_root (test_revon_api.RevonServiceValidationTests.test_repository_names_cannot_escape_server_root) ... ok
+test_stale_base_version_is_rejected (test_revon_api.RevonServiceValidationTests.test_stale_base_version_is_rejected) ... ok
+test_demo_self_checks_incremental_model (test_revon_cli_demo.RevonCLIDemoTests.test_demo_self_checks_incremental_model) ... ok
+test_cli_closes_and_reopens_in_child_process (test_revon_sqlite_demo.RevonSQLiteDemoTests.test_cli_closes_and_reopens_in_child_process) ... ok
+test_csv_session_continues_after_repository_reopen (test_sqlite_store.SQLiteRevonRepositoryTests.test_csv_session_continues_after_repository_reopen) ... ok
+test_failed_transaction_restores_in_memory_head (test_sqlite_store.SQLiteRevonRepositoryTests.test_failed_transaction_restores_in_memory_head) ... ok
+test_reopen_reproduces_history_checkout_diff_and_metrics (test_sqlite_store.SQLiteRevonRepositoryTests.test_reopen_reproduces_history_checkout_diff_and_metrics) ... ok
+test_tampered_payload_is_rejected_on_open (test_sqlite_store.SQLiteRevonRepositoryTests.test_tampered_payload_is_rejected_on_open) ... ok
+test_observed_zero_is_retained (test_telemetry_zero.TelemetryZeroTests.test_observed_zero_is_retained) ... ok
+test_unavailable_remains_missing (test_telemetry_zero.TelemetryZeroTests.test_unavailable_remains_missing) ... ok
+test_configuration_geometry (test_trie_sensitivity.TrieSensitivityTests.test_configuration_geometry) ... ok
+test_small_run_is_correct_and_writes_evidence (test_trie_sensitivity.TrieSensitivityTests.test_small_run_is_correct_and_writes_evidence) ... ok
+test_commit_and_changeset_are_addressed_and_parented_by_hash (test_versioned_db.ContentAddressedCommitTests.test_commit_and_changeset_are_addressed_and_parented_by_hash) ... ok
+test_hybrid_selects_log_for_short_history (test_versioned_db.HybridDiffTests.test_hybrid_selects_log_for_short_history) ... ok
+test_hybrid_selects_merkle_above_threshold (test_versioned_db.HybridDiffTests.test_hybrid_selects_merkle_above_threshold) ... ok
+test_log_and_merkle_modes_return_identical_results (test_versioned_db.HybridDiffTests.test_log_and_merkle_modes_return_identical_results) ... ok
+test_reverse_log_diff_reverses_added_and_deleted (test_versioned_db.HybridDiffTests.test_reverse_log_diff_reverses_added_and_deleted) ... ok
+test_structured_merkle_diff_preserves_change_types_and_nulls (test_versioned_db.HybridDiffTests.test_structured_merkle_diff_preserves_change_types_and_nulls) ... ok
+test_batch_matches_full_rebuild_and_creates_one_version (test_versioned_db.IncrementalBatchTests.test_batch_matches_full_rebuild_and_creates_one_version) ... ok
+test_get_reads_one_version_and_missing_key_fails (test_versioned_db.IncrementalBatchTests.test_get_reads_one_version_and_missing_key_fails) ... ok
+test_invalid_delete_is_atomic (test_versioned_db.IncrementalBatchTests.test_invalid_delete_is_atomic) ... ok
+test_no_op_batch_reuses_root_and_records_empty_changeset (test_versioned_db.IncrementalBatchTests.test_no_op_batch_reuses_root_and_records_empty_changeset) ... ok
+test_non_head_write_is_rejected_until_branching_exists (test_versioned_db.IncrementalBatchTests.test_non_head_write_is_rejected_until_branching_exists) ... ok
+test_random_batch_sequence_matches_canonical_full_rebuilds (test_versioned_db.IncrementalBatchTests.test_random_batch_sequence_matches_canonical_full_rebuilds) ... ok
+test_structural_sharing_is_exact_reachable_node_overlap (test_versioned_db.IncrementalBatchTests.test_structural_sharing_is_exact_reachable_node_overlap) ... ok
+test_diff_finds_added_removed_and_updated_keys (test_versioned_db.VersionedDatabaseTests.test_diff_finds_added_removed_and_updated_keys) ... ok
+test_diff_of_identical_roots_stops_at_root (test_versioned_db.VersionedDatabaseTests.test_diff_of_identical_roots_stops_at_root) ... ok
+test_rejects_invalid_data_without_creating_version (test_versioned_db.VersionedDatabaseTests.test_rejects_invalid_data_without_creating_version) ... ok
+test_same_state_has_same_root_and_is_fully_reused (test_versioned_db.VersionedDatabaseTests.test_same_state_has_same_root_and_is_fully_reused) ... ok
+test_small_change_reuses_most_nodes (test_versioned_db.VersionedDatabaseTests.test_small_change_reuses_most_nodes) ... ok
+test_versions_map_to_roots (test_versioned_db.VersionedDatabaseTests.test_versions_map_to_roots) ... ok
+
+----------------------------------------------------------------------
+Ran 77 tests in 28.765s
+
+OK
+[calibration:measured] calibration-c1 / revon-log / 1 / order 1
+[calibration:measured] calibration-c1 / revon-m / 1 / order 2
+[calibration:measured] calibration-c8 / revon-log / 1 / order 1
+[calibration:measured] calibration-c8 / revon-m / 1 / order 2
+[calibration:measured] calibration-c32 / revon-m / 1 / order 1
+[calibration:measured] calibration-c32 / revon-log / 1 / order 2
+Calibrated Revon-H log threshold: 128 operations
+[evaluation:measured] smoke-spread / log / 1 / order 1
+[evaluation:measured] smoke-spread / revon-m / 1 / order 2
+[evaluation:measured] smoke-spread / revon-h / 1 / order 3
+[evaluation:measured] smoke-spread / snapshot / 1 / order 4
+[measured] b4-d3 / 1
+[measured] b8-d2 / 1

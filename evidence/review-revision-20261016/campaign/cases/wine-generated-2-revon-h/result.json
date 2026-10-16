@@ -1,0 +1,226 @@
+{
+  "case": {
+    "name": "wine-generated-2-revon-h",
+    "suite": "public",
+    "dataset": "wine-generated",
+    "seed": 202610202,
+    "replicate": 2,
+    "model": "revon-h",
+    "monitor": true
+  },
+  "finished_utc": "2026-10-15T18:58:54.327821+00:00",
+  "workload_sha256": "d8754c5fd8862c159fd2ff21c431b3b71ec5011462d17fa694f30a835f0860c4",
+  "initial_rows": 6497,
+  "commits": 8,
+  "operations": 512,
+  "changes_per_commit": [
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64
+  ],
+  "expected_changed_keys": 490,
+  "oracle_diff_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+  "history": [
+    {
+      "version": 1,
+      "observed_sha256": "02b61bbbdd6588278941f43f7e81fe1bda709d6df1b5ce3e61d0886c5abb8c45",
+      "oracle_sha256": "02b61bbbdd6588278941f43f7e81fe1bda709d6df1b5ce3e61d0886c5abb8c45"
+    },
+    {
+      "version": 2,
+      "observed_sha256": "09db0b977b3dc6b27bf900a9eff3aad36b3578aab5e4b1bdbbd34a67796baa15",
+      "oracle_sha256": "09db0b977b3dc6b27bf900a9eff3aad36b3578aab5e4b1bdbbd34a67796baa15"
+    },
+    {
+      "version": 3,
+      "observed_sha256": "b8cf2c0c3ad1041f9c7fbc33d5b8bf35bfce5a167c62ed90f39e958f1707962f",
+      "oracle_sha256": "b8cf2c0c3ad1041f9c7fbc33d5b8bf35bfce5a167c62ed90f39e958f1707962f"
+    },
+    {
+      "version": 4,
+      "observed_sha256": "a4b00ff3676ac6c7d40e7e88b3a3fc864c499a1636e84975fa4a15cdf5935575",
+      "oracle_sha256": "a4b00ff3676ac6c7d40e7e88b3a3fc864c499a1636e84975fa4a15cdf5935575"
+    },
+    {
+      "version": 5,
+      "observed_sha256": "04f62081f50cfed1d6d7769c4e44bb59371acb1063ee66f80d1f9872ae4bfe6a",
+      "oracle_sha256": "04f62081f50cfed1d6d7769c4e44bb59371acb1063ee66f80d1f9872ae4bfe6a"
+    },
+    {
+      "version": 6,
+      "observed_sha256": "6c704d2aaecc648f860e5b98b70be3c88b8336e421c3d7f9e24965c9ed2faa0e",
+      "oracle_sha256": "6c704d2aaecc648f860e5b98b70be3c88b8336e421c3d7f9e24965c9ed2faa0e"
+    },
+    {
+      "version": 7,
+      "observed_sha256": "f85698bca513afbdac9812fef1c25b30d056ca6357f93e527613da9d517f137f",
+      "oracle_sha256": "f85698bca513afbdac9812fef1c25b30d056ca6357f93e527613da9d517f137f"
+    },
+    {
+      "version": 8,
+      "observed_sha256": "98a252c3735b249ed005e15f61a971e768321881779fa6a6777b4124040522f3",
+      "oracle_sha256": "98a252c3735b249ed005e15f61a971e768321881779fa6a6777b4124040522f3"
+    },
+    {
+      "version": 9,
+      "observed_sha256": "cb6439685e8255cf4861360a1c06d1defa470d985c37cd7884c766335861c461",
+      "oracle_sha256": "cb6439685e8255cf4861360a1c06d1defa470d985c37cd7884c766335861c461"
+    }
+  ],
+  "integrity": {
+    "objects": 5221,
+    "nodes": 5203,
+    "changesets": 9,
+    "commits": 9,
+    "versions": 9,
+    "head_hash": "af089ade95090403907f197ed0f0a4cdc7e237c6d564f7c5d5abb5d058719b90"
+  },
+  "import_ms": 166.9419,
+  "commit_ms": [
+    38.9517,
+    37.2076,
+    31.3547,
+    35.1583,
+    35.3854,
+    36.9263,
+    32.5973,
+    36.8508
+  ],
+  "checkout_ms": 15.5197,
+  "storage_bytes": 11337728,
+  "records": [
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "warmup",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 2.136,
+      "decision_probe_ms": 1.8735,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "warmup",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 1.9608,
+      "decision_probe_ms": 1.7424,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 2.1066,
+      "decision_probe_ms": 1.7442,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 1.9308,
+      "decision_probe_ms": 1.6343,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 3,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 2.3572,
+      "decision_probe_ms": 1.8097,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 4,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 2.3723,
+      "decision_probe_ms": 1.8848,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 5,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 2.2471,
+      "decision_probe_ms": 1.9248,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 6,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 1.9065,
+      "decision_probe_ms": 2.1143,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    },
+    {
+      "case": "wine-generated-2-revon-h",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 7,
+      "execution_order": 1,
+      "strategy": "hybrid",
+      "threshold": 4096,
+      "selected": "log",
+      "diff_ms": 2.8724,
+      "decision_probe_ms": 2.3236,
+      "output_sha256": "1e8b661b60322ab44f29a7123c9674be13ca1e9c48976ef190065cd5ea54e1dd",
+      "correctness": true
+    }
+  ],
+  "duration_seconds": 1.5284818999934942,
+  "correctness": true
+}

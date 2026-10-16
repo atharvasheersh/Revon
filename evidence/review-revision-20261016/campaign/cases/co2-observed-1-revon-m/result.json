@@ -1,0 +1,233 @@
+{
+  "case": {
+    "name": "co2-observed-1-revon-m",
+    "suite": "public",
+    "dataset": "co2-observed",
+    "seed": 202610201,
+    "replicate": 1,
+    "model": "revon-m",
+    "monitor": true
+  },
+  "finished_utc": "2026-10-15T18:57:40.959699+00:00",
+  "workload_sha256": "1ec4e378f0ed3307ffd718894fc248b3a2c34e63c2234726064cd4f7329a81ac",
+  "initial_rows": 812,
+  "commits": 9,
+  "operations": 383,
+  "changes_per_commit": [
+    38,
+    51,
+    41,
+    37,
+    41,
+    38,
+    42,
+    43,
+    52
+  ],
+  "expected_changed_keys": 73,
+  "oracle_diff_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+  "history": [
+    {
+      "version": 1,
+      "observed_sha256": "1897d06a14289270828066278a819385a6f0ed60ae94c7f746320940961a1092",
+      "oracle_sha256": "1897d06a14289270828066278a819385a6f0ed60ae94c7f746320940961a1092"
+    },
+    {
+      "version": 2,
+      "observed_sha256": "a687367ae8889dce9d7bb88d39f54a55eb27124c7359bc8e48b3ddde39f7a47d",
+      "oracle_sha256": "a687367ae8889dce9d7bb88d39f54a55eb27124c7359bc8e48b3ddde39f7a47d"
+    },
+    {
+      "version": 3,
+      "observed_sha256": "6932f5a770375bff4d73c163054056a7fb0918537352324a7f89cee7773f54f5",
+      "oracle_sha256": "6932f5a770375bff4d73c163054056a7fb0918537352324a7f89cee7773f54f5"
+    },
+    {
+      "version": 4,
+      "observed_sha256": "7f7d055f0d23234ed14241816a6ad62e052c58b823721db1f6a30a70d17fb4d8",
+      "oracle_sha256": "7f7d055f0d23234ed14241816a6ad62e052c58b823721db1f6a30a70d17fb4d8"
+    },
+    {
+      "version": 5,
+      "observed_sha256": "de8eb84f7c8b56802577c8232f5dcba4765379f983f8fda1b9c1cde43839b88e",
+      "oracle_sha256": "de8eb84f7c8b56802577c8232f5dcba4765379f983f8fda1b9c1cde43839b88e"
+    },
+    {
+      "version": 6,
+      "observed_sha256": "977269ebf50725a3bb157df0e0c705254ed26d3a22e1bfc3974ca09e3613fcfa",
+      "oracle_sha256": "977269ebf50725a3bb157df0e0c705254ed26d3a22e1bfc3974ca09e3613fcfa"
+    },
+    {
+      "version": 7,
+      "observed_sha256": "f04de55da0a8cd448bf7304632b2e315e1bac902d11da7ca69bcd731c5f1dd2b",
+      "oracle_sha256": "f04de55da0a8cd448bf7304632b2e315e1bac902d11da7ca69bcd731c5f1dd2b"
+    },
+    {
+      "version": 8,
+      "observed_sha256": "a9aa35888a7cde2428de62867ddf618acfed9c8b75a54aaaeabcd605a252d67c",
+      "oracle_sha256": "a9aa35888a7cde2428de62867ddf618acfed9c8b75a54aaaeabcd605a252d67c"
+    },
+    {
+      "version": 9,
+      "observed_sha256": "021b8923454ea8bc511cc44d9751b0adb942020f459df3785873d297702b81a4",
+      "oracle_sha256": "021b8923454ea8bc511cc44d9751b0adb942020f459df3785873d297702b81a4"
+    },
+    {
+      "version": 10,
+      "observed_sha256": "22243abca226fe5727a194806c0503412225c21dcbf59fc04e6bb48e8a1e5034",
+      "oracle_sha256": "22243abca226fe5727a194806c0503412225c21dcbf59fc04e6bb48e8a1e5034"
+    }
+  ],
+  "integrity": {
+    "objects": 2030,
+    "nodes": 2010,
+    "changesets": 10,
+    "commits": 10,
+    "versions": 10,
+    "head_hash": "bf1542e96f7dbfad5985591070818b7509a6a5e70ec044a7646ee9f7af927113"
+  },
+  "import_ms": 35.8169,
+  "commit_ms": [
+    16.1335,
+    16.8088,
+    13.2148,
+    15.5827,
+    14.9701,
+    16.2085,
+    16.1363,
+    17.6844,
+    19.8041
+  ],
+  "checkout_ms": 1.1147,
+  "storage_bytes": 1253376,
+  "records": [
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "warmup",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 1.1846,
+      "decision_probe_ms": 1.4282,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "warmup",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 0.626,
+      "decision_probe_ms": 1.3107,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 0.5603,
+      "decision_probe_ms": 1.3492,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 0.5625,
+      "decision_probe_ms": 1.3089,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 3,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 0.5424,
+      "decision_probe_ms": 1.3039,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 4,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 0.534,
+      "decision_probe_ms": 1.3617,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 5,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 0.6,
+      "decision_probe_ms": 1.343,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 6,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 0.6147,
+      "decision_probe_ms": 1.3381,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    },
+    {
+      "case": "co2-observed-1-revon-m",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 7,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 1.1402,
+      "decision_probe_ms": 2.2786,
+      "output_sha256": "46e2459d15d39ed6efbdec07cf9310078e630b7c6b255f299d325777f7d6f789",
+      "correctness": true
+    }
+  ],
+  "duration_seconds": 0.4118320000125095,
+  "correctness": true
+}

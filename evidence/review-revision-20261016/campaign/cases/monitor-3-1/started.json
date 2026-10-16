@@ -1,0 +1,20 @@
+{
+  "started_utc": "2026-10-15T18:57:33.582549+00:00",
+  "case": {
+    "name": "monitor-3-1",
+    "suite": "monitor",
+    "spec": {
+      "name": "monitor-3-1",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 512,
+      "seed": 202610190,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": true,
+    "replicate": 3
+  }
+}

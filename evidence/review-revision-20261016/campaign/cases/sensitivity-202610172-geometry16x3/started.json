@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:55:59.599617+00:00",
+  "case": {
+    "name": "sensitivity-202610172-geometry16x3",
+    "suite": "sensitivity",
+    "spec": {
+      "name": "sensitivity-202610172-geometry16x3",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 512,
+      "seed": 202610172,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 16,
+    "d": 3,
+    "monitor": false
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:55:19.018695+00:00",
+  "case": {
+    "name": "sensitivity-202610171-route-control8",
+    "suite": "sensitivity",
+    "spec": {
+      "name": "sensitivity-202610171-route-control8",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 8,
+      "seed": 202610171,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  }
+}

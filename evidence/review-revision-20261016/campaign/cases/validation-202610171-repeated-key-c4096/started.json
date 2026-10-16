@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:50:55.888286+00:00",
+  "case": {
+    "name": "validation-202610171-repeated-key-c4096",
+    "suite": "validation",
+    "spec": {
+      "name": "validation-202610171-repeated-key-c4096",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 4096,
+      "seed": 202610171,
+      "payload_bytes": 32,
+      "locality": "repeated-key"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  }
+}

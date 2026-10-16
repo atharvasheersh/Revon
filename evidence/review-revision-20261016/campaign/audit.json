@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "completed_cases": 93,
+  "planned_cases": 93,
+  "queries": 3402,
+  "measured_queries": 2646,
+  "pending": [],
+  "failures": [],
+  "scope": "internal accounting/hash checks, not independent timing reproduction",
+  "checked_utc": "2026-10-15T19:10:45.476296+00:00"
+}

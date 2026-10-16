@@ -1,0 +1,20 @@
+{
+  "case": {
+    "name": "scale-100000-3-dolt",
+    "suite": "scale",
+    "spec": {
+      "name": "scale-n100000-seed202610223",
+      "rows": 100000,
+      "commits": 4,
+      "changes_per_commit": 64,
+      "seed": 202610223,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "model": "dolt",
+    "monitor": true,
+    "replicate": 3
+  },
+  "output": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\campaign",
+  "public_sources": "C:\\Users\\admin\\Desktop\\Revon\\evidence\\review-revision-20261016\\public_sources"
+}

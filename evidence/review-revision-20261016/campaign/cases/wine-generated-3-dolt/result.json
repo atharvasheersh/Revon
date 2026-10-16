@@ -1,0 +1,246 @@
+{
+  "case": {
+    "name": "wine-generated-3-dolt",
+    "suite": "public",
+    "dataset": "wine-generated",
+    "seed": 202610203,
+    "replicate": 3,
+    "model": "dolt",
+    "monitor": true
+  },
+  "finished_utc": "2026-10-15T18:59:24.421019+00:00",
+  "workload_sha256": "d3349537dd716b0014de96ac75ef33bd4e6c6d1d0166eac152955970ee61378a",
+  "initial_rows": 6497,
+  "commits": 8,
+  "operations": 512,
+  "changes_per_commit": [
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64
+  ],
+  "expected_changed_keys": 496,
+  "oracle_diff_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+  "history": [
+    {
+      "version": 1,
+      "observed_sha256": "02b61bbbdd6588278941f43f7e81fe1bda709d6df1b5ce3e61d0886c5abb8c45",
+      "oracle_sha256": "02b61bbbdd6588278941f43f7e81fe1bda709d6df1b5ce3e61d0886c5abb8c45"
+    },
+    {
+      "version": 2,
+      "observed_sha256": "ea1c86b2b34b90544e7469b5c179df2659f5ed25b8be58ac78a5d3ae46782acb",
+      "oracle_sha256": "ea1c86b2b34b90544e7469b5c179df2659f5ed25b8be58ac78a5d3ae46782acb"
+    },
+    {
+      "version": 3,
+      "observed_sha256": "7dbe305559a3492b31346319c66084048e1cfe57f8a86b586ba9b2c9f8a1c9c2",
+      "oracle_sha256": "7dbe305559a3492b31346319c66084048e1cfe57f8a86b586ba9b2c9f8a1c9c2"
+    },
+    {
+      "version": 4,
+      "observed_sha256": "4ac31c4b022be8504ab35997d5934b0bc95db150b9ac78cce8c42abf09b3911a",
+      "oracle_sha256": "4ac31c4b022be8504ab35997d5934b0bc95db150b9ac78cce8c42abf09b3911a"
+    },
+    {
+      "version": 5,
+      "observed_sha256": "3fda0169128d5b85320317c837eda5c0ac08be8e66f2c4476861c233815f4451",
+      "oracle_sha256": "3fda0169128d5b85320317c837eda5c0ac08be8e66f2c4476861c233815f4451"
+    },
+    {
+      "version": 6,
+      "observed_sha256": "5dea78ce184501bcc0f455b0380dabf44aec85dbc0c3743e24b23d44b8b6eb9e",
+      "oracle_sha256": "5dea78ce184501bcc0f455b0380dabf44aec85dbc0c3743e24b23d44b8b6eb9e"
+    },
+    {
+      "version": 7,
+      "observed_sha256": "fa89a575b97c3745da898d80c50805e147a1732611b11528c1ce0e036f0fad10",
+      "oracle_sha256": "fa89a575b97c3745da898d80c50805e147a1732611b11528c1ce0e036f0fad10"
+    },
+    {
+      "version": 8,
+      "observed_sha256": "2824b6ee126592ba3efb914f9539feaf87de0734986d9b5c0c8595160993974b",
+      "oracle_sha256": "2824b6ee126592ba3efb914f9539feaf87de0734986d9b5c0c8595160993974b"
+    },
+    {
+      "version": 9,
+      "observed_sha256": "1cb2a3132c4a9defebb37a40ac5915ab41b81c54346167a2199837c85278ce17",
+      "oracle_sha256": "1cb2a3132c4a9defebb37a40ac5915ab41b81c54346167a2199837c85278ce17"
+    }
+  ],
+  "integrity": null,
+  "import_ms": 818.7517,
+  "commit_ms": [
+    708.8617,
+    853.5635,
+    709.3153,
+    915.336,
+    820.5478,
+    664.3607,
+    898.1713,
+    722.2109
+  ],
+  "checkout_ms": 305.9917,
+  "storage_bytes": 1424230,
+  "records": [
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "warmup",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 291.8276,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 284.0178,
+      "parse_ms": 4.5128,
+      "canonical_ms": 3.2285
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "warmup",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 255.3986,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 247.7198,
+      "parse_ms": 4.5731,
+      "canonical_ms": 2.8761
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 239.7393,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 234.6435,
+      "parse_ms": 2.839,
+      "canonical_ms": 2.1803
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 271.9182,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 263.0999,
+      "parse_ms": 4.7861,
+      "canonical_ms": 3.7028
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 3,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 275.8311,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 268.3551,
+      "parse_ms": 3.9835,
+      "canonical_ms": 3.2579
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 4,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 296.7642,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 288.4645,
+      "parse_ms": 4.9353,
+      "canonical_ms": 3.1364
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 5,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 309.5214,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 302.6079,
+      "parse_ms": 3.8659,
+      "canonical_ms": 2.8446
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 6,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 319.0983,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 310.1706,
+      "parse_ms": 4.616,
+      "canonical_ms": 4.1888
+    },
+    {
+      "case": "wine-generated-3-dolt",
+      "suite": "public",
+      "trial_kind": "measured",
+      "trial": 7,
+      "execution_order": 1,
+      "strategy": "dolt",
+      "threshold": 0,
+      "selected": "dolt-native",
+      "diff_ms": 337.3918,
+      "decision_probe_ms": null,
+      "output_sha256": "968f1eb89b6f74227333445f382aab4d3aac2c251a161956bb6fb13a7e38af1a",
+      "correctness": true,
+      "command_ms": 327.8696,
+      "parse_ms": 5.555,
+      "canonical_ms": 3.6439
+    }
+  ],
+  "duration_seconds": 13.679879400064237,
+  "correctness": true
+}

@@ -1,0 +1,12 @@
+{
+  "started_utc": "2026-10-15T18:59:27.405271+00:00",
+  "case": {
+    "name": "wine-generated-3-revon-h",
+    "suite": "public",
+    "dataset": "wine-generated",
+    "seed": 202610203,
+    "replicate": 3,
+    "model": "revon-h",
+    "monitor": true
+  }
+}

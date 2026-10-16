@@ -1,0 +1,11 @@
+{
+  "cases": 18,
+  "batches": 324,
+  "timed_calls": 324000,
+  "measured_calls": 252000,
+  "case_threshold_median_us": 2.6735,
+  "min_case_threshold_median_us": 1.6115,
+  "max_case_threshold_median_us": 3.6778000000000004,
+  "passed": true,
+  "scope": "post-campaign warm extracted production-prefix microbenchmark; no policy tuning, diff work, detached-view copy, cold-cache or causal overhead subtraction"
+}

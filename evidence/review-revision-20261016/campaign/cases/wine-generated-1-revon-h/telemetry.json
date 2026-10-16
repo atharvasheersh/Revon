@@ -1,0 +1,11 @@
+{
+  "started_utc": "2026-10-15T18:58:34.333559+00:00",
+  "finished_utc": "2026-10-15T18:58:36.180133+00:00",
+  "monitor_enabled": true,
+  "sample_interval_ms": 10,
+  "peak_rss_bytes": 81137664,
+  "cpu_seconds": 1.421875,
+  "os_read_bytes": 86792155,
+  "os_write_bytes": 43064000,
+  "scope": "worker and sampled descendants, including setup and verification; OS-reported I/O, not physical/logical database reads"
+}

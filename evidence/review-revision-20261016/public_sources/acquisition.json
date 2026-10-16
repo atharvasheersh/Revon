@@ -1,0 +1,132 @@
+{
+  "created_utc": "2026-10-15T18:44:39.938232+00:00",
+  "co2": {
+    "source": "https://github.com/datasets/co2-ppm",
+    "upstream": "NOAA Mauna Loa monthly CO2",
+    "license": "Open Data Commons Public Domain Dedication and License v1.0; verify retained datapackage",
+    "selection": "11 most recent file-changing commits returned before any timing; chronological order; repository revisions, not original NOAA transaction logs; header-only snapshots excluded before protocol freeze",
+    "history_kind": "observed published CSV snapshots; record differences reconstructed between adjacent retained snapshots",
+    "key": "Date column; no renames inferred; absent keys are deletions; entire canonical CSV row retained as strings",
+    "loss": "CSV formatting and row order ignored; one row per date; changes between sampled revisions are not reconstructed",
+    "records": [
+      {
+        "sha": "b8ca91c5922bc21d2eea0f13eb58b9c28ab75667",
+        "date": "2025-12-01T00:59:42Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/b8ca91c5922bc21d2eea0f13eb58b9c28ab75667/data/co2-mm-mlo.csv",
+        "file": "co2-00.csv",
+        "sha256": "b1a07cf84df5a34d1df5248e95becd756728657f4984647446e58d6077125664",
+        "bytes": 37183
+      },
+      {
+        "sha": "85bf9a58ef815547cd7b31ae6d704f9549181995",
+        "date": "2026-01-01T00:58:42Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/85bf9a58ef815547cd7b31ae6d704f9549181995/data/co2-mm-mlo.csv",
+        "file": "co2-01.csv",
+        "sha256": "45a8760e7c4febb0ce743a61278d7f3d82d29a95a2bf9d79187f0b6e7b268378",
+        "bytes": 37228
+      },
+      {
+        "sha": "cfeb5496766ce6aafc3ed15a73eb3c8dc44b826c",
+        "date": "2026-02-01T01:13:00Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/cfeb5496766ce6aafc3ed15a73eb3c8dc44b826c/data/co2-mm-mlo.csv",
+        "file": "co2-02.csv",
+        "sha256": "ab79f1763e089fb2f6403d02cc88c79f545f7f605757e6874edc8853dfd0a272",
+        "bytes": 37273
+      },
+      {
+        "sha": "0c7462649fd7804ab8088d434c4ac79c42e4b05d",
+        "date": "2026-03-01T01:14:53Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/0c7462649fd7804ab8088d434c4ac79c42e4b05d/data/co2-mm-mlo.csv",
+        "file": "co2-03.csv",
+        "sha256": "5cfe1534600cc30fab88aee75236a5a9542ff694cb96b78b2a4d8f17f5b1bd67",
+        "bytes": 60
+      },
+      {
+        "sha": "4ae30e87c8fd9ce198729d132c91c416afab1923",
+        "date": "2026-03-03T23:29:58Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/4ae30e87c8fd9ce198729d132c91c416afab1923/data/co2-mm-mlo.csv",
+        "file": "co2-04.csv",
+        "sha256": "bd31bb117d56208061d86a431d44dc6124d9067020f1847e33779fde44aa3de8",
+        "bytes": 37318
+      },
+      {
+        "sha": "15827da534181f9a57965208c0abe74df62a0f37",
+        "date": "2026-04-01T01:21:18Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/15827da534181f9a57965208c0abe74df62a0f37/data/co2-mm-mlo.csv",
+        "file": "co2-05.csv",
+        "sha256": "87bfbb7931d3e786c59077665d95f07cbee451f35d2cb53e698f2e214237fa90",
+        "bytes": 37363
+      },
+      {
+        "sha": "9f751e7d13933abc053237dcfb6e5336a706b19c",
+        "date": "2026-06-01T02:30:42Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/9f751e7d13933abc053237dcfb6e5336a706b19c/data/co2-mm-mlo.csv",
+        "file": "co2-06.csv",
+        "sha256": "5b5ef5fa1dbe2e1e518c3020c7de89ea5e56e8852852afd05fc33d1187ae6294",
+        "bytes": 37453
+      },
+      {
+        "sha": "7a67754c5ea9459fc56e934092028225cad38436",
+        "date": "2026-07-01T02:10:43Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/7a67754c5ea9459fc56e934092028225cad38436/data/co2-mm-mlo.csv",
+        "file": "co2-07.csv",
+        "sha256": "44d1a475477fc1d6a7d813a26bcc67c3584143746f597be8f9416bb45a652dd2",
+        "bytes": 37498
+      },
+      {
+        "sha": "146bdc608e1078d3e28e7a5d4755fdc316ffed2d",
+        "date": "2026-08-01T01:43:07Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/146bdc608e1078d3e28e7a5d4755fdc316ffed2d/data/co2-mm-mlo.csv",
+        "file": "co2-08.csv",
+        "sha256": "46c07e9423aa6ca0723bf6e892ba0ade1488ca6f7d3f14aa0cddd10272fbe59b",
+        "bytes": 37543
+      },
+      {
+        "sha": "c38f24fd57d35d6ca2da6156d552dd4e1c8b8e96",
+        "date": "2026-09-01T02:22:47Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/c38f24fd57d35d6ca2da6156d552dd4e1c8b8e96/data/co2-mm-mlo.csv",
+        "file": "co2-09.csv",
+        "sha256": "a82b0a4bed64f79275500b6a44546889bef2339795cb498c290b6f4fa313a7f3",
+        "bytes": 37588
+      },
+      {
+        "sha": "8c4097238570147adf6fa97ad357315528dac4c5",
+        "date": "2026-10-01T02:50:42Z",
+        "url": "https://raw.githubusercontent.com/datasets/co2-ppm/8c4097238570147adf6fa97ad357315528dac4c5/data/co2-mm-mlo.csv",
+        "file": "co2-10.csv",
+        "sha256": "5d4c2a520d0c6180bb7dd830bf093c9be4716775ddd03d90c04434d423d81b74",
+        "bytes": 37633
+      }
+    ],
+    "datapackage": {
+      "url": "https://raw.githubusercontent.com/datasets/co2-ppm/8c4097238570147adf6fa97ad357315528dac4c5/datapackage.json",
+      "file": "co2-datapackage.json",
+      "sha256": "15f9ea5f4656b1e91ea68d8c33ac16a1c6ab651a8356cf12fe53cd72d06e8a1c",
+      "bytes": 10139
+    },
+    "premeasurement_exclusions": [
+      {
+        "file": "co2-03.csv",
+        "reason": "Header-only upstream publication failure; retained raw, excluded before timing; primary sequence joins adjacent nonempty published snapshots"
+      }
+    ],
+    "extra_columns": "Source rows contain unnamed trailing fields beyond six headers; retain them as _extra_0 etc, without interpreting or dropping them"
+  },
+  "wine": {
+    "source": "https://archive.ics.uci.edu/dataset/186/wine+quality",
+    "doi": "10.24432/C56S3T",
+    "license": "CC BY 4.0",
+    "attribution": "Cortez, Cerdeira, Almeida, Matos and Reis (2009), Wine Quality, UCI Machine Learning Repository",
+    "history_kind": "generated seeded updates; not observed wine revisions",
+    "key": "wine colour plus original physical row ordinal; not a longitudinal specimen identifier",
+    "records": [
+      {
+        "url": "https://archive.ics.uci.edu/static/public/186/wine+quality.zip",
+        "file": "wine-quality.zip",
+        "sha256": "3ed56667f4b828242bd732d7d1dd7f2861e54432239d7fa63877014cbb0304d4",
+        "bytes": 91353
+      }
+    ]
+  },
+  "preflight_repair_utc": "2026-10-15T18:46:26.330379+00:00"
+}

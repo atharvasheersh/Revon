@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-10-15T18:52:06.816232+00:00",
+  "case": {
+    "name": "validation-202610172-repeated-key-c64",
+    "suite": "validation",
+    "spec": {
+      "name": "validation-202610172-repeated-key-c64",
+      "rows": 12000,
+      "commits": 8,
+      "changes_per_commit": 64,
+      "seed": 202610172,
+      "payload_bytes": 32,
+      "locality": "repeated-key"
+    },
+    "b": 8,
+    "d": 4,
+    "monitor": false
+  }
+}

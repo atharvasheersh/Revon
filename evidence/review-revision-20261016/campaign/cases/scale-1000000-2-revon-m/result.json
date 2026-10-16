@@ -1,0 +1,205 @@
+{
+  "case": {
+    "name": "scale-1000000-2-revon-m",
+    "suite": "scale",
+    "spec": {
+      "name": "scale-n1000000-seed202610222",
+      "rows": 1000000,
+      "commits": 4,
+      "changes_per_commit": 64,
+      "seed": 202610222,
+      "payload_bytes": 32,
+      "locality": "spread"
+    },
+    "model": "revon-m",
+    "monitor": true,
+    "replicate": 2
+  },
+  "finished_utc": "2026-10-15T19:06:01.037373+00:00",
+  "workload_sha256": "c732a2764d6990660e8b879283d43afca66736514608a3854d7c1e67c43f6426",
+  "initial_rows": 1000000,
+  "commits": 4,
+  "operations": 256,
+  "changes_per_commit": [
+    64,
+    64,
+    64,
+    64
+  ],
+  "expected_changed_keys": 256,
+  "oracle_diff_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+  "history": [
+    {
+      "version": 1,
+      "observed_sha256": "65be20a787cf27cab2e6bd17da6db12bc45c036885b44550e809135ed32415f2",
+      "oracle_sha256": "65be20a787cf27cab2e6bd17da6db12bc45c036885b44550e809135ed32415f2"
+    },
+    {
+      "version": 2,
+      "observed_sha256": "1ac2b4fce24f67f22ef6d9293d97241ddf454e5af6e63c760030be4429e88265",
+      "oracle_sha256": "1ac2b4fce24f67f22ef6d9293d97241ddf454e5af6e63c760030be4429e88265"
+    },
+    {
+      "version": 3,
+      "observed_sha256": "4b17503e7b6fd13d05b61670467d198c4faa0ceebc8413ad4333359797cc7a75",
+      "oracle_sha256": "4b17503e7b6fd13d05b61670467d198c4faa0ceebc8413ad4333359797cc7a75"
+    },
+    {
+      "version": 4,
+      "observed_sha256": "911da60b1f952324bf7951751a8acfabb741d363308e86a7d7dfd70df7aee47c",
+      "oracle_sha256": "911da60b1f952324bf7951751a8acfabb741d363308e86a7d7dfd70df7aee47c"
+    },
+    {
+      "version": 5,
+      "observed_sha256": "1c26492aa39ba5d256d15440805051d957416ec97e9c7434bab3a377b8adcc06",
+      "oracle_sha256": "1c26492aa39ba5d256d15440805051d957416ec97e9c7434bab3a377b8adcc06"
+    }
+  ],
+  "integrity": {
+    "objects": 5386,
+    "nodes": 5376,
+    "changesets": 5,
+    "commits": 5,
+    "versions": 5,
+    "head_hash": "53a6dcbf14f1178e10e4aa1a66a5e14db2d9aa69ff642de21dd6453919e593dd"
+  },
+  "import_ms": 10614.0531,
+  "commit_ms": [
+    284.6451,
+    90.752,
+    85.7135,
+    80.165
+  ],
+  "checkout_ms": 1861.8158,
+  "storage_bytes": 177610752,
+  "records": [
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "warmup",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 33.439,
+      "decision_probe_ms": 1.0573,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "warmup",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 32.6152,
+      "decision_probe_ms": 1.0142,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "measured",
+      "trial": 1,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 38.6606,
+      "decision_probe_ms": 1.1288,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "measured",
+      "trial": 2,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 33.6939,
+      "decision_probe_ms": 1.2596,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "measured",
+      "trial": 3,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 35.3564,
+      "decision_probe_ms": 1.0306,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "measured",
+      "trial": 4,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 32.3092,
+      "decision_probe_ms": 1.528,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "measured",
+      "trial": 5,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 33.0771,
+      "decision_probe_ms": 1.011,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "measured",
+      "trial": 6,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 34.4257,
+      "decision_probe_ms": 0.9983,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    },
+    {
+      "case": "scale-1000000-2-revon-m",
+      "suite": "scale",
+      "trial_kind": "measured",
+      "trial": 7,
+      "execution_order": 1,
+      "strategy": "merkle",
+      "threshold": 4096,
+      "selected": "merkle",
+      "diff_ms": 30.7946,
+      "decision_probe_ms": 0.9872,
+      "output_sha256": "0c8970699fb7dab0cf9b5f242a4ca491075c32b913596f842e60b12667721b73",
+      "correctness": true
+    }
+  ],
+  "duration_seconds": 43.54864010005258,
+  "correctness": true
+}
