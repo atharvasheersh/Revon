@@ -9,4 +9,9 @@
 # Linux collection manifests hash original bytes, including line endings.
 /evidence/linux-validation-*/** -text
 /evidence/linux-final-supplement-*/** -text
+# Review campaign manifests also cover exact collected bytes and frozen sources.
+/evidence/review-revision-*/** -text
+/evidence/selector-cost-*/** -text
+# Retained diagnostic source must match its original recorded byte hash.
+/tools/publication_assets/selector_cost_source_20261016.py -text
 *.zip binary

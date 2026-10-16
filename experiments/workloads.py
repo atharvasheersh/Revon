@@ -96,8 +96,10 @@ def apply_mutations(state: dict[str, str], mutations: Iterable[Mutation]) -> Non
 def build_workload(spec: WorkloadSpec) -> Workload:
     """Build repeatable mixed update/delete/insert batches from one seed.
 
-    Each batch is 80% updates, 10% deletes, and 10% inserts (with sensible
-    rounding for small batches). All adapters receive these exact objects.
+    For at least ten changes, each batch contains one delete, one insert,
+    and the remaining changes are updates. Smaller batches contain updates
+    only. All adapters receive these exact objects. Historical manifests
+    retain their original source snapshots and are not rewritten here.
     """
 
     spec.validate()
