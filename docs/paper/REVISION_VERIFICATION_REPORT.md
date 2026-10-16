@@ -141,15 +141,15 @@ Word rendering is an optional separate QA step, not required for artifact checks
 ## Final artifact identities
 
 The final ZIP contains **1,477 manifested files**, plus its manifest,
-and is **18,406,743 bytes**. This report is excluded from the ZIP
+and is **18,406,551 bytes**. This report is excluded from the ZIP
 to avoid a circular ZIP/hash dependency. Final status documentation is written
 after successful gates; it does not alter verified code, artifacts or evidence.
 
 | Artifact under `paper/` | SHA-256 |
 |---|---|
-| Revon Research Paper Springer.pdf | `4cc9c51cd56d55899878cc5f736d22bf2110cbe1af574be0ed73842fc2bbd820` |
-| Revon Research Paper Springer.docx | `7db8ecdd42ffdfaa8b02d5e9bca2731c21bcd1364aae68d3a67ae0b9c7b727a3` |
-| Revon_Review_Revision_Reproducibility_20261016.zip | `3da3da99658d09b46f6c6c00774969be7792492ed144d49dfb05059ad0f21a06` |
+| Revon Research Paper Springer.pdf | `f24ec27d2447fff6b391e534975916738729b12eb6620e6a150bf8c0c965368f` |
+| Revon Research Paper Springer.docx | `0979e361c6676ed82714d891ad0566c8a470faebb4f0abd3643c16e46b9c8c37` |
+| Revon_Review_Revision_Reproducibility_20261016.zip | `d1320839e07c5dd24507f88976177a1a8707d7828a1f8bcff27ff36b6521d7d5` |
 
 ## Publication and remaining research limits
 
@@ -261,3 +261,28 @@ rebuilt-package correspondence passed. All 1,922 baseline evidence files are
 unchanged. Hosted verification for the corresponding publication commit is
 available in the main-branch Actions history linked above. No timing campaign
 was repeated and no scientific result was changed.
+
+
+## Unpublished manuscript evaluation wording
+
+The author noted that describing a "new Windows study" made the manuscript
+sound like an update to a published paper. The abstract now introduces the
+Windows evaluation directly, and the current manuscript uses platform and
+experimental-scope labels instead of draft/review-stage descriptions. Section 6
+is titled "Windows Evaluation Results". Frozen archive and protocol identifiers
+are retained so that readers can still find the actual experimental records.
+
+Independent comparison confirms 26 paragraph/caption edits with unchanged
+numerical tokens, all 17 table cell sets, all 10 figure images, all 33 references
+and section geometry. All 1,943 files under evidence/ retain their baseline bytes.
+PDF and Word export remain 27 and 28 pages with zero replacement glyphs.
+All 35 changed page images were inspected individually; the other 20 images
+are byte-identical to previously inspected renderings. The preferred renderer
+could not find LibreOffice; Word COM export supplied the DOCX rendering.
+The numerical tables still derive exactly from the audited analysis. The
+publication model and reproducibility archive were refreshed with the edited
+paper. No timing data or experimental source was changed.
+The complete read-only final-publication gate passed after rebuilding the ZIP,
+including manuscript agreement, evidence audits, numerical derivation and exact
+package correspondence. Hosted results for this editorial commit are available
+in the main-branch Actions history linked above.
