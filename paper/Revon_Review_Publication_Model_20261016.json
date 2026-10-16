@@ -1,5 +1,5 @@
 {
-  "source_sha256": "9bdcce86bb0fb69ed834eab39c4bb90a893050c4d9f9906f57d0b60849827637",
+  "source_sha256": "940cab0ddf568d2c8bf9ebed864becec806bd2f4fc38ceef8ed5ea26745dd78c",
   "table_widths": {
     "1": [
       91,
@@ -709,7 +709,7 @@
       ]
     ]
   },
-  "title": "Log and Merkle Differencing for Durable Structured Data Versioning",
+  "title": "Revon: Log and Merkle Differencing for Durable Structured Data Versioning",
   "figures": 10,
   "tables": 17,
   "references": 33,
@@ -750,7 +750,7 @@
     "28": 33
   },
   "format": {
-    "source_sha256": "9bdcce86bb0fb69ed834eab39c4bb90a893050c4d9f9906f57d0b60849827637",
+    "source_sha256": "940cab0ddf568d2c8bf9ebed864becec806bd2f4fc38ceef8ed5ea26745dd78c",
     "reference_sha256": "reference-layout-measurements-retained-in-renderer",
     "tables": 17,
     "figures": 10,
@@ -1739,7 +1739,7 @@
     "[33]  J. Zhao and S. Krishnan (2024). Compression and in-situ query processing for fine-grained array lineage, arXiv:2405.17701, [Online]. Available: https://arxiv.org/abs/2405.17701."
   ],
   "body_paragraphs": [
-    "LOG AND MERKLE DIFFERENCING FOR DURABLE STRUCTURED DATA VERSIONING",
+    "REVON: LOG AND MERKLE DIFFERENCING FOR DURABLE STRUCTURED DATA VERSIONING",
     "By Atharva Sheersh Pandey1,a, Adhyan Jain1,b,\nand Poornima Nedunchezhian1,c",
     "1 School of Computer Science and Engineering, VIT Vellore",
     "a atharva.sheersh2024@vitstudent.ac.in; b adhyan.jain2024@vitstudent.ac.in",

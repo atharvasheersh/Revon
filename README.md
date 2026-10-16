@@ -16,7 +16,7 @@ Revon is licensed under the [Apache License 2.0](LICENSE).
   The earlier Discover Computing and IEEE exports are retained in
   [`paper/previous versions/`](paper/previous%20versions/).
   See [`paper/README.md`](paper/README.md) for the publication files and their scope.
-- The review revision is titled **Log and Merkle Differencing for Durable
+- The review revision is titled **Revon: Log and Merkle Differencing for Durable
   Structured Data Versioning**. Its separate author-run Windows campaign completed
   93 workers and 3,402 checked queries (2,646 measured), with disjoint calibration
   and validation seeds, two further public source families and repeated local

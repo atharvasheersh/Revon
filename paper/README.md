@@ -2,7 +2,7 @@
 
 The current manuscript is **Revon Research Paper Springer**:
 
-Title: **Log and Merkle Differencing for Durable Structured Data Versioning**.
+Title: **Revon: Log and Merkle Differencing for Durable Structured Data Versioning**.
 This revision narrows the contribution to an auditable prototype and bounded
 workflow/selection study; the fixed trie is not a new adaptive index.
 

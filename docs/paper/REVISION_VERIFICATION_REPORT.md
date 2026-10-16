@@ -122,31 +122,34 @@ The failed first attempt and intermediate runs remain in the local logs.
 
 ## Protected artifacts and layout
 
-All 1,925 remediation-baseline protected files are unchanged,
-including all sealed collections, raw records, executed sources, canonical PDF
-and DOCX and original Linux ZIP. All six moved figure files retain exact bytes.
+At completion of the verification repairs, all 1,925 remediation-baseline
+protected files were unchanged. The later authorised title restoration changes
+the current PDF/DOCX only; all 1,923 scientific/historical protected files,
+including sealed collections, raw records, executed sources and the original
+Linux ZIP, remain unchanged. All six moved figure files retain exact bytes.
 The strict historical check separately confirms 1,327 unchanged baseline files,
 the two earlier authorised manuscript replacements and exact original backups.
 
-The unchanged reference PDF remains 27 pages, with 17 tables, 10 figures and
-33 references. The preceding revision visually inspected all 27 PDF pages and
-all 28 Word-export pages; these manuscript byte hashes are identical. This
-repair did not regenerate or claim a new visual inspection of those 55 pages.
+The reference PDF remains 27 pages, with 17 tables, 10 figures and 33 references.
+The preceding revision inspected all 27 PDF pages and 28 Word-export pages.
+For the later title restoration, both artifacts were rendered again: only the
+two first-page images changed and were inspected at full size. The remaining
+53 page images are byte-identical to their previously inspected versions.
 Historical eleven tables and seven original figure assets retain their gates.
 Word rendering is an optional separate QA step, not required for artifact checks.
 
 ## Final artifact identities
 
 The final ZIP contains **1,477 manifested files**, plus its manifest,
-and is **18,413,793 bytes**. This report is excluded from the ZIP
+and is **18,406,977 bytes**. This report is excluded from the ZIP
 to avoid a circular ZIP/hash dependency. Final status documentation is written
 after successful gates; it does not alter verified code, artifacts or evidence.
 
 | Artifact under `paper/` | SHA-256 |
 |---|---|
-| Revon Research Paper Springer.pdf | `6f1fcf57b8480c23c9dc5ad79a40bb1637d6f9fe3fde79c1633e1cab397e4b9b` |
-| Revon Research Paper Springer.docx | `7be3f7340fc79a43ffb495d13d152feaf30e753ff1049c617f2877a5293b5853` |
-| Revon_Review_Revision_Reproducibility_20261016.zip | `465a47c354b7122690e49dd6251da3a9579b13a8847a7863c7c3c4b3a75599a4` |
+| Revon Research Paper Springer.pdf | `729e916a432f36fbca4af08a9e80edbd501855b6c7de49e47d9ba0be58ac9121` |
+| Revon Research Paper Springer.docx | `bdf1f3a6bf180ae806577d260b5d96d96a7e8760f4e8929127f646e685eb34fb` |
+| Revon_Review_Revision_Reproducibility_20261016.zip | `76f6f86639f5e870dcc48f9b2b6ad7915a2e3a95000b97d0ad03628536fadf38` |
 
 ## Publication and remaining research limits
 
@@ -207,3 +210,29 @@ workflow can be checked in the [main-branch Actions history](https://github.com/
 Whitespace checks accept preserved CRLF in frozen data and retain the third-party
 GUST font licence verbatim; maintained source/document checks pass. The unrelated
 untracked file was not added. Journal author approval remains outstanding.
+
+## Author-requested title restoration
+
+On 16 October 2026 the author requested the exact title **Revon: Log and Merkle
+Differencing for Durable Structured Data Versioning**. The current source,
+canonical PDF/DOCX, title metadata, publication model and documentation now
+use that title. Historical documents and frozen experimental sources retain
+their original titles. The reproducibility ZIP was rebuilt with the new pair.
+
+Independent comparison with the preceding published pair confirms that only
+the title paragraph changed: the other 188 paragraphs, all 17 tables, all 10
+figure byte streams, references and section geometry are identical. Both
+renderings retain their 27/28 page counts and zero replacement glyphs. The
+two revised first pages were inspected; the other 53 page images are unchanged.
+The preferred renderer could not find LibreOffice, so Word COM export supplied
+the editable-document rendering. No scientific result or timing was changed.
+
+The publication model was refreshed only after the title-only comparison;
+its tables, figures, reference identities, citation mapping and analysis SHA
+are unchanged. Full hosted verification for this title revision is available
+in the [main-branch Actions history](https://github.com/atharvasheersh/Revon/actions?query=branch%3Amain).
+Earlier run links above identify the earlier artifact commits explicitly.
+
+Local verification of the title revision passed all 44 publication tests,
+new-table numerical derivation and exact rebuilt-package correspondence.
+All 1,922 baseline evidence files remain byte-identical.

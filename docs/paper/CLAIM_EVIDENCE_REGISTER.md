@@ -1,6 +1,6 @@
 # Claim-to-evidence register
 
-Current title: **Log and Merkle Differencing for Durable Structured Data Versioning**.
+Current title: **Revon: Log and Merkle Differencing for Durable Structured Data Versioning**.
 The index geometry is fixed. “Adaptive” describes a diff-path decision, not an
 adaptive trie, novel persistence mechanism or proven optimal strategy.
 

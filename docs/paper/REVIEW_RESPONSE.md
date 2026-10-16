@@ -3,7 +3,7 @@
 Thank you for the detailed comments. We revised the manuscript around a bounded
 systems contribution, added controlled local experiments and two public source
 families, and retained the earlier adverse findings. The current title is
-**Log and Merkle Differencing for Durable Structured Data Versioning**. The trie
+**Revon: Log and Merkle Differencing for Durable Structured Data Versioning**. The trie
 is fixed; selection applies to differencing paths. Author details are unchanged.
 
 The numbered responses below cover both the main review table and the later
