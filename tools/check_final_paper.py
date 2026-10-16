@@ -223,7 +223,16 @@ def main(root=ROOT):
     sys.path.insert(0, str(ROOT))
     from tools.check_springer_paper import check_springer
     manuscripts["current_Springer"] = check_springer(root / "paper/Revon Research Paper Springer.docx", model)
+    revision={}
+    if (root/'paper/Revon_Review_Publication_Model_20261016.json').exists():
+        from tools.check_review_manuscript import check_numeric_tables
+        from tools.check_review_campaign import audit_revision
+        from tools.check_selector_cost import check as check_selector
+        from tools.check_review_package import check as check_revision_package
+        revision={'publication':check_numeric_tables(),'campaign':audit_revision(root),
+          'selector_cost':check_selector(root),'package':check_revision_package(root=root)}
     report = dict(passed=True, manuscripts=manuscripts, package_hashes=package_hashes, evidence=check_evidence(root),
+                  review_revision=revision,
                   scope="read-only content, provenance, semantic proofs and summary integrity; not timing reproduction or visual certification")
     print(json.dumps(report, indent=2))
     return report

@@ -14,7 +14,8 @@ class SpringerPublicationTests(unittest.TestCase):
         cls.model, _, _ = check_package(ROOT / "paper/Revon_Linux_Reproducibility_Supplement.zip", ROOT)
 
     def test_current_pair_passes(self):
-        self.assertEqual(check_springer(self.source, self.model)["references"], 31)
+        result=check_springer(self.source,self.model)
+        self.assertEqual(result['references'],33 if (ROOT/'paper/Revon_Review_Publication_Model_20261016.json').exists() else 31)
 
     def mutate(self, edit, error):
         with TemporaryDirectory() as directory:
@@ -26,7 +27,8 @@ class SpringerPublicationTests(unittest.TestCase):
                 check_springer_doc(path, self.model)
 
     def test_modified_result_is_rejected(self):
-        self.mutate(lambda d: setattr(d.tables[4].cell(1, 1), "text", "999.999"), "Springer table 5 differs")
+        index=5 if (ROOT/'paper/Revon_Review_Publication_Model_20261016.json').exists() else 4
+        self.mutate(lambda d: setattr(d.tables[index].cell(1, 1), "text", "999.999"), f"Springer table {index+1} differs")
 
     def test_missing_figure_is_rejected(self):
         def remove(d):

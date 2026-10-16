@@ -12,6 +12,7 @@ import pymupdf
 
 REPOSITORY = "https://github.com/atharvasheersh/Revon"
 ARCHIVE = REPOSITORY + "/blob/main/paper/Revon_Linux_Reproducibility_Supplement.zip"
+REVIEW_MODEL = Path(__file__).resolve().parents[1] / "paper/Revon_Review_Publication_Model_20261016.json"
 TITLE = "Adaptive Merkle Trie Versioning for Efficient Structured Data Management"
 # Original packaged-model IDs -> alphabetized bibliography IDs in this format.
 REFERENCE_IDS = {24: 1, 13: 2, 14: 3, 7: 4, 6: 5, 9: 6, 12: 7, 19: 8,
@@ -37,6 +38,9 @@ def remap_model_citations(text):
 
 
 def check_springer_doc(path, model):
+    if REVIEW_MODEL.exists():
+        from tools.check_review_manuscript import check_doc
+        return check_doc(path, model)
     doc = Document(path)
     paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
     require(paragraphs[0].casefold() == TITLE.casefold(), "Springer title changed")
@@ -81,19 +85,34 @@ def check_springer(path, model):
     result, availability, appendix = check_springer_doc(path, model)
     with pymupdf.open(Path(path).with_suffix(".pdf")) as pdf:
         require(len(pdf) > 0, "Springer PDF empty")
-        text = "".join(page.get_text() for page in pdf)
+        # Running page numbers can interrupt a paragraph at a page break.
+        # Exclude the header band, without dropping body numbers or citations.
+        text = "".join(page.get_text(clip=pymupdf.Rect(0,60,page.rect.width,page.rect.height)) for page in pdf)
         for i, page in enumerate(pdf, 1):
             require(len(page.get_text().split()) >= 8, f"Springer near-empty PDF page {i}")
+            require('\ufffd' not in page.get_text(),f'Springer replacement glyph on page {i}')
             for block in page.get_text("dict")["blocks"]:
                 require(page.rect.contains(pymupdf.Rect(block["bbox"])), f"Springer PDF content outside page {i}")
         numbers = [int(n) for n in re.findall(r"\bFig\.?\s+(\d+)\.", text)]
-        require(sorted(numbers) == list(range(1, 8)), "Springer PDF figure captions changed")
+        require(sorted(numbers) == list(range(1, result['figures']+1)), "Springer PDF figure captions changed")
         require("Online Resource 1" not in text, "Springer PDF supplementary label is stale")
         require(compact(availability.split(":", 1)[1]) in compact(text), "Springer PDF/DOCX availability differs")
         for p in appendix:
             require(compact(p) in compact(text), "Springer PDF/DOCX appendix differs")
+        if REVIEW_MODEL.exists():
+            # Validate the complete reviewed abstract/body/captions/bibliography,
+            # including text split across pages, not merely availability text.
+            from docx import Document
+            declarations=['Funding','Competing interests','Author contributions','Ethics and consent to participate','Consent for publication','Data and code availability']
+            paragraphs=[p.text for p in Document(path).paragraphs if p.text.strip()][5:]
+            for paragraph in paragraphs:
+                expected=paragraph
+                if any(expected.startswith(label+':') for label in declarations):expected=expected.replace(':','.',1)
+                require(compact(expected) in compact(text),'Springer PDF/DOCX paragraph differs: '+paragraph[:90])
+            result['pdf_docx_reviewed_body_agrees']=True
         links = {link.get("uri", "") for page in pdf for link in page.get_links()}
-        require(REPOSITORY in links and ARCHIVE in links, "Springer PDF GitHub links missing")
+        archive = REPOSITORY + "/blob/main/paper/Revon_Review_Revision_Reproducibility_20261016.zip" if REVIEW_MODEL.exists() else ARCHIVE
+        require(REPOSITORY in links and archive in links, "Springer PDF GitHub links missing")
         require(not any(re.search(r"github\.com/atharvasheersh/Revon/(?:tree|blob)/[0-9a-f]{40}(?:/|$)", t)
                         for t in links), "Springer PDF GitHub link still pins a commit")
         result.update(pages=len(pdf), github_links="current repository and main archive", pdf_docx_availability_agrees=True)
