@@ -141,15 +141,15 @@ Word rendering is an optional separate QA step, not required for artifact checks
 ## Final artifact identities
 
 The final ZIP contains **1,477 manifested files**, plus its manifest,
-and is **18,406,977 bytes**. This report is excluded from the ZIP
+and is **18,406,743 bytes**. This report is excluded from the ZIP
 to avoid a circular ZIP/hash dependency. Final status documentation is written
 after successful gates; it does not alter verified code, artifacts or evidence.
 
 | Artifact under `paper/` | SHA-256 |
 |---|---|
-| Revon Research Paper Springer.pdf | `729e916a432f36fbca4af08a9e80edbd501855b6c7de49e47d9ba0be58ac9121` |
-| Revon Research Paper Springer.docx | `bdf1f3a6bf180ae806577d260b5d96d96a7e8760f4e8929127f646e685eb34fb` |
-| Revon_Review_Revision_Reproducibility_20261016.zip | `76f6f86639f5e870dcc48f9b2b6ad7915a2e3a95000b97d0ad03628536fadf38` |
+| Revon Research Paper Springer.pdf | `4cc9c51cd56d55899878cc5f736d22bf2110cbe1af574be0ed73842fc2bbd820` |
+| Revon Research Paper Springer.docx | `7db8ecdd42ffdfaa8b02d5e9bca2731c21bcd1364aae68d3a67ae0b9c7b727a3` |
+| Revon_Review_Revision_Reproducibility_20261016.zip | `3da3da99658d09b46f6c6c00774969be7792492ed144d49dfb05059ad0f21a06` |
 
 ## Publication and remaining research limits
 
@@ -236,3 +236,28 @@ Earlier run links above identify the earlier artifact commits explicitly.
 Local verification of the title revision passed all 44 publication tests,
 new-table numerical derivation and exact rebuilt-package correspondence.
 All 1,922 baseline evidence files remain byte-identical.
+
+## Author-requested declaration removal
+
+On 16 October 2026 the author requested removal of the complete author-
+contributions declaration from the current manuscript. The source builder now
+omits that declaration on every rebuild while preserving the historical
+baseline. The current PDF and DOCX contain no contribution-percentages
+paragraph. Comparison with the preceding pair confirms exactly one paragraph
+removed; all other 188 paragraphs, all 17 tables, all 10 figure byte streams,
+the title, author list, references and section geometry are unchanged.
+
+Both formats were rendered again: 27 reference PDF pages and 28 Word-export
+pages, with zero replacement glyphs. All 12 changed page images were inspected
+at full size; the other 43 images are byte-identical to inspected versions.
+A Word references-heading orphan caused by the deletion was repaired by
+keeping that heading with the first reference. The source renderer retains
+that fix for future rebuilds. Preferred LibreOffice rendering was unavailable;
+Word COM export was used.
+
+The publication model was refreshed only after independent comparison of
+text/tables/figures; numerical-table derivation, all 44 publication tests and
+rebuilt-package correspondence passed. All 1,922 baseline evidence files are
+unchanged. Hosted verification for the corresponding publication commit is
+available in the main-branch Actions history linked above. No timing campaign
+was repeated and no scientific result was changed.

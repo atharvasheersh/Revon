@@ -208,6 +208,11 @@ def build():
             for token,n in mapping.items():text=text.replace(token,f'Table {n}')
             if '@@' in text:raise ValueError('unresolved table reference')
             if text!=p.text:p.text=text
+    # The author requested removal of this declaration from the current paper.
+    # Keep the historical baseline intact, but never restore it on rebuild.
+    contributions=[p for p in doc.paragraphs if p.text.startswith('Author contributions:')]
+    if len(contributions)!=1:raise ValueError('expected one author-contributions declaration in source')
+    contributions[0]._p.getparent().remove(contributions[0]._p)
     OUT.mkdir(parents=True,exist_ok=True)
     source_path=OUT/'Revon_Review_Revised_Source.docx';doc.save(source_path)
     metadata={'source_sha256':sha256(source_path.read_bytes()).hexdigest(),'table_widths':ordered_widths,

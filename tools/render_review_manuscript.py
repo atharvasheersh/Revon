@@ -62,6 +62,8 @@ for node in appendix_nodes:
     if node.getparent() is not None:node.getparent().remove(node)
     word.element.body.insert(len(word.element.body)-1,node)
 for ap in word.paragraphs:
+    if ap.text=='REFERENCES':
+        ap.paragraph_format.keep_with_next=True
     if ap.text.startswith('APPENDIX '):
         ap.text=re.sub(r'^(APPENDIX [A-Z])\\. ',r'\\1: ',ap.text)
         ap.alignment=WD_ALIGN_PARAGRAPH.CENTER

@@ -1,5 +1,5 @@
 {
-  "source_sha256": "940cab0ddf568d2c8bf9ebed864becec806bd2f4fc38ceef8ed5ea26745dd78c",
+  "source_sha256": "9f2972cc5070b6aeb9e5ca03b0cd6269a5a3fbc9d54753d2f947f0be7a0f5a72",
   "table_widths": {
     "1": [
       91,
@@ -750,7 +750,7 @@
     "28": 33
   },
   "format": {
-    "source_sha256": "940cab0ddf568d2c8bf9ebed864becec806bd2f4fc38ceef8ed5ea26745dd78c",
+    "source_sha256": "9f2972cc5070b6aeb9e5ca03b0cd6269a5a3fbc9d54753d2f947f0be7a0f5a72",
     "reference_sha256": "reference-layout-measurements-retained-in-renderer",
     "tables": 17,
     "figures": 10,
@@ -1861,7 +1861,6 @@
     "9. Conclusion.  Revon integrates established fixed-trie content addressing, changesets and atomic SQLite persistence to expose two semantically consistent ways to compute a version diff. The retained Linux evidence comprises 516 executions and a 72-execution supplement, including dense-case uncertainty and an adverse threshold choice. A separate local revision completes 93 worker cases and 3,402 checked queries, with held-out generated histories, two further public source families, interface-phase measurements and repeated scale observations. Calibration selects T=65,536, which behaves as always-log in this matrix and does not establish optimal switching. The new evidence improves control and breadth while retaining API/CLI, sampling, dataset and hardware limits. The contribution is an auditable prototype and a bounded empirical trade-off study; a new general-purpose database, universal speed advantage and independent-party reproduction are not established.",
     "Funding: No funding was received by the authors for this work.",
     "Competing interests: The authors have no competing interests to declare.",
-    "Author contributions: Atharva Sheersh Pandey performed 80% of the research work, and Adhyan Jain performed 20%. Guidance and critical review were provided by Poornima Nedunchezhian.",
     "Ethics and consent to participate: This computational study recruited no participants and performed no human or animal intervention. It uses synthetic histories and publicly released de-identified TLC records. We make no claim of institutional ethics approval or exemption.",
     "Consent for publication: No identifiable participant material is included, so consent for publication is not applicable.",
     "Data and code availability: NYC TLC provides the original public taxi source [24]; UCI Wine Quality [11] and the published CO2 package [12] provide the additional sources. Code, frozen experiment snapshots and evidence are available at https://github.com/atharvasheersh/Revon. The current review archive is Revon_Review_Revision_Reproducibility_20261016.zip; the original Linux archive remains available separately. Original TLC records and generated databases are not redistributed. The public-source manifest records licences and transformations; Appendix A describes access.",
