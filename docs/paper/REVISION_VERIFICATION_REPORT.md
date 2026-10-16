@@ -7,8 +7,9 @@ Date: 16 October 2026. Workspace: `C:\Users\admin\Desktop\Revon`.
 **Local revision complete for the requested bounded scope.** All three review
 findings are fixed, 25 new regression tests pass, and the rebuilt final archive
 passes the complete publication gate in both the local workspace and an
-explicitly selected clean snapshot. Git publication is now authorised as `atharvasheersh`; commit/push and
-remote CI verification are being completed as a separate publication phase. Author approval remains
+explicitly selected clean snapshot. The revision was committed and pushed to `atharvasheersh/Revon` as
+`atharvasheersh`. All four GitHub Actions jobs passed for the published
+artifact commit; the exact commit and run are recorded below. Author approval remains
 required before journal submission. Research limitations below remain open.
 
 ## Repairs completed in chronological order
@@ -76,8 +77,9 @@ calibration, prefix provenance/accounting and final ZIP correspondence.
 The diagnostic retains 18 histories and 252,000 measured prefix calls.
 
 `git diff --check` passed; its CRLF conversion notices are warnings. The
-frontend was unchanged and was not retested. No new Linux or Python 3.10 remote
-CI run, independent timing reproduction or journal submission is claimed.
+frontend was unchanged and was not retested locally. Subsequent authorised
+GitHub Actions ran its checks and Python 3.10/3.14 tests on Ubuntu, as recorded
+below. Independent timing reproduction and journal submission are not claimed.
 
 ## Clean snapshot construction and dependencies
 
@@ -148,8 +150,8 @@ after successful gates; it does not alter verified code, artifacts or evidence.
 
 ## Publication and remaining research limits
 
-Local revision: **complete**. Repository publication: **authorised and in progress**.
-Remote CI: **pending the publication push**. Journal submission:
+Local revision: **complete**. Repository publication: **complete**.
+Remote CI: **passed for published artifact commit `5f57bd2`**. Journal submission:
 **pending author/corresponding-author approval**. The local verification phase did not change Git history; subsequent publication
 uses the verified repository-local `atharvasheersh` identity. No cloud resources,
 paid services, email or external submission were used.
@@ -169,6 +171,39 @@ The user authorised commits and a push to `atharvasheersh/Revon` on
 (`<171888881+atharvasheersh@users.noreply.github.com>`). This supersedes the
 local-only Git scope of the preceding revision. Publication-status documentation
 was updated and the ZIP rebuilt; experiment code, measurements, manuscript
-PDF/DOCX and figures retain their verified bytes. Remote CI results will be
-recorded after the push. Journal submission and corresponding-author approval
+PDF/DOCX and figures retain their verified bytes. Remote CI completed successfully; details follow. Journal submission and corresponding-author approval
 remain separate.
+
+### Published commits and GitHub Actions
+
+- `a4ffa56` — Add the frozen local review campaign and correctness controls
+- `7855132` — Retain the complete review evidence and frozen experimental protocols
+- `25ecfc8` — Publish the revised manuscript with portable evidence verification
+- `daa8c37` — Document reviewer responses, claim boundaries and reproduction steps
+- `5f57bd2` — Package the reproducibility revision and record verified artifact hashes
+
+All five artifact/revision commits have author and committer `atharvasheersh`
+with the verified GitHub noreply address. GitHub also associates their attribution
+with that account. The remote `main` SHA matched the published local SHA, and
+the remote archive blob matched the committed blob and its 18,413,793-byte size.
+A direct Git-object check confirmed 621 frozen/artifact/source files retained
+their exact working bytes after staging and committing.
+
+[GitHub Actions run 38838041579](https://github.com/atharvasheersh/Revon/actions/runs/38838041579) completed successfully
+for `5f57bd2f641577a0faa363aabb34c6d0ed3b9931`. Jobs:
+
+- **Frontend: passed.**
+- **Python 3.14: passed.**
+- **Publication artifacts: passed.**
+- **Python 3.10: passed.**
+
+The hosted Python jobs do not install Dolt and skip native-Dolt tests when
+unavailable; actual Dolt equivalence passed in the preceding local suites.
+Hosted CI is artifact/unit verification, not a new timing reproduction.
+
+This report-only follow-up records the completed publication. It is excluded
+from the ZIP, so it changes no packaged input or artifact hash. Its own HEAD
+workflow can be checked in the [main-branch Actions history](https://github.com/atharvasheersh/Revon/actions?query=branch%3Amain).
+Whitespace checks accept preserved CRLF in frozen data and retain the third-party
+GUST font licence verbatim; maintained source/document checks pass. The unrelated
+untracked file was not added. Journal author approval remains outstanding.
