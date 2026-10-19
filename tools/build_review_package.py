@@ -32,6 +32,7 @@ def build(root=ROOT,target=None):
       'tools/check_review_baseline.py',
       'experiments/evidence_audit.py','experiments/paired_uncertainty.py',
       'tools/revise_review_manuscript.py','tools/render_review_manuscript.py','tools/render_review_qa.py',
+      'tools/first_submission_editorial.py',
       'tools/freeze_review_publication.py','tools/build_review_package.py',
       'tools/publication_assets/selector_cost_source_20261016.py',
       'tools/render_docx_with_word.ps1','paper/README.md','paper/Revon_Review_Publication_Model_20261016.json',

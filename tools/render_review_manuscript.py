@@ -27,6 +27,10 @@ code=code.replace("(TMP/'audit.json').write_text","(ROOT/'output/review_revision
 code=re.sub(r'widths=\{1:\[91,144,169\.5\].*?\}\[num\]', 'widths=TABLE_WIDTHS[num]',code,flags=re.S)
 code=re.sub(r'widths=\{1:\[91,144,169\.5\].*?\}\[ti\]', 'widths=TABLE_WIDTHS[ti]',code,flags=re.S)
 assert 'TABLE_WIDTHS[num]' in code and 'TABLE_WIDTHS[ti]' in code
+# Avoid a single continuation line after a page break without changing type,
+# line spacing, margins or figure dimensions from the retained reference.
+code=code.replace("'body':ParagraphStyle('Body',", "'body':ParagraphStyle('Body',allowWidows=0,allowOrphans=0,")
+code=code.replace("'center':ParagraphStyle('Center',", "'center':ParagraphStyle('Center',keepWithNext=True,")
 # Standalone headings must travel with the following block in Word. Run-in
 # headings retain normal pagination after their body paragraph is merged.
 code=code.replace("p.paragraph_format.keep_with_next=False\n        if nxt is not None", "p.paragraph_format.keep_with_next=True\n        if nxt is not None")
@@ -73,6 +77,7 @@ for ap in word.paragraphs:
 ''' +code[end:]
 # Correct URL tokenisation; the old expression incorrectly excluded letters l/t.
 code=code.replace(r"(https?://[^\s&lt;]+)",r"(https?://[^\s<>]+)")
+code=code.replace("t=linked(remap(t))", "t=linked(remap(t))\n    t=t.replace('Windows reproducibility archive','<link href=\"https://github.com/atharvasheersh/Revon/blob/main/paper/Revon_Review_Revision_Reproducibility_20261016.zip\" color=\"blue\">Windows reproducibility archive</link>')\n    t=t.replace('Linux reproducibility archive','<link href=\"https://github.com/atharvasheersh/Revon/blob/main/paper/Revon_Linux_Reproducibility_Supplement.zip\" color=\"blue\">Linux reproducibility archive</link>')")
 code=code.replace("t=linked(remap(t))", "t=linked(remap(t))\n    t=t.replace('Revon GitHub repository','<link href=\"https://github.com/atharvasheersh/Revon\" color=\"blue\">Revon GitHub repository</link>')\n    t=t.replace('Revon_Review_Revision_Reproducibility_20261016.zip','<link href=\"https://github.com/atharvasheersh/Revon/blob/main/paper/Revon_Review_Revision_Reproducibility_20261016.zip\" color=\"blue\">Revon_Review_Revision_Reproducibility_20261016.zip</link>')")
 code=code.replace("docx=OUT/(STEM+'.docx');word.save(docx)", '''
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
@@ -89,6 +94,8 @@ def link_label(p,label,url):
         t=OxmlElement('w:t');t.text=right;t.set(qn('xml:space'),'preserve');tail.append(t);link.addnext(tail)
         break
 for p in word.paragraphs:
+    link_label(p,'Windows reproducibility archive','https://github.com/atharvasheersh/Revon/blob/main/paper/Revon_Review_Revision_Reproducibility_20261016.zip')
+    link_label(p,'Linux reproducibility archive','https://github.com/atharvasheersh/Revon/blob/main/paper/Revon_Linux_Reproducibility_Supplement.zip')
     link_label(p,'https://github.com/atharvasheersh/Revon','https://github.com/atharvasheersh/Revon')
     link_label(p,'Revon GitHub repository','https://github.com/atharvasheersh/Revon')
     link_label(p,'Revon_Review_Revision_Reproducibility_20261016.zip','https://github.com/atharvasheersh/Revon/blob/main/paper/Revon_Review_Revision_Reproducibility_20261016.zip')

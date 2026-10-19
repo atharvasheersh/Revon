@@ -18,7 +18,7 @@ def main():
     inputs['archive_name']='Revon_Review_Revision_Reproducibility_20261016.zip'
     inputs['campaign']='evidence/review-revision-20261016/campaign'
     inputs['analysis_sha256']=sha((ROOT/inputs['campaign']/'analysis.json').read_bytes())
-    inputs['analysis_tables_rule']='new numeric tables derive from audited analysis; historical tables retain original cells with citation renumbering only'
+    inputs['analysis_tables_rule']='numeric tables derive from audited analysis; historical cells retain independent baseline checks with citation renumbering and one exact source-description wording replacement'
     path=ROOT/'paper/Revon_Review_Publication_Model_20261016.json'
     path.write_text(json.dumps(inputs,indent=2),encoding='utf8')
     print(path)

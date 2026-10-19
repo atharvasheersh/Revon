@@ -23,9 +23,11 @@ def check_doc(path,historical_model):
     for i,(observed,expected) in enumerate(zip(doc.tables,spec['tables_cells']),1):
         require([[c.text for c in row.cells] for row in observed.rows]==expected,f'Springer table {i} differs from reviewed model')
     old_tables=[b for b in historical_model if b['kind']=='table']
+    from tools.first_submission_editorial import historical_editorial_cells
     for expected in old_tables:
         number=int(spec['historical_table_numbers'][str(expected['number'])])
         cells=[[remap(c) for c in row] for row in [expected['headers']]+expected['rows']]
+        cells=historical_editorial_cells(number,cells)
         require([[c.text for c in row.cells] for row in doc.tables[number-1].rows]==cells,f'historical table {expected["number"]} changed beyond citation remapping')
     require(len(doc.inline_shapes)==spec['figures'],'Springer figure count changed')
     for i,shape in enumerate(doc.inline_shapes,1):

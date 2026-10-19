@@ -5,7 +5,7 @@ Typesetting is separate; no measurements or historical evidence are changed.
 """
 from pathlib import Path
 from hashlib import sha256
-import json,re,csv,statistics
+import json,re,csv,statistics,sys
 from docx import Document
 from docx.shared import Inches
 
@@ -213,12 +213,16 @@ def build():
     contributions=[p for p in doc.paragraphs if p.text.startswith('Author contributions:')]
     if len(contributions)!=1:raise ValueError('expected one author-contributions declaration in source')
     contributions[0]._p.getparent().remove(contributions[0]._p)
+    sys.path.insert(0,str(ROOT))
+    from tools.first_submission_editorial import apply_editorial
+    editorial=apply_editorial(doc)
     OUT.mkdir(parents=True,exist_ok=True)
     source_path=OUT/'Revon_Review_Revised_Source.docx';doc.save(source_path)
     metadata={'source_sha256':sha256(source_path.read_bytes()).hexdigest(),'table_widths':ordered_widths,
       'historical_table_numbers':{i:mapping[f'@@OLDTABLE{i}@@'] for i in range(1,12)},
       'new_table_numbers':{k:mapping[f'@@NEWTABLE_{k}@@'] for k in ['related','timing','protocol','selector','public','scale']},
-      'historical_tables':old_tables,'title':base[0].text,'figures':10,'tables':17,'references':33,'source':str(source_path.relative_to(ROOT))}
+      'historical_tables':old_tables,'title':base[0].text,'figures':10,'tables':17,'references':33,'source':str(source_path.relative_to(ROOT)),
+      'first_submission_editorial':editorial}
     (OUT/'publication_inputs.json').write_text(json.dumps(metadata,indent=2),encoding='utf8')
     print(json.dumps({'source':str(source_path),'tables':17,'figures':10,'references':33},indent=2))
 
