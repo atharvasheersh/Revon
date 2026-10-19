@@ -37,7 +37,8 @@ Read the current manuscript as a
 [PDF](paper/Revon%20Research%20Paper%20Springer.pdf) or
 [editable DOCX](paper/Revon%20Research%20Paper%20Springer.docx).
 It is an unpublished manuscript prepared in the retained Springer reference
-layout. See the [paper guide](paper/README.md) for formats, rebuilding and
+layout, written as a first submission with the experiments presented directly.
+See the [paper guide](paper/README.md) for formats, rebuilding and
 verification; earlier Discover Computing and IEEE exports remain under
 [`paper/previous versions/`](paper/previous%20versions/).
 

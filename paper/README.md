@@ -24,9 +24,10 @@ The Windows evaluation comprises 93 cases, each run in a fresh worker process,
 and 3,402 queries (2,646 measured). The 93 cases include 18 public-source cases
 and 18 scale cases. A separate warm decision-prefix diagnostic covers 18
 histories and 252,000 measured prefix calls, not additional full-workflow trials.
-The PDF has 27 pages, 17 tables, 10 figures and 33 references. The Word rendering
-has 28 pages. Existing eleven tables and seven figure assets are preserved;
-citation and table numbering is updated. See the [supervisor response](../docs/paper/REVIEW_RESPONSE.md),
+The PDF has 26 pages, 17 tables, 10 figures and 33 references. The Word rendering
+has 28 pages. All numerical table entries and all ten figure images are preserved.
+Two explanatory table cells have editorial wording changes; the historical-table
+gate permits only the exact reviewed source-description replacement. See the [supervisor response](../docs/paper/REVIEW_RESPONSE.md),
 [response matrix](../docs/paper/REVIEW_RESPONSE_MATRIX.md),
 [claim register](../docs/paper/CLAIM_EVIDENCE_REGISTER.md) and
 [skeptical audit](../docs/paper/FINAL_REVIEW_AUDIT.md).
@@ -58,13 +59,17 @@ before submission.
 When revising the current paper, update its PDF and DOCX together. The archived
 builders target earlier manuscript versions and must not overwrite this pair.
 
-## Rebuild this revision
+## Rebuild the manuscript
 
 Use `requirements.txt` for document/plot generation. Font conversion is not
 needed: licensed ready-to-use fonts and their source assets are retained under
 `tools/publication_assets/reference_fonts/`. Builders read the preserved semantic
-baseline under `previous versions/review-baseline-20261016/`, then insert audited
-revision evidence. Never use a new benchmark run to overwrite collected evidence.
+baseline under `previous versions/review-baseline-20261016/`, insert audited
+experimental results, then apply the reviewed first-submission prose from
+`tools/publication_assets/first_submission_editorial.json`. Source-text and hash
+guards reject changed inputs before applying any editorial override. Never use
+a new benchmark run to overwrite collected evidence. The fonttools dependency
+is pinned in `requirements.txt` for the retained reference renderer.
 
 ```bash
 python -c "from pathlib import Path; from experiments.analyze_review_revision import plots; plots(Path('evidence/review-revision-20261016/campaign'), Path('paper/review-assets/figures'))"

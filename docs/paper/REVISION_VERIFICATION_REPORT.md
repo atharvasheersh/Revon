@@ -140,16 +140,16 @@ Word rendering is an optional separate QA step, not required for artifact checks
 
 ## Final artifact identities
 
-The final ZIP contains **1,477 manifested files**, plus its manifest,
-and is **18,407,287 bytes**. This report is excluded from the ZIP
+The current first-submission ZIP contains **1,480 manifested files**, plus its manifest,
+and is **18,444,950 bytes**. This report is excluded from the ZIP
 to avoid a circular ZIP/hash dependency. Final status documentation is written
 after successful gates; it does not alter verified code, artifacts or evidence.
 
 | Artifact under `paper/` | SHA-256 |
 |---|---|
-| Revon Research Paper Springer.pdf | `f24ec27d2447fff6b391e534975916738729b12eb6620e6a150bf8c0c965368f` |
-| Revon Research Paper Springer.docx | `0979e361c6676ed82714d891ad0566c8a470faebb4f0abd3643c16e46b9c8c37` |
-| Revon_Review_Revision_Reproducibility_20261016.zip | `b72c280076a90cbb3a665d70e59aac68af73876aed7127030f2008e43f69192c` |
+| Revon Research Paper Springer.pdf | `901b9f1a896926d1fc139c7ea8e0016396d055e146f93e0a9f95ce96cef78333` |
+| Revon Research Paper Springer.docx | `e586146ec36f660694c0a0e7e00382cd72cd3afdf8100f03584f57c2c67e52a8` |
+| Revon_Review_Revision_Reproducibility_20261016.zip | `9a57b9008c4a0f6378553129d320ff0a443d345753bf013d973a6033d0406762` |
 
 ## Publication and remaining research limits
 
@@ -306,3 +306,92 @@ GitHub About now describes the Python/SQLite research prototype and its log/
 Merkle workflow evaluation. Its seven topics identify Python, SQLite, data
 versioning, Merkle tries, content addressing, reproducible research and
 benchmarking; the live repository metadata was read back after the update.
+
+
+## Complete first-submission editorial pass: 19 October 2026
+
+This section records the manuscript-wide work begun on 18 October. The earlier
+sections describe their dated publication stages; the current artifact identities
+above supersede their file hashes and sizes.
+
+### Coverage and scientific fidelity
+
+All 216 nonempty semantic source entries were reviewed in document order,
+including the abstract, introduction, contributions, related work, architecture,
+algorithms and costs, methodology, results, discussion, limitations, conclusion,
+captions, declarations and appendices. Of these, 120 received reviewed editorial
+replacements; formal labels, author information, reference entries and accurate
+wording were retained. The rendered document has 178 nonempty paragraphs after
+run-in heading merges, with 117 paragraphs changed relative to the saved pair.
+Task-local coverage and comparison records are in
+`output/first_submission_20261018/` and are excluded from publication packaging.
+
+The paper describes one first submission, with experimental chronology retained
+where it establishes calibration, validation or measurement order. Readable
+repository/archive links replace filename-heavy availability prose. The paper
+contains no repository-commit pin. Frozen source snapshots, protocol identifiers,
+environment records, measurement hashes and historical artifacts remain intact.
+The removed author-contributions declaration remains absent.
+
+Independent baseline comparison confirms the exact title and author block,
+section geometry, 33 reference entries and citation groups, and all 10 figure
+image byte streams. All numerical entries in the 17 tables are unchanged.
+There are exactly two explanatory-cell edits (rows and columns below are
+zero-based; table numbers are one-based):
+
+| Cell | Previous wording | Current wording |
+|---|---|---|
+| Table 3, row 6, column 1 | linux-validation-20261008: archived repaired source, fixed before measurement | linux-validation-20261008: executed source, fixed before measurement |
+| Table 5, row 5, column 1 | Closed local files; old Linux conditioning retained | Windows: closed files; Linux: before close/compaction |
+
+The historical-table validator permits only the exact Table 3 metadata
+replacement against its independent baseline. All other historical cells remain
+strictly checked; numerical derivation remains independent of the edited output.
+Three regression tests reject stale paragraph/table inputs before mutation and
+confirm that the historical exception cannot normalize unrelated data changes.
+The maintained editorial JSON includes original text and hashes, and its complete
+preflight fails before any paragraph changes if an input no longer matches.
+
+All 1,956 protected evidence, figure-asset and historical-manuscript files retain
+their baseline bytes. Accounting remains 516 primary Linux executions, a separate
+72-execution supplement, and 93 Windows cases with 3,402 queries (756 warm-ups,
+2,646 measured); public and scale cases are subsets. Threshold findings,
+adverse results, timing/resource boundaries and uncertainty retain their meaning.
+No timing campaign or independent-party reproduction was performed.
+
+### Rebuild, rendered inspection and verification
+
+The maintained semantic builder, renderer, editorial source, publication model,
+archive builder and README instructions were synchronized. `fonttools==4.60.1`
+is now an explicit generation dependency. The canonical PDF has 26 pages and the
+Word-export rendering has 28. Every page of both formats was inspected at readable
+size. The references heading now stays with its first entry, and the PDF body
+avoids single-line widows/orphans. Fonts, sizes, margins and figure dimensions
+retain the reference design. Both renderings have zero replacement glyphs.
+The preferred DOCX renderer could not find LibreOffice, so the retained Word COM
+export supplied the editable-document rendering.
+
+Actual completed verification:
+
+- `python -m unittest discover -s tools/tests -v`: 47 tests passed, including
+  the three new editorial guards.
+- `python tools/check_final_paper.py`: passed after the final layout, model
+  and package rebuild, including manuscript agreement, figure/reference identity,
+  numerical derivation, evidence integrity and package correspondence.
+- Current README/paper-guide link scan: all 34 local file/directory targets resolve.
+- Git whitespace checks: passed with preserved CRLF accepted.
+- Independent `verify_artifacts.py` comparison: passed the author/geometry,
+  citation/reference, figure, controlled-table and protected-file checks.
+- The rebuilt archive contains the current PDF/DOCX, source JSON, guarded
+  authoring helper and regression tests; 1,480 manifested files plus the manifest.
+
+The publication report remains excluded from the ZIP to avoid self-reference.
+Hosted verification for the publication commit is available in the
+[main-branch Actions history](https://github.com/atharvasheersh/Revon/actions?query=branch%3Amain);
+the exact final pushed SHA and corresponding run are reported in the delivery.
+Earlier exact run links above apply only to their explicitly named commits.
+
+The rewrite improves readability and first-submission coherence. It does not
+certify an AI-detector score or plagiarism clearance; no external detection
+service received the manuscript. Author and supervisor approval remains required
+before journal submission. No journal submission, email or paid resource was used.
