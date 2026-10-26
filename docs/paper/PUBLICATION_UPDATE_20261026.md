@@ -38,3 +38,32 @@ These checks establish artifact consistency and retained evidence integrity.
 They do not establish exact semantic equivalence after paraphrasing, support for
 every claim by its citations, independent timing reproduction, journal acceptance
 or an AI-detector score.
+
+## Figure 2 layout repair and final checks
+
+The final pair replaces only `word/media/image2.png` in the Word package. The
+figure uses orthogonal connectors and clearer Yes/No branch spacing. Its labels,
+selection logic and physical dimensions are unchanged. The SVG source and exact
+PNG are versioned at `paper/review-assets/figures/Fig2.svg` and `Fig2.png`.
+The original Figure 2 remains inside the unchanged Linux ZIP. The historical
+figure checker permits only this exact replacement hash; regression tests reject
+arbitrary replacements and reuse of the exception for another figure.
+
+Final artifact hashes:
+
+- DOCX: `aa81ed3cb4b7e2b0d1884997e0660c663d833d27e7ea6fec0e4dcdb44e5da5f8`
+- PDF: `f84e3b77c018d3b9d7cdd7946b0257020433e144647f44528e52695248d03663`
+
+All PDF page text matches the preceding export. Raster comparison changes only
+page 8; the other 30 pages are pixel-identical. The final manuscript gate confirms
+31 pages, 17 tables, 10 figures, 68 references and complete Word/PDF body-text
+agreement. The independent numerical derivations pass. All 53 publication tests
+pass, including damaged-fixture controls.
+
+The read-only aggregate gate also passed its retained-evidence checks: 93 Windows
+cases, 3,402 queries (2,646 measured), calibration scores and chronology, sealed
+collection checksums, semantic/accounting audit and regenerated analysis. This
+audit runs on a disposable copy and is not a timing reproduction. The final
+pair was separately checked after the Figure 2 promotion. All 1,345 scientific
+evidence entries and the embedded original Linux ZIP remain byte-identical in
+the rebuilt Windows package.

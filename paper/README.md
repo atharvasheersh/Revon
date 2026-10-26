@@ -26,7 +26,9 @@ and 18 scale cases. A separate warm decision-prefix diagnostic covers 18
 histories and 252,000 measured prefix calls, not additional full-workflow trials.
 The PDF has 31 pages, 17 tables, 10 figures and 68 references. The editable Word
 document also renders to 31 pages. The hand-edited prose and restored formatting
-preserve all numerical table entries and all ten figure images. All 68 references
+preserve all numerical table entries and nine figure images. Figure 2 has a
+separate connector-layout repair with unchanged labels and physical dimensions.
+All 68 references
 have clickable source links; hyperlinks are blue and the remaining text is black.
 The [reference audit](../docs/paper/REFERENCE_VERIFICATION_20261026.md) confirms
 source identities and records access limitations. It does not establish that
@@ -102,6 +104,9 @@ raw-evidence and numerical-derivation gates must still pass after a new freeze.
 ## Verification repairs after the second review
 
 Figures 8–10 have six canonical PNG/PDF assets in `review-assets/figures/`.
+The repaired Figure 2 has a canonical SVG source and PNG in the same directory.
+The historical figure gate permits only that exact reviewed replacement and
+still validates the original Figure 2 inside the unchanged Linux archive.
 They are versioned package inputs; temporary renders remain under ignored
 `output/`. Existing assets were copied without regeneration, preserving their
 bytes. Replot only when deliberately revising a figure, then review the change.

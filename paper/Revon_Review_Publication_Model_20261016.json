@@ -813,7 +813,7 @@
   },
   "figure_sha256": {
     "1": "d5284bbea67c44ad8149c3c470b9ae8f2698ffbc39d9af965aeae9efd1990627",
-    "2": "3ad36446cbe1ef4e499833794a1fe16d6253e1fd6f881dba41e6d07c00d96d5e",
+    "2": "d43a1e858e97039579776b7c3cbaa34d8111c5707a7fdc7d2585b10f48c57a02",
     "3": "ceeeeb841c022fbbc4f883b8586f37a7102ca6402dbe0fdcf6be819eaa2496d1",
     "4": "06d0f560d4d3efef988f236bf9db35c59a0b3ae96fba3e5f4a2e89db71fe65a9",
     "5": "a477c0e357a0b7a5c856d0f2ffa914c800951cbf15e5853864ccd7d069ddd50b",
@@ -2006,5 +2006,14 @@
     "scope": "Author hand-edited prose, restored formatting and verified reference hyperlinks; numerical tables and figure bytes unchanged.",
     "previous_pair": "paper/previous versions/before-hand-humanised-20261026",
     "reference_audit": "docs/paper/REFERENCE_VERIFICATION_20261026.md"
+  },
+  "figure_layout_revision": {
+    "date": "2026-10-26",
+    "figure": 2,
+    "original_sha256": "3ad36446cbe1ef4e499833794a1fe16d6253e1fd6f881dba41e6d07c00d96d5e",
+    "replacement_sha256": "d43a1e858e97039579776b7c3cbaa34d8111c5707a7fdc7d2585b10f48c57a02",
+    "asset": "paper/review-assets/figures/Fig2.png",
+    "source": "paper/review-assets/figures/Fig2.svg",
+    "scope": "Orthogonal connectors and Yes/No spacing; labels, branching semantics and physical dimensions unchanged."
   }
 }

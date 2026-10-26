@@ -8,7 +8,7 @@ from tools.check_review_campaign import ROOT,check_case_matrix
 from tools.check_review_package import check as check_package
 from tools.check_springer_paper import check_springer_doc,check_springer
 from tools.check_final_paper import check_package as old_package
-from tools.check_review_manuscript import citation_numbers
+from tools.check_review_manuscript import citation_numbers,check_historical_figure
 
 class ReviewRevisionChecks(unittest.TestCase):
     @classmethod
@@ -64,6 +64,23 @@ class ReviewRevisionChecks(unittest.TestCase):
 
     def test_reversed_citation_range_is_rejected(self):
         with self.assertRaisesRegex(ValueError,'invalid citation range'):citation_numbers('[68-66]')
+
+    def test_approved_figure2_layout_retains_original_archive_identity(self):
+        with zipfile.ZipFile(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip') as archive:
+            original=archive.read('figures/Fig2.png')
+        check_historical_figure(2,(ROOT/'paper/review-assets/figures/Fig2.png').read_bytes(),original)
+
+    def test_arbitrary_figure2_replacement_is_rejected(self):
+        with zipfile.ZipFile(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip') as archive:
+            original=archive.read('figures/Fig2.png')
+        with self.assertRaisesRegex(ValueError,'historical figure 2 changed'):
+            check_historical_figure(2,b'arbitrary replacement',original)
+
+    def test_layout_exception_cannot_replace_another_historical_figure(self):
+        with zipfile.ZipFile(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip') as archive:
+            original=archive.read('figures/Fig3.png')
+        with self.assertRaisesRegex(ValueError,'historical figure 3 changed'):
+            check_historical_figure(3,(ROOT/'paper/review-assets/figures/Fig2.png').read_bytes(),original)
 
     def test_missing_pdf_footnote_is_rejected(self):
         model,_,_=old_package(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip',ROOT)

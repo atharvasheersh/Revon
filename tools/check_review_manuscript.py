@@ -9,9 +9,20 @@ ROOT=Path(__file__).resolve().parents[1]
 MODEL=ROOT/'paper/Revon_Review_Publication_Model_20261016.json'
 REPOSITORY='https://github.com/atharvasheersh/Revon'
 ARCHIVE=REPOSITORY+'/blob/main/paper/Revon_Review_Revision_Reproducibility_20261016.zip'
+FIGURE_2_ORIGINAL='3ad36446cbe1ef4e499833794a1fe16d6253e1fd6f881dba41e6d07c00d96d5e'
+FIGURE_2_LAYOUT='d43a1e858e97039579776b7c3cbaa34d8111c5707a7fdc7d2585b10f48c57a02'
 
 def require(test,message):
     if not test:raise ValueError(message)
+
+def check_historical_figure(number,blob,original):
+    if blob==original:return
+    # One reviewed connector-layout repair is allowed. A new freeze cannot
+    # silently admit other images, numerical plots or changes to the Linux ZIP.
+    require(number==2 and hashlib.sha256(original).hexdigest()==FIGURE_2_ORIGINAL
+        and hashlib.sha256(blob).hexdigest()==FIGURE_2_LAYOUT
+        and blob==(ROOT/'paper/review-assets/figures/Fig2.png').read_bytes(),
+        f'historical figure {number} changed beyond the approved layout repair')
 
 def citation_numbers(text):
     """Expand numbered citations, including the ranges used by the bibliography."""
@@ -47,7 +58,7 @@ def check_doc(path,historical_model):
         require(hashlib.sha256(blob).hexdigest()==spec['figure_sha256'][str(i)],f'Springer figure {i} changed')
         if i<=7:
             with zipfile.ZipFile(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip') as archive:
-                require(blob==archive.read(f'figures/Fig{i}.png'),f'historical figure {i} changed')
+                check_historical_figure(i,blob,archive.read(f'figures/Fig{i}.png'))
     captions=[int(m[1]) for p in paragraphs if (m:=re.match(r'^Fig\.?\s+(\d+)\.',p))]
     require(captions==list(range(1,spec['figures']+1)),'Springer figure numbering changed')
     refs=[p for p in paragraphs if re.match(r'^\[\d+\]',p)]

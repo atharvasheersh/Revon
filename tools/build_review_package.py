@@ -4,7 +4,7 @@ import hashlib,json,zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
 TARGET=ROOT/'paper/Revon_Review_Revision_Reproducibility_20261016.zip'
-FIGURE_NAMES=tuple(f'Fig{number}.{suffix}' for number in (8,9,10) for suffix in ('pdf','png'))
+FIGURE_NAMES=('Fig2.svg','Fig2.png')+tuple(f'Fig{number}.{suffix}' for number in (8,9,10) for suffix in ('pdf','png'))
 FIGURE_DIRECTORY='paper/review-assets/figures'
 
 def required_assets(root=ROOT):
