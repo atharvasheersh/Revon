@@ -15,6 +15,7 @@ def main():
     inputs['figure_sha256']={str(i):sha(doc.part.related_parts[s._inline.xpath('.//a:blip')[0].get(qn('r:embed'))].blob) for i,s in enumerate(doc.inline_shapes,1)}
     inputs['reference_paragraphs']=[p.text for p in doc.paragraphs if __import__('re').match(r'^\[\d+\]',p.text)]
     inputs['body_paragraphs']=[p.text for p in doc.paragraphs if p.text.strip()]
+    inputs['abstract']=next(p.text for p in doc.paragraphs if p.text.startswith('Revon is a Python '))
     inputs['archive_name']='Revon_Review_Revision_Reproducibility_20261016.zip'
     inputs['campaign']='evidence/review-revision-20261016/campaign'
     inputs['analysis_sha256']=sha((ROOT/inputs['campaign']/'analysis.json').read_bytes())

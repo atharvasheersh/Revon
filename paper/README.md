@@ -24,9 +24,13 @@ The Windows evaluation comprises 93 cases, each run in a fresh worker process,
 and 3,402 queries (2,646 measured). The 93 cases include 18 public-source cases
 and 18 scale cases. A separate warm decision-prefix diagnostic covers 18
 histories and 252,000 measured prefix calls, not additional full-workflow trials.
-The PDF has 30 pages, 17 tables, 10 figures and 68 references. The editable Word
-document also renders to 30 pages. All numerical table entries and all ten figure
-images are preserved.
+The PDF has 31 pages, 17 tables, 10 figures and 68 references. The editable Word
+document also renders to 31 pages. The hand-edited prose and restored formatting
+preserve all numerical table entries and all ten figure images. All 68 references
+have clickable source links; hyperlinks are blue and the remaining text is black.
+The [reference audit](../docs/paper/REFERENCE_VERIFICATION_20261026.md) confirms
+source identities and records access limitations. It does not establish that
+each source supports the paper's claims.
 Two explanatory table cells have editorial wording changes; the historical-table
 gate permits only the exact reviewed source-description replacement. See the [supervisor response](../docs/paper/REVIEW_RESPONSE.md),
 [response matrix](../docs/paper/REVIEW_RESPONSE_MATRIX.md),
@@ -61,7 +65,7 @@ before submission.
 When revising the current paper, update its PDF and DOCX together. The archived
 builders target earlier manuscript versions and must not overwrite this pair.
 
-## Rebuild the manuscript
+## Earlier manuscript build pipeline
 
 Use `requirements.txt` for document/plot generation. Font conversion is not
 needed: licensed ready-to-use fonts and their source assets are retained under
@@ -79,8 +83,11 @@ python tools/revise_review_manuscript.py
 python tools/render_review_manuscript.py
 ```
 
-This produces the reference PDF and editable DOCX. Inspect the PDF and export
-Word separately for page-by-page QA. On Windows with Word installed:
+These builders reproduce the earlier generated draft, not the author's later
+hand-edited prose and 68-reference bibliography. They still use the older
+`Revon Research Paper Springer` stem. Do not use their output to replace the
+current pair. Edit the current DOCX and export its PDF together. On Windows
+with Word installed:
 
 ```powershell
 & '.\tools\render_docx_with_word.ps1' -InputPath 'C:\Users\admin\Desktop\Revon\paper\Revon Research Paper Springer Nature.docx' -OutputPdf 'C:\Users\admin\Desktop\Revon\output\review_revision\word-render.pdf'

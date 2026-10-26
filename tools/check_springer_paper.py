@@ -6,6 +6,8 @@ and PDF/DOCX agreement after prose and reference-layout revisions.
 """
 from pathlib import Path
 import re
+import zipfile
+from xml.etree import ElementTree
 from docx import Document
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 import pymupdf
@@ -105,10 +107,23 @@ def check_springer(path, model):
             from docx import Document
             declarations=['Funding','Competing interests','Author contributions','Ethics and consent to participate','Consent for publication','Data and code availability']
             paragraphs=[p.text for p in Document(path).paragraphs if p.text.strip()][5:]
+            # Word places footnotes between the two halves of a paragraph that
+            # crosses a page. Verify each note separately, then remove its exact
+            # text from the reading stream before checking body continuity.
+            paragraph_text=compact(text)
+            with zipfile.ZipFile(path) as package:
+                if 'word/footnotes.xml' in package.namelist():
+                    notes=ElementTree.fromstring(package.read('word/footnotes.xml'))
+                    ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+                    for note in notes:
+                        content=compact(''.join(node.text or '' for node in note.findall('.//w:t',ns)))
+                        if content:
+                            require(content in paragraph_text,'Springer PDF/DOCX footnote differs')
+                            paragraph_text=paragraph_text.replace(content,'',1)
             for paragraph in paragraphs:
                 expected=paragraph
                 if any(expected.startswith(label+':') for label in declarations):expected=expected.replace(':','.',1)
-                require(compact(expected) in compact(text),'Springer PDF/DOCX paragraph differs: '+paragraph[:90])
+                require(compact(paragraph) in paragraph_text or compact(expected) in paragraph_text,'Springer PDF/DOCX paragraph differs: '+paragraph[:90])
             result['pdf_docx_reviewed_body_agrees']=True
         links = {link.get("uri", "") for page in pdf for link in page.get_links()}
         archive = REPOSITORY + "/blob/main/paper/Revon_Review_Revision_Reproducibility_20261016.zip" if REVIEW_MODEL.exists() else ARCHIVE

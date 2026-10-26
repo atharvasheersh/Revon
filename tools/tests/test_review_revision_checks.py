@@ -8,6 +8,7 @@ from tools.check_review_campaign import ROOT,check_case_matrix
 from tools.check_review_package import check as check_package
 from tools.check_springer_paper import check_springer_doc,check_springer
 from tools.check_final_paper import check_package as old_package
+from tools.check_review_manuscript import citation_numbers
 
 class ReviewRevisionChecks(unittest.TestCase):
     @classmethod
@@ -42,7 +43,7 @@ class ReviewRevisionChecks(unittest.TestCase):
 
     def test_removed_current_limitation_is_rejected(self):
         doc=Document(ROOT/'paper/Revon Research Paper Springer Nature.docx')
-        target=next(p for p in doc.paragraphs if p.text.startswith('Selection and design:'))
+        target=next(p for p in doc.paragraphs if p.text.casefold().startswith('selection and design:'))
         target._p.getparent().remove(target._p)
         model,_,_=old_package(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip',ROOT)
         with TemporaryDirectory() as tmp:
@@ -54,9 +55,24 @@ class ReviewRevisionChecks(unittest.TestCase):
         with TemporaryDirectory() as tmp:
             path=Path(tmp)/'changed.docx';shutil.copy2(ROOT/'paper/Revon Research Paper Springer Nature.docx',path)
             with pymupdf.open(ROOT/'paper/Revon Research Paper Springer Nature.pdf') as pdf:
-                rect=pdf[0].search_for('Revon is a Python prototype')[0]
+                rect=pdf[0].search_for('Revon is a Python implementation')[0]
                 pdf[0].add_redact_annot(rect,fill=(1,1,1));pdf[0].apply_redactions();pdf.save(path.with_suffix('.pdf'))
             with self.assertRaisesRegex(ValueError,'PDF/DOCX paragraph differs'):check_springer(path,model)
+
+    def test_citation_ranges_expand_every_reference(self):
+        self.assertEqual(citation_numbers('See [1, 3-5] and [58\u201361].'),{1,3,4,5,58,59,60,61})
+
+    def test_reversed_citation_range_is_rejected(self):
+        with self.assertRaisesRegex(ValueError,'invalid citation range'):citation_numbers('[68-66]')
+
+    def test_missing_pdf_footnote_is_rejected(self):
+        model,_,_=old_package(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip',ROOT)
+        with TemporaryDirectory() as tmp:
+            path=Path(tmp)/'changed.docx';shutil.copy2(ROOT/'paper/Revon Research Paper Springer Nature.docx',path)
+            with pymupdf.open(ROOT/'paper/Revon Research Paper Springer Nature.pdf') as pdf:
+                rect=pdf[0].search_for('Keywords and phrases:')[0]
+                pdf[0].add_redact_annot(rect,fill=(1,1,1));pdf[0].apply_redactions();pdf.save(path.with_suffix('.pdf'))
+            with self.assertRaisesRegex(ValueError,'PDF/DOCX footnote differs'):check_springer(path,model)
 
     def test_new_package_tampering_is_rejected(self):
         with TemporaryDirectory() as tmp:

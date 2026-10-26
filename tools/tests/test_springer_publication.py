@@ -15,7 +15,7 @@ class SpringerPublicationTests(unittest.TestCase):
 
     def test_current_pair_passes(self):
         result=check_springer(self.source,self.model)
-        self.assertEqual(result['references'],33 if (ROOT/'paper/Revon_Review_Publication_Model_20261016.json').exists() else 31)
+        self.assertEqual(result['references'],68 if (ROOT/'paper/Revon_Review_Publication_Model_20261016.json').exists() else 31)
 
     def mutate(self, edit, error):
         with TemporaryDirectory() as directory:

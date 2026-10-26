@@ -13,6 +13,18 @@ ARCHIVE=REPOSITORY+'/blob/main/paper/Revon_Review_Revision_Reproducibility_20261
 def require(test,message):
     if not test:raise ValueError(message)
 
+def citation_numbers(text):
+    """Expand numbered citations, including the ranges used by the bibliography."""
+    numbers=set()
+    for group in re.findall(r'\[([\d, \-\u2013]+)\]',text):
+        for item in group.split(','):
+            endpoints=re.split(r'\s*[-\u2013]\s*',item.strip())
+            require(1<=len(endpoints)<=2 and all(x.isdigit() for x in endpoints),'invalid citation range')
+            first,last=int(endpoints[0]),int(endpoints[-1])
+            require(1<=first<=last<=10000,'invalid citation range')
+            numbers.update(range(first,last+1))
+    return numbers
+
 def check_doc(path,historical_model):
     spec=json.loads(MODEL.read_text(encoding='utf8'));doc=Document(path)
     paragraphs=[p.text for p in doc.paragraphs if p.text.strip()]
@@ -43,7 +55,7 @@ def check_doc(path,historical_model):
     numbers=[int(re.match(r'^\[(\d+)\]',p)[1]) for p in refs]
     require(numbers==list(range(1,spec['references']+1)),'Springer references changed')
     body='\n'.join(p for p in paragraphs if not re.match(r'^\[\d+\]',p))+'\n'+'\n'.join(c.text for t in doc.tables for row in t.rows for c in row.cells)
-    cited={int(n) for group in re.findall(r'\[([\d, ]+)\]',body) for n in re.findall(r'\d+',group)}
+    cited=citation_numbers(body)
     require(cited==set(numbers),'Springer uncited or undefined reference')
     for marker in ['516','72','93','3,402','2,646','32,768','16,384','65,536','poornima.n@vit.ac.in']:
         # Table totals may omit thousands separators while conclusion retains 3,402.
@@ -59,7 +71,9 @@ def check_doc(path,historical_model):
     require(REPOSITORY in targets and ARCHIVE in targets,'Springer current GitHub links missing')
     require(not any(re.search(r'github\.com/atharvasheersh/Revon/(?:tree|blob)/[0-9a-f]{40}(?:/|$)',t) for t in targets),'Springer GitHub link still pins a commit')
     require(paragraphs==spec['body_paragraphs'],'Springer paragraph differs from reviewed revision')
-    require(len(next(p for p in paragraphs if p.startswith('Revon is a Python prototype')).split())<250,'Springer abstract too long')
+    abstract=spec.get('abstract')
+    require(bool(abstract) and abstract in paragraphs,'Springer reviewed abstract missing')
+    require(len(abstract.split())<250,'Springer abstract too long')
     return {'tables':spec['tables'],'figures':spec['figures'],'references':spec['references'],'historical_tables_preserved':11},availability,access
 
 def check_numeric_tables():
