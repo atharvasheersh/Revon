@@ -1,13 +1,13 @@
 # Revon publication files
 
-The current manuscript is **Revon Research Paper Springer**:
+The current manuscript is **Revon Research Paper Springer Nature**:
 
 Title: **Revon: Log and Merkle Differencing for Durable Structured Data Versioning**.
 The unpublished manuscript presents an auditable prototype and a bounded
 workflow/selection study; the fixed trie is not a new adaptive index.
 
-- [PDF](Revon%20Research%20Paper%20Springer.pdf) — the reference layout for submission.
-- [DOCX](Revon%20Research%20Paper%20Springer.docx) — the editable companion. Word pagination differs from the PDF.
+- [PDF](Revon%20Research%20Paper%20Springer%20Nature.pdf) — the reference layout for submission.
+- [DOCX](Revon%20Research%20Paper%20Springer%20Nature.docx) — the editable companion.
 - [Windows reproducibility archive](Revon_Review_Revision_Reproducibility_20261016.zip) — the Windows campaign, exact sources, public acquisition metadata, raw observations, derived figures, response documents and audit tools.
 - [Original Linux archive](Revon_Linux_Reproducibility_Supplement.zip) — unchanged source snapshots, protocols, manifests, raw observations, semantic verification and internal audits for the historical Linux campaigns.
 
@@ -24,8 +24,9 @@ The Windows evaluation comprises 93 cases, each run in a fresh worker process,
 and 3,402 queries (2,646 measured). The 93 cases include 18 public-source cases
 and 18 scale cases. A separate warm decision-prefix diagnostic covers 18
 histories and 252,000 measured prefix calls, not additional full-workflow trials.
-The PDF has 26 pages, 17 tables, 10 figures and 33 references. The Word rendering
-has 28 pages. All numerical table entries and all ten figure images are preserved.
+The PDF has 30 pages, 17 tables, 10 figures and 68 references. The editable Word
+document also renders to 30 pages. All numerical table entries and all ten figure
+images are preserved.
 Two explanatory table cells have editorial wording changes; the historical-table
 gate permits only the exact reviewed source-description replacement. See the [supervisor response](../docs/paper/REVIEW_RESPONSE.md),
 [response matrix](../docs/paper/REVIEW_RESPONSE_MATRIX.md),
@@ -35,7 +36,8 @@ gate permits only the exact reviewed source-description replacement. See the [su
 ## Earlier versions
 
 The [previous versions](previous%20versions/) directory retains the earlier
-Discover Computing and IEEE DOCX/PDF exports. They are historical artifacts,
+Discover Computing, IEEE and Springer DOCX/PDF exports, including the snapshots
+before the October prose revisions. They are historical artifacts,
 not the current submission. Their original model and evidence checks remain in
 the publication gate. Older review sources are retained separately under
 [`older versions/`](older%20versions/README.md).
@@ -81,7 +83,7 @@ This produces the reference PDF and editable DOCX. Inspect the PDF and export
 Word separately for page-by-page QA. On Windows with Word installed:
 
 ```powershell
-& '.\tools\render_docx_with_word.ps1' -InputPath 'C:\Users\admin\Desktop\Revon\paper\Revon Research Paper Springer.docx' -OutputPdf 'C:\Users\admin\Desktop\Revon\output\review_revision\word-render.pdf'
+& '.\tools\render_docx_with_word.ps1' -InputPath 'C:\Users\admin\Desktop\Revon\paper\Revon Research Paper Springer Nature.docx' -OutputPdf 'C:\Users\admin\Desktop\Revon\output\review_revision\word-render.pdf'
 python tools/render_review_qa.py
 ```
 

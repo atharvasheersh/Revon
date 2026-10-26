@@ -9,7 +9,7 @@ OUT=ROOT/'output/review_revision/visual_qa'
 
 def main():
     OUT.mkdir(exist_ok=True,parents=True);report={}
-    for label,path in [('reference',ROOT/'paper/Revon Research Paper Springer.pdf'),('word',ROOT/'output/review_revision/word-render.pdf')]:
+    for label,path in [('reference',ROOT/'paper/Revon Research Paper Springer Nature.pdf'),('word',ROOT/'output/review_revision/word-render.pdf')]:
         target=OUT/label;target.mkdir(exist_ok=True)
         pages=[]
         with pymupdf.open(path) as pdf:

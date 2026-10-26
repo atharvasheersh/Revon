@@ -32,7 +32,7 @@ class ReviewRevisionChecks(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'matrix mismatch'):check_case_matrix(case,rows,self.protocol)
 
     def test_changed_new_result_is_rejected(self):
-        doc=Document(ROOT/'paper/Revon Research Paper Springer.docx')
+        doc=Document(ROOT/'paper/Revon Research Paper Springer Nature.docx')
         spec=json.loads((ROOT/'paper/Revon_Review_Publication_Model_20261016.json').read_text())
         number=spec['new_table_numbers']['public'];doc.tables[number-1].cell(1,2).text='999.999'
         model,_,_=old_package(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip',ROOT)
@@ -41,7 +41,7 @@ class ReviewRevisionChecks(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,f'Springer table {number} differs'):check_springer_doc(path,model)
 
     def test_removed_current_limitation_is_rejected(self):
-        doc=Document(ROOT/'paper/Revon Research Paper Springer.docx')
+        doc=Document(ROOT/'paper/Revon Research Paper Springer Nature.docx')
         target=next(p for p in doc.paragraphs if p.text.startswith('Selection and design:'))
         target._p.getparent().remove(target._p)
         model,_,_=old_package(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip',ROOT)
@@ -52,8 +52,8 @@ class ReviewRevisionChecks(unittest.TestCase):
     def test_missing_pdf_abstract_text_is_rejected(self):
         model,_,_=old_package(ROOT/'paper/Revon_Linux_Reproducibility_Supplement.zip',ROOT)
         with TemporaryDirectory() as tmp:
-            path=Path(tmp)/'changed.docx';shutil.copy2(ROOT/'paper/Revon Research Paper Springer.docx',path)
-            with pymupdf.open(ROOT/'paper/Revon Research Paper Springer.pdf') as pdf:
+            path=Path(tmp)/'changed.docx';shutil.copy2(ROOT/'paper/Revon Research Paper Springer Nature.docx',path)
+            with pymupdf.open(ROOT/'paper/Revon Research Paper Springer Nature.pdf') as pdf:
                 rect=pdf[0].search_for('Revon is a Python prototype')[0]
                 pdf[0].add_redact_annot(rect,fill=(1,1,1));pdf[0].apply_redactions();pdf.save(path.with_suffix('.pdf'))
             with self.assertRaisesRegex(ValueError,'PDF/DOCX paragraph differs'):check_springer(path,model)

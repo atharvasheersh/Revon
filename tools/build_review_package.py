@@ -36,7 +36,7 @@ def build(root=ROOT,target=None):
       'tools/freeze_review_publication.py','tools/build_review_package.py',
       'tools/publication_assets/selector_cost_source_20261016.py',
       'tools/render_docx_with_word.ps1','paper/README.md','paper/Revon_Review_Publication_Model_20261016.json',
-      'paper/Revon_Linux_Reproducibility_Supplement.zip','paper/Revon Research Paper Springer.docx','paper/Revon Research Paper Springer.pdf',
+      'paper/Revon_Linux_Reproducibility_Supplement.zip','paper/Revon Research Paper Springer Nature.docx','paper/Revon Research Paper Springer Nature.pdf',
       'paper/previous versions/review-baseline-20261016/Revon_Manuscript_Source.docx']
     paths.update(root/name for name in names)
     paths.add(root/'tests/test_data/.gitkeep')

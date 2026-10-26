@@ -222,7 +222,7 @@ def main(root=ROOT):
         manuscripts[f"archived_{form}"].update(check_pdf(path.with_suffix(".pdf")))
     sys.path.insert(0, str(ROOT))
     from tools.check_springer_paper import check_springer
-    manuscripts["current_Springer"] = check_springer(root / "paper/Revon Research Paper Springer.docx", model)
+    manuscripts["current_Springer"] = check_springer(root / "paper/Revon Research Paper Springer Nature.docx", model)
     revision={}
     if (root/'paper/Revon_Review_Publication_Model_20261016.json').exists():
         from tools.check_review_manuscript import check_numeric_tables

@@ -10,7 +10,7 @@ from tools.check_springer_paper import check_springer, check_springer_doc, REPOS
 class SpringerPublicationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.source = ROOT / "paper/Revon Research Paper Springer.docx"
+        cls.source = ROOT / "paper/Revon Research Paper Springer Nature.docx"
         cls.model, _, _ = check_package(ROOT / "paper/Revon_Linux_Reproducibility_Supplement.zip", ROOT)
 
     def test_current_pair_passes(self):

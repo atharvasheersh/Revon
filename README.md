@@ -34,7 +34,7 @@ Revon is licensed under the [Apache License 2.0](LICENSE).
 **Revon: Log and Merkle Differencing for Durable Structured Data Versioning**
 
 Read the current manuscript as a
-[PDF](paper/Revon%20Research%20Paper%20Springer.pdf) or
+[PDF](paper/Revon%20Research%20Paper%20Springer%20Nature.pdf) or
 [editable DOCX](paper/Revon%20Research%20Paper%20Springer.docx).
 It is an unpublished manuscript prepared in the retained Springer reference
 layout, written as a first submission with the experiments presented directly.

@@ -1,6 +1,6 @@
 # Review response matrix
 
-Baseline: `COMMENTS (1).docx`, including the novelty, datasets and workload-control follow-up sections. Current manuscript: `paper/Revon Research Paper Springer.docx` and PDF. New experiments are authorised on this Windows computer only. Git publication was separately authorised on 16 October 2026; cloud spending and journal submission remain outside scope.
+Baseline: `COMMENTS (1).docx`, including the novelty, datasets and workload-control follow-up sections. Current manuscript: `paper/Revon Research Paper Springer Nature.docx` and PDF. New experiments are authorised on this Windows computer only. Git publication was separately authorised on 16 October 2026; cloud spending and journal submission remain outside scope.
 
 Status terms: not started; in progress; implemented but unverified; verified complete; blocked. A limitation paragraph alone does not complete a request for new evidence.
 

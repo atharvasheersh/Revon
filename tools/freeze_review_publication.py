@@ -10,7 +10,7 @@ def sha(data):return sha256(data).hexdigest()
 
 def main():
     inputs=json.loads((ROOT/'output/review_revision/publication_inputs.json').read_text())
-    doc=Document(ROOT/'paper/Revon Research Paper Springer.docx')
+    doc=Document(ROOT/'paper/Revon Research Paper Springer Nature.docx')
     inputs['tables_cells']=[[[c.text for c in row.cells] for row in table.rows] for table in doc.tables]
     inputs['figure_sha256']={str(i):sha(doc.part.related_parts[s._inline.xpath('.//a:blip')[0].get(qn('r:embed'))].blob) for i,s in enumerate(doc.inline_shapes,1)}
     inputs['reference_paragraphs']=[p.text for p in doc.paragraphs if __import__('re').match(r'^\[\d+\]',p.text)]
