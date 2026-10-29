@@ -35,12 +35,20 @@ corner to change it.
 ```powershell
 npm run lint
 npm test
+npm audit
 ```
 
 `npm test` performs a production build and checks the server-rendered product
 surface. Backend HTTP behavior is covered by
 `python -m unittest discover -s tests -v`
 from the repository root.
+
+The image-generation dependencies are pinned to patched `@vercel/og` and
+`fflate` releases. The install script embeds HarfBuzz's installed WASM binary
+into the OG library's Node and worker bundles, which otherwise omit that asset.
+It checks the library version and loader layout before modifying either bundle.
+Run installation with scripts enabled; `npm test` verifies PNG generation through
+the framework's `ImageResponse`, as well as the existing workspace checks.
 
 ## Deployment boundary
 

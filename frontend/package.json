@@ -12,6 +12,7 @@
     "start": "vinext start",
     "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "postinstall": "node scripts/prepare-og-wasm.mjs",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
@@ -50,6 +51,12 @@
     "source-map-js": "1.2.2",
     "@esbuild-kit/core-utils": {
       "esbuild": "0.25.12"
+    },
+    "vinext": {
+      "@vercel/og": "1.0.3"
+    },
+    "satori": {
+      "fflate": "0.7.5"
     },
     "miniflare": {
       "sharp": "0.35.5",
