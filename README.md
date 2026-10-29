@@ -29,13 +29,20 @@ Revon is licensed under the [Apache License 2.0](LICENSE).
 [Run the demo](#run-the-demo) · [Open the paper](#paper-and-reproducibility) ·
 [Run the tests](#run-the-tests) · [Use the API](#run-the-backend-api)
 
+## Architecture
+
+![Revon architecture showing the frontend, REST API, core, SQLite storage, fixed-depth trie, incremental commits and hybrid diff](docs/architecture/revon-architecture.png)
+
+The frontend connects through the REST API to the Revon core and its durable
+SQLite storage. The core supports incremental commits and log or Merkle diffs.
+
 ## Paper and reproducibility
 
 **Revon: Log and Merkle Differencing for Durable Structured Data Versioning**
 
 Read the current manuscript as a
 [PDF](paper/Revon%20Research%20Paper%20Springer%20Nature.pdf) or
-[editable DOCX](paper/Revon%20Research%20Paper%20Springer.docx).
+[editable DOCX](paper/Revon%20Research%20Paper%20Springer%20Nature.docx).
 It is an unpublished manuscript prepared in the retained Springer reference
 layout, written as a first submission with the experiments presented directly.
 See the [paper guide](paper/README.md) for formats, rebuilding and
